@@ -1,0 +1,636 @@
+-- Merging decision tree log ---
+manifest
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:2:1-220:12
+	package
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:3:5-24
+		INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml
+		INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml
+		INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml
+		INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:5:5-76
+MERGED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:23:5-76
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:5:22-73
+uses-permission#android.permission.CHANGE_NETWORK_STATE
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:6:5-79
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:6:22-76
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:7:5-79
+MERGED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:14:5-79
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:7:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:8:5-76
+MERGED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:11:5-76
+MERGED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:22:5-76
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:8:22-73
+uses-permission#android.permission.INTERNET
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:9:5-67
+MERGED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:16:5-67
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:9:22-64
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:10:5-81
+MERGED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:11:5-81
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:10:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:11:5-80
+MERGED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:30:5-80
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:11:22-77
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:12:5-75
+MERGED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:15:5-75
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:12:22-72
+uses-permission#android.permission.CLOUDPOS_MSR
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:13:5-71
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:13:22-68
+uses-permission#android.permission.CLOUDPOS_PRINTER
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:14:5-75
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:14:22-72
+uses-permission#android.permission.CLOUDPOS_SMARTCARD
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:15:5-77
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:15:22-74
+uses-permission#android.permission.CLOUDPOS_CONTACTLESS_CARD
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:16:5-84
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:16:22-81
+uses-permission#android.permission.CLOUDPOS_PIN_GET_PIN_BLOCK
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:17:5-85
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:17:22-82
+uses-permission#android.permission.CLOUDPOS_PIN_MAC
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:18:5-75
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:18:22-72
+uses-permission#android.permission.CLOUDPOS_PIN_ENCRYPT_DATA
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:19:5-84
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:19:22-81
+uses-permission#android.permission.CLOUDPOS_PIN_UPDATE_MASTER_KEY
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:20:5-89
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:20:22-86
+uses-permission#android.permission.CLOUDPOS_PIN_UPDATE_USER_KEY
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:21:5-87
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:21:22-84
+uses-permission#android.permission.CLOUDPOS_LED
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:22:5-71
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:22:22-68
+uses-permission#android.permission.CLOUDPOS_SAFE_MODULE
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:23:5-79
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:23:22-76
+uses-permission#android.permission.CLOUDPOS_SETTIME
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:24:5-75
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:24:22-72
+uses-permission#com.wizarpos.keyposclient.permission.LOCAL_TMK_SERVICE
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:25:5-94
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:25:22-91
+application
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:27:5-218:19
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\Administrator\.android\build-cache\5a52fbae529a0755fb0ef8d593ad17bedaeb8be6\output\AndroidManifest.xml:9:5-20
+MERGED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:13:5-33:19
+MERGED from [com.android.support:appcompat-v7:25.2.0] C:\Users\Administrator\.android\build-cache\de024f9ced61bd602f8aaf5562c259dc88acfeab\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:25.2.0] C:\Users\Administrator\.android\build-cache\f65fdcae93aab76b8bfa544aa5d8123af097c260\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.2.0] C:\Users\Administrator\.android\build-cache\83527e08a7e8f17d339749ecf923e5d26161ba28\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.2.0] C:\Users\Administrator\.android\build-cache\4e85a1834ed4da1762b48f68ac8fe591ef483a91\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.2.0] C:\Users\Administrator\.android\build-cache\c97ca68d7ef18a0952967d9c00cb9662d64e2daf\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.2.0] C:\Users\Administrator\.android\build-cache\93fe6895306b4ed544000dd5c53f49800bbbf142\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.2.0] C:\Users\Administrator\.android\build-cache\5648ef8decce53f286c36986c0704b5c02c5ca11\output\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.2.0] C:\Users\Administrator\.android\build-cache\49618cfe6fbddc642a105684b380991aa6dde754\output\AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-compat:25.2.0] C:\Users\Administrator\.android\build-cache\d4ffadfdcbda5f679e87f72c24027c7f37b65943\output\AndroidManifest.xml:25:5-20
+MERGED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:33:5-71:19
+	android:label
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:31:9-41
+	android:supportsRtl
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:32:9-35
+	android:allowBackup
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:29:9-35
+	android:icon
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:30:9-39
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:33:9-40
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:28:9-52
+activity#com.zfsbs.activity.OperatorLoginActivity1
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:34:9-44:20
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:36:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:38:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:37:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:35:13-60
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:39:13-43:29
+action#android.intent.action.MAIN
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:40:17-69
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:40:25-66
+category#android.intent.category.LAUNCHER
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:42:17-77
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:42:27-74
+activity#com.zfsbs.activity.SysMainActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:45:9-49:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:47:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:49:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:48:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:46:13-53
+activity#com.zfsbs.activity.SaleMainActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:50:9-54:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:52:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:54:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:53:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:51:13-54
+activity#com.zfsbs.activity.GetLoginInfoActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:55:9-59:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:57:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:59:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:58:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:56:13-58
+activity#com.zfsbs.activity.GetLoginInfoActivity1
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:60:9-64:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:62:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:64:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:63:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:61:13-59
+activity#com.zfsbs.activity.HsSaleManagerActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:65:9-69:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:67:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:69:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:68:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:66:13-59
+activity#com.zfsbs.activity.SystemManageActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:70:9-74:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:72:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:74:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:73:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:71:13-58
+activity#com.zfsbs.activity.ChangeInfoActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:75:9-79:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:77:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:79:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:78:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:76:13-56
+activity#com.zfsbs.activity.InputAmountActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:80:9-84:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:82:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:84:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:83:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:81:13-57
+activity#com.zfsbs.activity.InputAmountActivity2
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:85:9-89:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:87:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:89:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:88:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:86:13-58
+activity#com.zfsbs.activity.ZfPayActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:90:9-94:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:92:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:94:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:93:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:91:13-51
+activity#com.zfsbs.activity.ZfPayPreauthActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:95:9-99:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:97:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:99:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:98:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:96:13-58
+activity#com.zfsbs.activity.ZfPayCashActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:100:9-104:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:102:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:104:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:103:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:101:13-55
+activity#com.zfsbs.activity.RecordInfoActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:105:9-109:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:107:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:109:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:108:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:106:13-56
+activity#com.zfsbs.activity.LoginInfoActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:110:9-114:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:112:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:114:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:113:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:111:13-55
+activity#com.zfsbs.activity.MemberActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:115:9-119:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:117:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:119:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:118:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:116:13-52
+activity#com.zfsbs.activity.SaleUndoActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:120:9-124:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:122:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:124:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:123:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:121:13-54
+activity#com.zfsbs.activity.ChangePassActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:125:9-129:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:127:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:129:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:128:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:126:13-56
+activity#com.zfsbs.activity.OperatorChangePass
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:130:9-134:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:132:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:134:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:133:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:131:13-56
+activity#com.zfsbs.activity.MasterChangePass
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:135:9-139:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:137:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:139:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:138:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:136:13-54
+activity#com.zfsbs.activity.RecordItemInfoActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:140:9-144:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:142:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:144:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:143:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:141:13-60
+activity#com.zfsbs.activity.ShowInfoCurrentDayData
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:145:9-149:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:147:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:149:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:148:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:146:13-60
+activity#com.zfsbs.activity.YxfManagerActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:150:9-154:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:152:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:154:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:153:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:151:13-56
+activity#com.zfsbs.activity.ShiftRoomActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:155:9-64
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:155:19-61
+activity#com.zfsbs.activity.ShiftRoomShowActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:156:9-68
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:156:19-65
+activity#com.zfsbs.activity.ShiftRoomRecordActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:157:9-70
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:157:19-67
+activity#com.zfsbs.activity.ShiftRoomShowitemActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:158:9-72
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:158:19-69
+activity#com.zfsbs.activity.LDMainActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:159:9-61
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:159:19-58
+activity#com.zfsbs.activity.test.TestPopActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:160:9-67
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:160:19-64
+service#com.zfsbs.service.UploadService
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:162:9-165:39
+	android:enabled
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:164:13-35
+	android:exported
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:165:13-36
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:163:13-50
+receiver#com.zfsbs.service.AlarmReceiver
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:167:9-59
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:167:19-56
+activity#com.zfsbs.activity.TestActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:169:9-177:20
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:169:19-56
+activity#com.zfsbs.activity.hd.HdRegisterActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:178:9-68
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:178:19-65
+receiver#com.zfsbs.service.LoginReceiver
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:180:9-183:48
+	android:enabled
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:182:13-35
+	android:exported
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:183:13-36
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:181:13-50
+activity#com.zfsbs.activity.VerificationActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:185:9-188:66
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:186:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:188:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:187:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:185:19-64
+activity#com.zfsbs.activity.YyVerificationActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:189:9-192:66
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:190:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:192:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:191:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:189:19-66
+activity#com.zfsbs.activity.RechargeActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:193:9-197:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:195:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:197:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:196:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:194:13-54
+activity#com.zfsbs.activity.OpenCardActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:198:9-202:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:200:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:202:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:201:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:199:13-54
+activity#com.zfsbs.activity.CardChangeActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:203:9-207:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:205:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:207:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:206:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:204:13-56
+activity#com.zfsbs.activity.ZfPayRechargeActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:208:9-212:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:210:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:212:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:211:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:209:13-59
+activity#com.zfsbs.activity.CheckOperatorLoginActivity
+ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:213:9-217:57
+	android:screenOrientation
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:215:13-49
+	android:windowSoftInputMode
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:217:13-54
+	android:theme
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:216:13-60
+	android:name
+		ADDED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml:214:13-64
+uses-sdk
+INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\Administrator\.android\build-cache\5a52fbae529a0755fb0ef8d593ad17bedaeb8be6\output\AndroidManifest.xml:5:5-7:41
+MERGED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:multidex:1.0.1] C:\Users\Administrator\.android\build-cache\f3493f1a8ae533aeaad1ca30408500656342b169\output\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:appcompat-v7:25.2.0] C:\Users\Administrator\.android\build-cache\de024f9ced61bd602f8aaf5562c259dc88acfeab\output\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:25.2.0] C:\Users\Administrator\.android\build-cache\f65fdcae93aab76b8bfa544aa5d8123af097c260\output\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.2.0] C:\Users\Administrator\.android\build-cache\83527e08a7e8f17d339749ecf923e5d26161ba28\output\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.2.0] C:\Users\Administrator\.android\build-cache\4e85a1834ed4da1762b48f68ac8fe591ef483a91\output\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.2.0] C:\Users\Administrator\.android\build-cache\c97ca68d7ef18a0952967d9c00cb9662d64e2daf\output\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.2.0] C:\Users\Administrator\.android\build-cache\93fe6895306b4ed544000dd5c53f49800bbbf142\output\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:animated-vector-drawable:25.2.0] C:\Users\Administrator\.android\build-cache\5648ef8decce53f286c36986c0704b5c02c5ca11\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.2.0] C:\Users\Administrator\.android\build-cache\49618cfe6fbddc642a105684b380991aa6dde754\output\AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-compat:25.2.0] C:\Users\Administrator\.android\build-cache\d4ffadfdcbda5f679e87f72c24027c7f37b65943\output\AndroidManifest.xml:21:5-23:58
+MERGED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:7:5-9:41
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:25.2.0] C:\Users\Administrator\.android\build-cache\de024f9ced61bd602f8aaf5562c259dc88acfeab\output\AndroidManifest.xml:23:9-75
+	android:targetSdkVersion
+		INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml
+		INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml
+		INJECTED from G:\work_space\android\MySbsfor2N910\app\src\main\AndroidManifest.xml
+activity#com.zxing.activity.MyCaptureActivity
+ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:17:9-21:57
+	android:screenOrientation
+		ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:19:13-49
+	android:windowSoftInputMode
+		ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:21:13-54
+	android:theme
+		ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:20:13-60
+	android:name
+		ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:18:13-64
+activity#com.yzq.testzxing.zxing.android.CaptureActivity
+ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:22:9-26:20
+	android:screenOrientation
+		ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:24:13-49
+	android:theme
+		ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:25:13-60
+	android:name
+		ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:23:13-75
+receiver#com.tool.utils.utils.WifiChangeBroadcastReceiver
+ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:28:9-32:20
+	android:name
+		ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:28:19-82
+intent-filter#android.net.wifi.RSSI_CHANGED
+ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:29:13-31:29
+action#android.net.wifi.RSSI_CHANGED
+ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:30:17-72
+	android:name
+		ADDED from [MySbsfor2N910:toollibrary:unspecified] G:\work_space\android\MySbsfor2N910\toollibrary\build\intermediates\bundles\default\AndroidManifest.xml:30:25-69
+uses-permission#android.permission.BLUETOOTH
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:12:5-68
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:12:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:13:5-74
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:13:22-71
+uses-permission#android.permission.WRITE_SETTINGS
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:18:5-73
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:18:22-70
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:20:5-79
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:20:22-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:21:5-81
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:21:22-78
+uses-permission#android.permission.MOUNT_UNMOUNT_FILESYSTEMS
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:25:5-84
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:25:22-81
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:26:5-68
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:26:22-65
+uses-permission#android.permission.CAMERA
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:27:5-65
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:27:22-62
+uses-permission#android.permission.VIBRATE
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:28:5-66
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:28:22-63
+uses-permission#android.permission.FLASHLIGHT
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:29:5-69
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:29:22-66
+uses-permission#android.permission.REORDER_TASKS
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:31:5-72
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:31:22-69
+activity#com.wosai.upay.ui.MainActivity
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:40:9-45:20
+	android:windowSoftInputMode
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:44:13-67
+	android:configChanges
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:42:13-74
+	android:theme
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:43:13-48
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:41:13-58
+activity#com.wosai.upay.zbar.activity.CaptureActivity
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:46:9-51:20
+	android:launchMode
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:49:4-35
+	android:windowSoftInputMode
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:50:13-52
+	android:theme
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:48:13-48
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:47:13-72
+receiver#com.wosai.upay.common.UpayTask$MyBroadcastReceiver
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:53:9-59:20
+	android:exported
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:55:13-37
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:54:13-78
+intent-filter#com.wosai.upay
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:56:13-58:29
+action#com.wosai.upay
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:57:17-57
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:57:25-54
+meta-data#com.baidu.lbsapi.API_KEY
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:61:9-63:56
+	android:value
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:63:13-53
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:62:13-52
+service#com.baidu.location.f
+ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:66:9-70:19
+	android:enabled
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:68:13-35
+	android:process
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:69:13-38
+	android:name
+		ADDED from [:SQB-Android-SDK-2.1.2:] C:\Users\Administrator\.android\build-cache\e60586fe8aad4a97ebca6ca672ba10bf28573623\output\AndroidManifest.xml:67:13-48

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <View style="@style/pad_dialog_seperator"/>
+
+    <LinearLayout
+        android:id="@+id/ll_error_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
+            style="@style/pad_dialog_item_style">
+            <TextView
+                style="@style/pad_item_text_red_style"
+                android:text="@string/error_code"/>
+            <TextView
+                android:id="@+id/tvErrorCode"
+                style="@style/pad_item_text_red_style"
+                android:text="2156"
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <View style="@style/pad_dialog_seperator"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_error_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
+            style="@style/pad_dialog_item_style">
+            <TextView
+                style="@style/pad_item_text_red_style"
+                android:text="@string/error_msg"/>
+            <TextView
+                android:id="@+id/tvErrorMsg"
+                style="@style/pad_item_text_red_style"
+                android:text="余额不足"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+        <View style="@style/pad_dialog_seperator"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_total_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
+            style="@style/pad_dialog_item_style">
+            <TextView
+                style="@style/pad_item_text_style"
+                android:text="@string/total_amount"/>
+            <TextView
+                android:id="@+id/tvTotalAmount"
+                style="@style/pad_item_text_style"
+                android:text="¥ 10.5"
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <View style="@style/pad_dialog_seperator"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_trade_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
+            style="@style/pad_dialog_item_style">
+            <TextView
+                style="@style/pad_item_text_style"
+                android:text="@string/trade_no"/>
+            <TextView
+                android:id="@+id/tvTradeNo"
+                style="@style/pad_item_text_style"
+                android:text="20150823000000"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+
+        <View style="@style/pad_dialog_seperator"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_call_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:gravity="center_horizontal">
+        <LinearLayout
+            style="@style/pad_dialog_call_phone_style">
+            <TextView
+                style="@style/pad_item_text_style"
+                android:text="@string/call_phone"/>
+            <TextView
+                style="@style/pad_dialog_call_phone_text_style"
+                android:text="@string/custom_service_phone"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <View style="@style/pad_dialog_seperator"/>
+    </LinearLayout>
+</LinearLayout>
