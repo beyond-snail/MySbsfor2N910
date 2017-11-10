@@ -12,6 +12,7 @@ import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.wosai.upay.bean.UpayResult;
 import com.zfsbs.activity.SaleMainActivity;
+import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.core.myinterface.BatInterface;
@@ -42,8 +43,13 @@ public class LoginAction {
 
     @SuppressLint("NewApi")
     public void loginAction() {
+        String serialNo = CommonFunc.getSerialNo(mContext);
 
-        MyApplication.getInstance().getSbsAction().Login(mContext, StringUtils.getSerial(), "", "", new ActionCallbackListener<LoginApiResponse>() {
+        if (StringUtils.isBlank(serialNo)){
+            ToastUtils.CustomShow(mContext, "设备序列号为空");
+            return;
+        }
+        MyApplication.getInstance().getSbsAction().Login(mContext, serialNo, "", "", new ActionCallbackListener<LoginApiResponse>() {
             @Override
             public void onSuccess(LoginApiResponse data) {
                 loginSave(data);
@@ -81,7 +87,13 @@ public class LoginAction {
     @SuppressLint("NewApi")
     public void loginAction(final String username, final String password) {
 
-        MyApplication.getInstance().getSbsAction().Login(mContext, StringUtils.getSerial(), username, password, new ActionCallbackListener<LoginApiResponse>() {
+        String serialNo = CommonFunc.getSerialNo(mContext);
+
+        if (StringUtils.isBlank(serialNo)){
+            ToastUtils.CustomShow(mContext, "设备序列号为空");
+            return;
+        }
+        MyApplication.getInstance().getSbsAction().Login(mContext, serialNo, username, password, new ActionCallbackListener<LoginApiResponse>() {
             @Override
             public void onSuccess(LoginApiResponse data) {
                 //判断当前的操作员是否存在返回列表中

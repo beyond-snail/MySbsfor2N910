@@ -13,8 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.tool.utils.msrcard.MsrCard;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.toollibrary.R;
 
 
@@ -28,6 +28,8 @@ public class MemberNoDialog extends Dialog implements View.OnClickListener {
 	private static ImageView ivScan;
 	private static Button btnLeft;
 	private static Button btnRight;
+
+	ToolNewLand toolNewLand;
 
 
 
@@ -88,18 +90,41 @@ public class MemberNoDialog extends Dialog implements View.OnClickListener {
         initView();
         addListener();
 
-		MsrCard.getMsrCard(context).openMsrCard(new MsrCard.TrackData() {
+
+		toolNewLand = new ToolNewLand();
+		toolNewLand.deviceBindService(context, ToolNewLand.magcard, new ToolNewLand.DeviceListenser() {
 			@Override
-			public void onSuccess(String track2Data) {
-				etInputNo.setText(track2Data);
-				etInputNo.setSelection(track2Data.length());
+			public void success(String data) {
+				etInputNo.setText(data);
+				etInputNo.setSelection(data.length());
 			}
 
 			@Override
-			public void onFail() {
-				dismiss();
+			public void fail(String data) {
+//				dismiss();
 			}
 		});
+
+
+//		MsrCard.getMsrCard(context).openMsrCard(new MsrCard.TrackData() {
+//			@Override
+//			public void onSuccess(String track2Data) {
+//				etInputNo.setText(track2Data);
+//				etInputNo.setSelection(track2Data.length());
+//			}
+//
+//			@Override
+//			public void onFail() {
+//				dismiss();
+//			}
+//		});
+	}
+
+	@Override
+	public void dismiss() {
+		super.dismiss();
+		toolNewLand.deviceUnBindService();
+		toolNewLand = null;
 	}
 
 	private void initView() {

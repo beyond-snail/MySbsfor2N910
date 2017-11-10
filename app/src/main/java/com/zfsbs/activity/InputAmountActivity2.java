@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.mycommonlib.core.PayCommon;
-import com.mycommonlib.model.ComTransInfo;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.dialog.MemberNoDialog;
 import com.tool.utils.utils.SPUtils;
@@ -18,13 +16,7 @@ import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
-import com.zfsbs.core.myinterface.ActionCallbackListener;
-import com.zfsbs.model.CouponsResponse;
 import com.zfsbs.model.MemberTransAmountResponse;
-import com.zfsbs.myapplication.MyApplication;
-
-import static com.zfsbs.common.CommonFunc.startAction;
-import static com.zfsbs.common.CommonFunc.startResultAction;
 
 
 public class InputAmountActivity2 extends BaseActivity implements OnClickListener {
@@ -68,18 +60,7 @@ public class InputAmountActivity2 extends BaseActivity implements OnClickListene
 
     private void initData() {
 
-//
-        PayCommon.getParams(this, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
 
-            }
-
-            @Override
-            public void failed(String error) {
-
-            }
-        });
 
         //是否是赢消费
         app_type = (int) SPUtils.get(this, Config.APP_TYPE, Config.DEFAULT_APP_TYPE);//getIntent().getBooleanExtra("yxf", false);

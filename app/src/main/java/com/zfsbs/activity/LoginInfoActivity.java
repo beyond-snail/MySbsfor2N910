@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.tool.utils.utils.StringUtils;
 import com.zfsbs.R;
+import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Constants;
 import com.zfsbs.model.LoginApiResponse;
 import com.zfsbs.myapplication.MyApplication;
@@ -84,7 +85,7 @@ public class LoginInfoActivity extends BaseActivity{
 		tTerminalName.setText(loginData.getTerminalName());//((String) SPUtils.get(this, filename, SbsConfig.LOGIN_TERMINAL_NAME_KEY, ""));
 		tMerchantNo.setText(loginData.getMerchantNo());//((String) SPUtils.get(this, filename, SbsConfig.LOGIN_MERCHANT_NO_KEY, ""));
 		tTerminalNo.setText(loginData.getTerminalNo());//((String) SPUtils.get(this, filename, SbsConfig.LOGIN_TERMINAL_NO_KEY, ""));
-		tSerial.setText(StringUtils.getSerial());
+		tSerial.setText(CommonFunc.getSerialNo(mContext));
 		tLiceseNo.setText(loginData.getLicenseNo());//((String) SPUtils.get(this, filename, SbsConfig.LOGIN_LICENSE_NO_KEY, ""));
 		tAccountName.setText(loginData.getAccountName());//((String) SPUtils.get(this, filename, SbsConfig.LOGIN_ACCOUNT_NAME_KEY, ""));
 		tAccountBank.setText(loginData.getAccountBank());//((String) SPUtils.get(this, filename, SbsConfig.LOGIN_ACCOUNT_BANK_KEY, ""));

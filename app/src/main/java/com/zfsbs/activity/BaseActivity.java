@@ -3,7 +3,6 @@ package com.zfsbs.activity;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -21,31 +20,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mycommonlib.core.PayCommon;
-import com.mycommonlib.model.ComTransInfo;
 import com.tool.utils.activityManager.AppManager;
-import com.tool.utils.utils.LogUtils;
-import com.tool.utils.utils.SPUtils;
-import com.tool.utils.utils.StringUtils;
-import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.utils.WifiChangeBroadcastReceiver;
 import com.zfsbs.R;
-import com.zfsbs.common.CommonFunc;
-import com.zfsbs.config.Config;
-import com.zfsbs.config.Constants;
-import com.zfsbs.core.action.Printer;
 import com.zfsbs.core.action.SbsAction;
-import com.zfsbs.model.LoginApiResponse;
 import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.myapplication.MyApplication;
 import com.zfsbs.service.LoginReceiver;
 
-import org.litepal.crud.DataSupport;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import static com.zfsbs.common.CommonFunc.startAction;
 
 public abstract class BaseActivity extends Activity {
 
@@ -59,7 +45,7 @@ public abstract class BaseActivity extends Activity {
     // 核心层的Action实例
 //	protected EmvImpl emvImpl;
     public SbsAction sbsAction;
-    protected Printer printer;
+//    protected Printer printer;
     protected SbsPrinterData printerData;
 
 
@@ -78,7 +64,7 @@ public abstract class BaseActivity extends Activity {
 //		emvImpl = application.getEmvImpl();
         sbsAction = application.getSbsAction();
         printerData = new SbsPrinterData();
-        printer = Printer.getInstance(this);
+//        printer = Printer.getInstance(this);
 
 
         //获取广播对象
@@ -230,237 +216,7 @@ public abstract class BaseActivity extends Activity {
     }
 
 
-    /**
-     * 设置参数
-     */
-    private void setPayParams() {
-        LogUtils.e("再次设置参数");
-        int keyIndex = MyApplication.getInstance().getLoginData().getKeyIndex();
-        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-        PayCommon.setParams(this, keyIndex, mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
-                if (!(boolean) SPUtils.get(BaseActivity.this, Config.AID_KEY, false)) {
-                    DownloadAid();
-                } else if (!(boolean) SPUtils.get(BaseActivity.this, Config.CPK_KEY, false)) {
-                    DownloadCapk();
-                } else if (!(boolean) SPUtils.get(BaseActivity.this, Config.BLACKLIST_KEY, false)) {
-                    DownloadBlackList();
-                } else {
-                    if (!CommonFunc.isLogin(BaseActivity.this, Config.FY_LOGIN_TIME, Config.DEFAULT_FY_LOGIN_TIME)) {
-                        startAction(BaseActivity.this, InputAmountActivity.class, true);
-                        return;
-                    }
-                    payLogin();
-                }
-            }
 
-            @Override
-            public void failed(String error) {
-
-            }
-        });
-    }
-
-
-    /**
-     * 下载参数
-     */
-    protected void DownParams() {
-        PayCommon.DownParams(this, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
-                setPayParams();
-            }
-
-            @Override
-            public void failed(String error) {
-
-            }
-        });
-    }
-
-    /**
-     * 下载主密钥
-     */
-    protected void DownMasterKey() {
-
-        if (MyApplication.getInstance().getLoginData().isDownMasterKey()) {
-            ToastUtils.CustomShow(this, "主密钥已经下载过了");
-            return;
-        }
-
-        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-        String other = MyApplication.getInstance().getLoginData().getOther();
-
-        PayCommon.DownMasterKey(this, other, mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
-                setMaterKeyIsDownLoad();
-                if (Config.isHs){
-                    DownloadAid();
-                }else {
-                    DownParams();
-                }
-            }
-
-            @Override
-            public void failed(String error) {
-
-            }
-        });
-    }
-
-
-    /**
-     * 保存密钥状态
-     */
-    protected void setMaterKeyIsDownLoad() {
-        MyApplication.getInstance().getLoginData().setDownMasterKey(true);
-        //更新数据库
-        ContentValues values = new ContentValues();
-        values.put("isDownMasterKey", true);
-        DataSupport.update(LoginApiResponse.class, values, MyApplication.getInstance().getLoginData().getId());
-
-        if (MyApplication.getInstance().getLoginData().getKeyIndex() == Constants.FY_INDEX_1) {
-            SPUtils.put(this, Config.FY_M_DOWN_MASTER, true);
-        } else {
-            SPUtils.put(this, Config.FY_DOWN_MASTER, true);
-        }
-        LogUtils.e(TAG, "设置密钥使用状态：使用");
-    }
-
-
-    /**
-     * 下载AID
-     */
-    protected void DownloadAid() {
-
-        PayCommon.DownloadAid(this, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
-                SPUtils.put(BaseActivity.this, Config.AID_KEY, true);
-                boolean download = (boolean) SPUtils.get(BaseActivity.this, Config.CPK_KEY, false);
-                if (!download) {
-
-                    DownloadCapk();
-                } else if (!(boolean) SPUtils.get(BaseActivity.this, Config.BLACKLIST_KEY, false) && Config.isFy) {
-                    DownloadBlackList();
-                } else {
-                    if (!CommonFunc.isLogin(BaseActivity.this, Config.FY_LOGIN_TIME, Config.DEFAULT_FY_LOGIN_TIME)) {
-                        startAction(BaseActivity.this, InputAmountActivity.class, true);
-                        return;
-                    }
-                    payLogin();
-                }
-            }
-
-            @Override
-            public void failed(String error) {
-
-            }
-        });
-    }
-
-
-    /**
-     * 下载公钥
-     */
-    protected void DownloadCapk() {
-
-        PayCommon.DownloadCapk(this, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
-                SPUtils.put(BaseActivity.this, Config.CPK_KEY, true);
-                boolean download = (boolean) SPUtils.get(BaseActivity.this, Config.AID_KEY, false);
-                if (!download) {
-                    DownloadAid();
-                } else if (!(boolean) SPUtils.get(BaseActivity.this, Config.BLACKLIST_KEY, false) && Config.isFy) {
-                    DownloadBlackList();
-                } else {
-                    if (!CommonFunc.isLogin(BaseActivity.this, Config.FY_LOGIN_TIME, Config.DEFAULT_FY_LOGIN_TIME)) {
-                        startAction(BaseActivity.this, InputAmountActivity.class, true);
-                        return;
-                    }
-                    payLogin();
-                }
-            }
-
-            @Override
-            public void failed(String error) {
-
-            }
-        });
-    }
-
-    /**
-     * 下载黑名单
-     */
-    protected void DownloadBlackList() {
-
-        PayCommon.DownloadBlackList(this, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
-                SPUtils.put(BaseActivity.this, Config.BLACKLIST_KEY, true);
-                if (!(boolean) SPUtils.get(BaseActivity.this, Config.AID_KEY, false)) {
-                    DownloadAid();
-                } else if (!(boolean) SPUtils.get(BaseActivity.this, Config.CPK_KEY, false)) {
-                    DownloadCapk();
-                } else {
-                    if (!CommonFunc.isLogin(BaseActivity.this, Config.FY_LOGIN_TIME, Config.DEFAULT_FY_LOGIN_TIME)) {
-                        startAction(BaseActivity.this, InputAmountActivity.class, true);
-                        return;
-                    }
-                    payLogin();
-                }
-            }
-
-            @Override
-            public void failed(String error) {
-
-            }
-        });
-    }
-
-
-    /**
-     * 签到
-     */
-    protected void payLogin() {
-
-        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-        PayCommon.login(this, mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
-
-                //如果签到成功说明主密钥下载过了，不用在下载了，直接设置为true
-                SaveLoginMasterKey();
-                // 登录成功 保存今天的时间
-                SPUtils.put(BaseActivity.this, Constants.HS_LOGIN_TIME, StringUtils.getCurDate());
-                startAction(BaseActivity.this, InputAmountActivity.class, true);
-            }
-
-            @Override
-            public void failed(String error) {
-
-            }
-        });
-    }
-
-    /**
-     * 如果签到成功说明主密钥下载过了，不用在下载了，直接设置为true
-     */
-    private void SaveLoginMasterKey() {
-
-        MyApplication.getInstance().getLoginData().setDownMasterKey(true);
-        //更新数据库
-        ContentValues values = new ContentValues();
-        values.put("isDownMasterKey", true);
-        DataSupport.update(LoginApiResponse.class, values, MyApplication.getInstance().getLoginData().getId());
-    }
 
 
     @Override

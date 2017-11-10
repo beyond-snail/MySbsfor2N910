@@ -17,8 +17,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.hd.core.HdAction;
-import com.hd.model.HdAdjustScoreResponse;
 import com.myokhttp.MyOkHttp;
 import com.myokhttp.response.JsonResponseHandler;
 import com.tool.utils.activityManager.AppManager;
@@ -36,7 +34,6 @@ import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.action.BATPay;
 import com.zfsbs.core.action.FyBat;
-import com.zfsbs.core.action.Printer;
 import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.core.myinterface.BatInterface;
@@ -448,11 +445,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.id_printer: {
 //                printer(recordData);
-                if (recordData.getApp_type() == Config.APP_HD) {
-                    printer(recordData);
-                } else if (recordData.getApp_type() == Config.APP_YXF) {
-                    printer(recordData);
-                } else {
+
                     if (recordData.getPayType() == Constants.PAY_WAY_RECHARGE_ALY || recordData.getPayType() == Constants.PAY_WAY_RECHARGE_WX ||
                             recordData.getPayType() == Constants.PAY_WAY_PAY_FLOT || recordData.getPayType() == Constants.PAY_WAY_RECHARGE_CASH
                             || recordData.getPayType() == Constants.PAY_WAY_RECHARGE_UNIPAY || recordData.getPayType() == Constants.PAY_WAY_STK || recordData.getPayType() == Constants.PAY_WAY_QB) {
@@ -462,7 +455,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                         TransUploadRequest data = gson.fromJson(recordData.getTransUploadData(), TransUploadRequest.class);
                         getPrinterData(data.getSid(), data.getClientOrderNo());
                     }
-                }
+
             }
             break;
             case R.id.id_refund:
@@ -483,18 +476,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                         TransUploadRequest data = gson.fromJson(recordData.getTransUploadData(), TransUploadRequest.class);
                         transUploadAction(data);
                     }
-                } else if (recordData.getApp_type() == Config.APP_YXF) {
-                    sendYxf();
-                } else if (recordData.getApp_type() == Config.APP_Richer_e) {
-                    Gson gson = new Gson();
-                    TransUploadRequest data = gson.fromJson(recordData.getTransUploadData(), TransUploadRequest.class);
-//                LogUtils.e(data.toString());
-                    data.setCardNo(recordData.getPhoneNo());
-                    Richer_transUploadAction(data);//(recordData.getRequest());
-                } else if (recordData.getApp_type() == Config.APP_HD) {
-                    Gson gson = new Gson();
-                    TransUploadRequest data = gson.fromJson(recordData.getTransUploadData(), TransUploadRequest.class);
-                    transUploadAction(data);
                 }
             }
             break;
@@ -515,36 +496,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
             setTransCancel(recordData.getPayType(), refund_order_no);
             return;
         }
-//        AlertDialog.Builder customizeDialog = new AlertDialog.Builder(RecordItemInfoActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-//        final View dialogView = LayoutInflater.from(RecordItemInfoActivity.this)
-//                .inflate(R.layout.activity_dialog_pass, null);
-//        customizeDialog.setTitle("请输入主管理员密码");
-//        customizeDialog.setView(dialogView);
-//        customizeDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                // 获取EditView中的输入内容
-//                EditText edit_text = (EditText) dialogView.findViewById(R.id.edit_text);
-//
-//                String pass = (String) SPUtils.get(RecordItemInfoActivity.this, Constants.MASTER_PASS, Constants.DEFAULT_MASTER_PASS);
-//                if (StringUtils.isEmpty(edit_text.getText().toString())) {
-//                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "请输入主管理密码");
-//                    return;
-//                }
-//                if (!StringUtils.isEquals(pass, edit_text.getText().toString())) {
-//                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "主管理密码错误");
-//                    return;
-//                }
-//                refundTrans();
-//            }
-//        });
-//        customizeDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//
-//            }
-//        });
-//        customizeDialog.show();
+
 
         final View view = this.getLayoutInflater().inflate(R.layout.activity_password, null);
         AlertUtils.alertSetPassword(mContext, "请输入主管理员密码。", "确定", new DialogInterface.OnClickListener() {
@@ -695,7 +647,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
             SbsPrinterData data = (SbsPrinterData) bundle.getSerializable("data");
             // 打印
-            Printer.print(data, RecordItemInfoActivity.this);
+//            Printer.print(data, RecordItemInfoActivity.this);
         }
     };
 
@@ -833,12 +785,9 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
                     }
                 });
-                if (recordData.getApp_type() == Config.APP_HD) {
-                    //如果是海鼎的话，上送计算后的积分
-                    goHdAdjustScore(transUploadRequest.getPhone(), data.getPoint());
-                } else {
+
                     setResult(Activity.RESULT_OK, myintent);
-                }
+
             }
 
             @Override
@@ -970,131 +919,12 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                     setTransCancel(Constants.PAY_WAY_REFUND_UNIPAY, refund_order_no);
                 }
             }
-        } else if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_SQB)) {
-
-            if (recordData.getPayType() == Constants.PAY_WAY_ALY) {
-                if (recordData.isRefund()) {
-                    setTransCancel(Constants.PAY_WAY_REFUND_ALY, refund_order_no);
-                    return;
-                }
-            } else if (recordData.getPayType() == Constants.PAY_WAY_WX) {
-                if (recordData.isRefund()) {
-                    setTransCancel(Constants.PAY_WAY_REFUND_WX, refund_order_no);
-                    return;
-                }
-            } else if (recordData.getPayType() == Constants.PAY_WAY_UNIPAY) {
-                if (recordData.isRefund()) {
-                    setTransCancel(Constants.PAY_WAY_REFUND_UNIPAY, refund_order_no);
-                    return;
-                }
-            }
-
-            BATPay bat = new BATPay(this);
-
-
-            bat.refund(recordData.getAuthCode(), recordData.getClientOrderNo(), amount + "", new BatInterface() {
-                @Override
-                public void success_bat(UpayResult result) {
-                    // 更新到数据库
-                    ContentValues values = new ContentValues();
-                    values.put("isRefund", true);
-                    values.put("refund_order_no", result.getTrade_no());
-                    DataSupport.update(SbsPrinterData.class, values, recordData.getId());
-
-                    //记录当前成功的订单号，用于如果退款流水上送失败，再次流水上送用。
-                    refund_order_no = result.getTrade_no();
-
-                    recordData.setRefund(true);
-
-                    myintent.putExtra("refund_order_no", refund_order_no);
-
-//                    Intent intent = new Intent();
-//                    intent.putExtra("isRefund", true);
-//                    setResult(Activity.RESULT_OK, intent);
-
-                    LogUtils.e("退款成功");
-                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "退款成功");
-                    if (recordData.getPayType() == Constants.PAY_WAY_ALY) {
-                        setTransCancel(Constants.PAY_WAY_REFUND_ALY, result.getTrade_no());
-                    } else if (recordData.getPayType() == Constants.PAY_WAY_WX) {
-                        setTransCancel(Constants.PAY_WAY_REFUND_WX, result.getTrade_no());
-                    } else if (recordData.getPayType() == Constants.PAY_WAY_UNIPAY) {
-                        setTransCancel(Constants.PAY_WAY_REFUND_UNIPAY, result.getTrade_no());
-                    }
-
-                }
-
-                @Override
-                public void failed_bat(String error_code, String error_msg) {
-                    ToastUtils.CustomShow(RecordItemInfoActivity.this, error_code + "#" + error_msg);
-                    LogUtils.e("退款失败" + error_msg);
-                }
-
-                @Override
-                public void onLogin() {
-                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "登录失效，请重新登录。。。");
-                    AppManager.getAppManager().finishAllActivity();
-
-                    if (Config.OPERATOR_UI_BEFORE) {
-                        CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity.class, false);
-                    } else {
-                        CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity1.class, false);
-                    }
-                }
-            });
         }
     }
 
 
     private void setTransCancel(int payType, final String authCode) {
 
-        if (recordData.getApp_type() == Config.APP_YXF || (recordData.getApp_type() == Config.APP_HD && !recordData.isMember())) {
-
-            // 更新到数据库
-            ContentValues values = new ContentValues();
-            values.put("isRefundUpload", true);
-
-            DataSupport.update(SbsPrinterData.class, values, recordData.getId());
-
-
-            myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? false : true);
-            myintent.putExtra("isRefundUpload", true);
-            setResult(Activity.RESULT_OK, myintent);
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    btnRefund.setVisibility(View.GONE);
-                    btnRefund.invalidate();
-                }
-            });
-            return;
-        } else if (recordData.getApp_type() == Config.APP_Richer_e) {
-
-            // 更新到数据库
-            ContentValues values = new ContentValues();
-            values.put("isRefundUpload", true);
-
-            DataSupport.update(SbsPrinterData.class, values, recordData.getId());
-
-
-            myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? false : true);
-            myintent.putExtra("isRefundUpload", true);
-            setResult(Activity.RESULT_OK, myintent);
-
-
-            Richer_upLoadTransData();
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    btnRefund.setVisibility(View.GONE);
-                    btnRefund.invalidate();
-                }
-            });
-            return;
-
-        }
 
 
         Gson gson = new Gson();
@@ -1105,7 +935,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         final int point = recordData.getPoint();
         final TransUploadRequest request = new TransUploadRequest();
 
-        String orderId = CommonFunc.getNewClientSn();
+        String orderId = CommonFunc.getNewClientSn(mContext);
 
         request.setAction("2");
         request.setOld_trade_order_num(oldOrderNo);
@@ -1139,9 +969,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                         btnRefund.invalidate();
                     }
                 });
-                if (recordData.getApp_type() == Config.APP_HD) {
-                    goHdAdjustScore(phone, -point);
-                }
+
                 setResult(Activity.RESULT_OK, myintent);
             }
 
@@ -1189,7 +1017,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
             long t = StringUtils.getdate2TimeStamp(StringUtils.getCurTime());
 
 
-            String orderId = CommonFunc.getNewClientSn();
+            String orderId = CommonFunc.getNewClientSn(mContext);
 
             request.setAction("2");
             request.setOld_trade_order_num(data.getOrderNo());
@@ -1234,15 +1062,9 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? false : true);
                 myintent.putExtra("isRefundUpload", true);
 //                setResult(Activity.RESULT_OK, myintent);
-                if (recordData.getApp_type() == Config.APP_Richer_e) {
 
-                    Richer_upLoadTransData();
-
-                } else if (recordData.getApp_type() == Config.APP_HD) {
-                    goHdAdjustScore(phone, -point);
-                } else {
                     setResult(Activity.RESULT_OK, myintent);
-                }
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1276,211 +1098,4 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
     }
 
 
-    /**
-     * 赢消费
-     */
-    private void sendYxf() {
-
-        String money = recordData.getAmount();//"0.01";
-        String mobile = recordData.getPhoneNo();//"13979328519";
-        String time = String.valueOf(StringUtils.getdate2TimeStamp(recordData.getDateTime()));
-        String orderId = time + StringUtils.getSerial();
-
-        String admin_id = (String) SPUtils.get(this, Config.YXF_MERCHANT_ID, Config.YXF_DEFAULT_MERCHANTID);
-
-        if (StringUtils.isEmpty(admin_id)) {
-
-            ToastUtils.CustomShow(this, "上送商户ID为空");
-            return;
-        }
-
-        if (StringUtils.isEmpty(money)) {
-            ToastUtils.CustomShow(this, "上送金额为空");
-            return;
-        }
-
-        if (StringUtils.isEmpty(mobile)) {
-            ToastUtils.CustomShow(this, "上送手机号为空");
-            return;
-        }
-
-
-        String before = admin_id + money + mobile + time + orderId + Config.YXF_KEY;
-        LogUtils.e(before);
-        String skey = EncryptMD5Util.MD5(before);
-
-        Map<String, String> paramsMap = new LinkedHashMap<String, String>();
-        paramsMap.put("arr1", admin_id);
-        paramsMap.put("arr2", money);
-        paramsMap.put("arr3", mobile);
-        paramsMap.put("arr4", time);
-        paramsMap.put("arr5", orderId);
-        paramsMap.put("skey", skey);
-
-
-        LogUtils.e(paramsMap.toString());
-
-        final LoadingDialog dialog = new LoadingDialog(this);
-        dialog.show("正在上送...");
-
-        MyOkHttp.get().get(this, Config.YXF_URL, paramsMap, new JsonResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, JSONObject response) {
-                LogUtils.e("sendYxf", response.toString());
-                dialog.dismiss();
-
-                try {
-                    String state = response.getString("state");
-                    String info = response.getString("info");
-                    if (StringUtils.isEquals(state, "0")) {
-                        ToastUtils.CustomShow(RecordItemInfoActivity.this, "上送成功");
-
-                        //更新
-                        ContentValues values = new ContentValues();
-
-                        values.put("UploadFlag", false);
-                        DataSupport.update(SbsPrinterData.class, values, recordData.getId());
-
-                        recordData.setUploadFlag(false);
-
-                        myintent.putExtra("uploadFlag", true);
-                        setResult(Activity.RESULT_OK, myintent);
-
-                    } else {
-                        ToastUtils.CustomShow(RecordItemInfoActivity.this, !StringUtils.isEmpty(info) ? info : "上送失败");
-
-                    }
-
-
-                } catch (JSONException e) {
-//                    e.printStackTrace();
-                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "返回数据解析失败");
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, String error_msg) {
-                dialog.dismiss();
-                LogUtils.e("sendYxf", error_msg);
-
-
-            }
-        });
-    }
-
-    private void Richer_upLoadTransData() {
-        String money = recordData.getAmount();//"0.01";
-        String mobile = recordData.getPhoneNo();//"13979328519";
-        String time = String.valueOf(StringUtils.getdate2TimeStamp(recordData.getDateTime()));
-        TransUploadRequest request = new TransUploadRequest();
-        request.setCardNo(recordData.getPhoneNo());
-        request.setPayType(11);
-        String amountStr = recordData.getAmount();
-        BigDecimal big = new BigDecimal(amountStr);
-        int amount = big.multiply(new BigDecimal(100)).intValue();
-        request.setBankAmount(amount);
-        request.setCash(amount);
-        request.setMerchantNo(recordData.getMerchantNo());
-        request.setT(Integer.parseInt(time));
-        request.setClientOrderNo(recordData.getClientOrderNo());
-        request.setTransNo(recordData.getTransNo());
-        request.setAuthCode(recordData.getAuthCode());
-        Richer_transUploadAction(request);
-    }
-
-    private void Richer_transUploadAction(final TransUploadRequest request) {
-
-        RicherQb.UploadTransInfo(RecordItemInfoActivity.this, request, new ActionCallbackListener<RicherGetMember>() {
-            @Override
-            public void onSuccess(RicherGetMember data) {
-
-                LogUtils.e(data.toString());
-                ToastUtils.CustomShow(RecordItemInfoActivity.this, "交易流水上送成功");
-                // 更新到数据库
-
-                ContentValues values = new ContentValues();
-                values.put("uploadFlag", false);
-                DataSupport.update(SbsPrinterData.class, values, recordData.getId());
-                //更新
-                recordData.setUploadFlag(false);
-
-                myintent.putExtra("uploadFlag", true);
-
-                setResult(Activity.RESULT_OK, myintent);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        tvFBackAmount.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getBackAmt())) ? "" : StringUtils.formatIntMoney(recordData.getBackAmt()));
-                        tvCBackAmount.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getBackAmt())) ? "" : StringUtils.formatIntMoney(recordData.getBackAmt()));
-                        tvBBackAmount.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getBackAmt())) ? "" : StringUtils.formatIntMoney(recordData.getBackAmt()));
-                        btnTransUpload.setVisibility(View.GONE);
-                        btnTransUpload.invalidate();
-
-                    }
-                });
-            }
-
-
-            @Override
-            public void onFailure(String errorEvent, String message) {
-                ToastUtils.CustomShow(RecordItemInfoActivity.this, message);
-                setResult(Activity.RESULT_OK, myintent);
-            }
-
-            @Override
-            public void onLogin() {
-                AppManager.getAppManager().finishAllActivity();
-
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity1.class, false);
-                }
-            }
-
-            @Override
-            public void onFailurTimeOut(String s, String error_msg) {
-
-            }
-        });
-    }
-
-
-    /**
-     * 发送给海鼎
-     *
-     * @param phone
-     * @param points
-     */
-    private void goHdAdjustScore(final String phone, final int points) {
-        //上送积分到海鼎
-        HdAction.HdAdjustScore(this, phone, points, new HdAction.HdCallResult() {
-            @Override
-            public void onSuccess(String data) {
-
-                HdAdjustScoreResponse response = new Gson().fromJson(data, HdAdjustScoreResponse.class);
-
-                //保存流水号和总积分
-                myintent.putExtra("total_points", response.getResult().getScoreTotal());
-                myintent.putExtra("flowNo", response.getResult().getFlowNo());
-
-                recordData.setFlowNo(response.getResult().getFlowNo());
-                recordData.setPointCurrent(Integer.parseInt(response.getResult().getScoreTotal()));
-
-                setResult(Activity.RESULT_OK, myintent);
-            }
-
-            @Override
-            public void onFailed(String errorCode, String message) {
-                ToastUtils.CustomShow(RecordItemInfoActivity.this, errorCode + "#" + message);
-
-                setResult(Activity.RESULT_OK, myintent);
-            }
-        });
-    }
 }

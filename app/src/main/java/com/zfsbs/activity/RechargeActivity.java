@@ -12,10 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.tool.utils.msrcard.MsrCard;
 import com.tool.utils.utils.NumberInputHelper;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.tool.utils.view.MyGridView;
 import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
@@ -52,6 +52,8 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 //    private LinearLayout ll_meal;
     private MyGridView gridview;
 
+    ToolNewLand toolNewLand;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,40 +64,71 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
         initView();
 
 
+        toolNewLand = new ToolNewLand();
+        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
+
     }
 
 
-    private MsrCard.TrackData listener = new MsrCard.TrackData() {
+//    private MsrCard.TrackData listener = new MsrCard.TrackData() {
+//        @Override
+//        public void onSuccess(String track2Data) {
+////            String cardNumber = track2Data.substring(0, track2Data.indexOf("="));
+//            etCardNo.setText(track2Data);
+//            etCardNo.setSelection(etCardNo.length());
+//        }
+//
+//        @Override
+//        public void onFail() {
+//            MsrCard.getMsrCard(mContext).closeMsrCard();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Thread.sleep(200);
+//                        MsrCard.getMsrCard(mContext).openMsrCard(listener);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }).start();
+//
+//        }
+//    };
+
+
+    private ToolNewLand.DeviceListenser listenser = new ToolNewLand.DeviceListenser() {
         @Override
-        public void onSuccess(String track2Data) {
-//            String cardNumber = track2Data.substring(0, track2Data.indexOf("="));
-            etCardNo.setText(track2Data);
+        public void success(String data) {
+            etCardNo.setText(data);
             etCardNo.setSelection(etCardNo.length());
+
         }
 
         @Override
-        public void onFail() {
-            MsrCard.getMsrCard(mContext).closeMsrCard();
+        public void fail(String data) {
+            toolNewLand.deviceUnBindService();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Thread.sleep(200);
-                        MsrCard.getMsrCard(mContext).openMsrCard(listener);
+                        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
                 }
             }).start();
-
         }
     };
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MsrCard.getMsrCard(mContext).closeMsrCard();
+        toolNewLand.deviceUnBindService();
+        toolNewLand = null;
     }
 
 
@@ -281,7 +314,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
                 }
 
 
-                MsrCard.getMsrCard(mContext).openMsrCard(listener);
+                toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
             }
 
 
@@ -323,11 +356,11 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 
         Long sid = MyApplication.getInstance().getLoginData().getSid();
         String cardNo = etCardNo.getText().toString().trim();
-        final String orderNo = CommonFunc.getNewClientSn();
+        final String orderNo = CommonFunc.getNewClientSn(mContext);
         sbsAction.rechargeSure(mContext, sid, amount, orderNo, cardNo, new ActionCallbackListener<CardId>() {
             @Override
             public void onSuccess(CardId data) {
-                MsrCard.getMsrCard(mContext).closeMsrCard();
+                toolNewLand.deviceUnBindService();
                 Bundle bundle = new Bundle();
 //                bundle.putSerializable("RechargeAmount", vo);
                 bundle.putString("orderNo", orderNo);

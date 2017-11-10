@@ -275,7 +275,7 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
         request.setPoint(point);
         request.setCouponSn(getSn());
         request.setMemberName(couponResponse.getMemberName());
-        request.setClientOrderNo(getNewClientSn());
+        request.setClientOrderNo(getNewClientSn(mContext));
 
         this.sbsAction.memberTransAmount(MemberActivity.this, request, new ActionCallbackListener<MemberTransAmountResponse>() {
             @Override

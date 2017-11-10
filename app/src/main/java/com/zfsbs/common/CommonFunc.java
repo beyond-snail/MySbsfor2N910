@@ -34,15 +34,19 @@ package com.zfsbs.common;
 ////////////////////////////////////////////////////////////////////
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tool.utils.utils.EncryptMD5Util;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.action.ZfQbAction;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
@@ -120,28 +124,18 @@ public class CommonFunc {
      * 获取订单号
      * @return
      */
-    public static String getNewClientSn() {
+    public static String getNewClientSn(Context context) {
         String device = "2"; // 1:手机 2:Pos机
         String timestamp = StringUtils.getFormatCurTime();
         String randomNum = StringUtils.createRandomNumStr(3);
-        String serial_no = StringUtils.getTerminalNo(StringUtils.getSerial());
+        String serial_no = StringUtils.getTerminalNo(CommonFunc.getSerialNo(context));
 
         return device + timestamp + randomNum + serial_no;
     }
 
-//    public static String getNewClientSn(Context context, int PayType) {
-//        String orderNo = "";
-//        String device = "2"; // 1:手机 2:Pos机
-//        String payType = "" + PayType;
-//        String timestamp = StringUtils.getFormatCurTime();
-//        String randomNum = StringUtils.createRandomNumStr(3);
-//        String activateCode = getActivateCode(PayType);
-//
-//        orderNo = device + payType + timestamp + randomNum + activateCode;
-//        return orderNo;
-//    }
 
-    public static String getActivateCode(int payType) {
+
+    public static String getActivateCode(Context context, int payType) {
         String activateCode = "";
         String sm_type = MyApplication.getInstance().getLoginData().getScanPayType();
         switch (payType) {
@@ -152,7 +146,7 @@ public class CommonFunc {
                 break;
             case Constants.PAY_WAY_QB:
             case Constants.PAY_WAY_REFUND_QB:
-                activateCode = StringUtils.getSerial();
+                activateCode = CommonFunc.getSerialNo(context);
                 break;
             case Constants.PAY_WAY_ALY:
             case Constants.PAY_WAY_BFB:
@@ -332,6 +326,16 @@ public class CommonFunc {
     }
 
 
+    public static String getSerialNo(Context context){
+        String serialNo;
+        ToolNewLand toolNewLand = new ToolNewLand();
+        toolNewLand.deviceBindService(context, ToolNewLand.serialNo, null);
+        serialNo = "";//toolNewLand.getSerialNo();
+//        toolNewLand.deviceUnBindService();
+        return serialNo;
+    }
+
+
 
 
 
@@ -406,7 +410,7 @@ public class CommonFunc {
      * @param authCode
      * @return
      */
-    public static TransUploadRequest setTransUploadData(SbsPrinterData printerData, MemberTransAmountResponse memberData, String clientOrderNo, String transNo, String authCode) {
+    public static TransUploadRequest setTransUploadData(Context context, SbsPrinterData printerData, MemberTransAmountResponse memberData, String clientOrderNo, String transNo, String authCode) {
         final TransUploadRequest request = new TransUploadRequest();
 
         request.setSid(MyApplication.getInstance().getLoginData().getSid());
@@ -425,7 +429,7 @@ public class CommonFunc {
         request.setPointCoverAmount(memberData.getPointCoverMoney());
         request.setCouponSns(memberData.getCouponSns());
         request.setClientOrderNo(clientOrderNo);
-        request.setActivateCode(getActivateCode(printerData.getPayType()));
+        request.setActivateCode(getActivateCode(context, printerData.getPayType()));
         request.setMerchantNo(printerData.getMerchantNo());
         request.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));//(StringUtils.getCurTimeMills());
         LogUtils.e("time = " + printerData.getDateTime());
@@ -495,6 +499,75 @@ public class CommonFunc {
         jsonParams = new JSONObject(final_params);
 
         return jsonParams.toString();
+    }
+
+
+    /**
+     * 新大陆支付调用
+     * @param context
+     * @param payTp
+     * @param procCd
+     * @param amt
+     * @param orderNo
+     */
+    public static void pay(Activity context, int payTp, String procCd, String amt, String orderNo){
+        try {
+            ComponentName component = new ComponentName("com.newland.caishen", "com.newland.caishen.ui.activity.MainActivity");
+            final Intent intent = new Intent();
+            intent.setComponent(component);
+            Bundle bundle = new Bundle();
+            bundle.putString("msg_tp", "0200");
+            bundle.putString("pay_tp", payTp+"");
+            bundle.putString("proc_tp", "00");
+            bundle.putString("proc_cd", procCd);
+            bundle.putString("amt", amt);
+            bundle.putString("order_no", orderNo);
+            bundle.putString("appid", "com.zfsbs");
+            bundle.putString("time_stamp", "");
+            bundle.putString("print_info", "");
+            bundle.putString("batchbillno", "");
+            bundle.putString("systraceno", "");
+
+            bundle.putString("merid","");
+            bundle.putString("termid","");
+            intent.putExtras(bundle);
+            context.startActivityForResult(intent, 1);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "请安装收单应用", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void undo(Activity context, int payTp, String procCd, String amt, String orderNo, String traceNo){
+        try {
+            ComponentName component = new ComponentName("com.newland.caishen", "com.newland.caishen.ui.activity.MainActivity");
+            final Intent intent = new Intent();
+            intent.setComponent(component);
+            Bundle bundle = new Bundle();
+            bundle.putString("msg_tp", "0200");
+            bundle.putString("pay_tp", payTp+"");
+            bundle.putString("proc_tp", "00");
+            bundle.putString("proc_cd", procCd);
+            bundle.putString("amt", amt);
+            bundle.putString("order_no", orderNo);
+            bundle.putString("appid", "com.zfsbs");
+            bundle.putString("time_stamp", "");
+            bundle.putString("print_info", "");
+            bundle.putString("batchbillno", "");
+            bundle.putString("systraceno", traceNo);
+
+            bundle.putString("merid","");
+            bundle.putString("termid","");
+            intent.putExtras(bundle);
+            context.startActivityForResult(intent, 1);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "请安装收单应用", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -19,7 +19,6 @@ import com.zfsbs.adapter.MyShiftRoom;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
-import com.zfsbs.core.action.Printer;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.ShiftRoom;
 import com.zfsbs.model.ShiftRoomSave;
@@ -317,7 +316,7 @@ public class ShiftRoomShowActivity extends BaseActivity implements View.OnClickL
                     saveShiftRoom(shiftRoom, start_time, end_time);
                 }
 
-                Printer.printShiftRoom(shiftRoom, start_time, end_time, type);
+//                Printer.printShiftRoom(shiftRoom, start_time, end_time, type);
                 break;
             case R.id.id_get:
                 getShiftRoom();
@@ -417,7 +416,7 @@ public class ShiftRoomShowActivity extends BaseActivity implements View.OnClickL
                 if (type == Constants.PRINTER_SHIFT_ROOM){
                     saveShiftRoom(shiftRoom, start_time, end_time);
                 }
-                Printer.printShiftRoom(shiftRoom, start_time, end_time, type);
+//                Printer.printShiftRoom(shiftRoom, start_time, end_time, type);
             }
 
             @Override

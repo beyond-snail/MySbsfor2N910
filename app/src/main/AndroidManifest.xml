@@ -156,7 +156,6 @@
         <activity android:name=".activity.ShiftRoomShowActivity" />
         <activity android:name=".activity.ShiftRoomRecordActivity" />
         <activity android:name=".activity.ShiftRoomShowitemActivity" />
-        <activity android:name=".activity.LDMainActivity" />
         <activity android:name=".activity.test.TestPopActivity" />
 
         <service
@@ -175,7 +174,6 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".activity.hd.HdRegisterActivity" />
 
         <receiver
             android:name=".service.LoginReceiver"

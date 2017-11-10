@@ -13,8 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.mycommonlib.core.PayCommon;
-import com.mycommonlib.model.ComTransInfo;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.NetUtils;
 import com.tool.utils.utils.SPUtils;
@@ -24,7 +22,6 @@ import com.zfsbs.R;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.action.LoginAction;
 import com.zfsbs.core.myinterface.UiAction;
-import com.zfsbs.myapplication.MyApplication;
 
 
 public class GetLoginInfoActivity extends BaseActivity implements OnClickListener, OnTouchListener {
@@ -66,7 +63,6 @@ public class GetLoginInfoActivity extends BaseActivity implements OnClickListene
             @Override
             public void UiAction(Activity context, Class<?> cls, boolean flag) {
                 LogUtils.e("UiAction02");
-                setPayParam(GetLoginInfoActivity.this);
 
             }
         });
@@ -74,29 +70,7 @@ public class GetLoginInfoActivity extends BaseActivity implements OnClickListene
         loginAction.loginAction();
     }
 
-    /**
-     * 设置参数
-     */
-    private void setPayParam(Context context) {
-        int keyIndex = MyApplication.getInstance().getLoginData().getKeyIndex();
-        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-        PayCommon.setParams(context, keyIndex, mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
-                if (!MyApplication.getInstance().getLoginData().isDownMasterKey()) {
-                    DownMasterKey();
-                } else {
-                    payLogin();
-                }
-            }
 
-            @Override
-            public void failed(String error) {
-                finish();
-            }
-        });
-    }
 
 
     @Override
@@ -121,25 +95,6 @@ public class GetLoginInfoActivity extends BaseActivity implements OnClickListene
             }
             if (StringUtils.isEquals(pass, edPassWord.getText().toString())) {
                 getInfo();
-//                if (MyApplication.getInstance().getLoginData().isDownMasterKey()) {
-//                    String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-//                    String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-//                    PayCommon.settle(this, mid, tid, new PayCommon.ComTransResult<ComSettleInfo>() {
-//                        @Override
-//                        public void success(ComSettleInfo transInfo) {
-//                            getInfo();
-//                        }
-//
-//                        @Override
-//                        public void failed(String error) {
-//
-//                        }
-//                    });
-//
-//
-//                } else {
-//                    getInfo();
-//                }
             } else {
                 ToastUtils.CustomShow(this, "密码错误");
                 getFocus();

@@ -127,7 +127,7 @@ public class ZfQbAction {
         paramsMap.put("qrCode", qrCode);
         paramsMap.put("cardNo", cardNo);
         paramsMap.put("MerchantId", sid);
-        paramsMap.put("TerminalNo", StringUtils.getSerial());
+        paramsMap.put("TerminalNo", CommonFunc.getSerialNo(mContext));
         paramsMap.put("OrgOrderNum", orderNo);
         paramsMap.put("OrgTranDateTime", time);
         paramsMap.put("SysTraceNum", traceNum);
@@ -245,7 +245,7 @@ public class ZfQbAction {
         Map<String, Object> paramsMap = new HashMap<String, Object>();
 
         paramsMap.put("MerchantId", sid);
-        paramsMap.put("TerminalNo", StringUtils.getSerial());
+        paramsMap.put("TerminalNo", CommonFunc.getSerialNo(context));
         paramsMap.put("OrgOrderNum", orderNo);
         paramsMap.put("OrgTranDateTime", time);
         paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));

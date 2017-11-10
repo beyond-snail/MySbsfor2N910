@@ -13,11 +13,8 @@ import android.widget.AdapterView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.hd.core.HdAction;
-import com.hd.model.HdAdjustScoreResponse;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.dialog.LoadingDialog;
-import com.tool.utils.dialog.SignDialog;
 import com.tool.utils.utils.ALog;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
@@ -31,8 +28,6 @@ import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.config.EnumConstsSbs;
 import com.zfsbs.core.action.FyBat;
-import com.zfsbs.core.action.Printer;
-import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.ChargeBlance;
 import com.zfsbs.model.Couponsn;
@@ -44,7 +39,6 @@ import com.zfsbs.model.FyQueryResponse;
 import com.zfsbs.model.FyRefundResponse;
 import com.zfsbs.model.Menu;
 import com.zfsbs.model.RechargeUpLoad;
-import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
@@ -79,12 +73,6 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 
 	private void initView() {
 
-//		linearLayout(R.id.id_ll_login).setOnClickListener(this);
-//		linearLayout(R.id.id_ll_pay_info).setOnClickListener(this);
-//		linearLayout(R.id.id_ll_bj).setOnClickListener(this);
-//		linearLayout(R.id.id_ll_sm_end_query).setOnClickListener(this);
-//		linearLayout(R.id.id_ll_change_master_pass).setOnClickListener(this);
-//		linearLayout(R.id.id_ll_sale_manager).setOnClickListener(this);
 
 		for (int i = 0; i < EnumConstsSbs.SystemMenuType.values().length; i++){
 			Menu menu = new Menu();
@@ -122,37 +110,20 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 						CommonFunc.startAction(SysMainActivity.this, MasterChangePass.class, false);
 						break;
 					case 6:
-						CommonFunc.startAction(SysMainActivity.this, HsSaleManagerActivity.class, false);
+//						CommonFunc.startAction(SysMainActivity.this, HsSaleManagerActivity.class, false);
 						break;
 					case 3:
 						SPUtils.put(SysMainActivity.this, Config.APP_TYPE, Config.APP_SBS);
-						if (isCheckStatus()) {
-							CommonFunc.startAction(SysMainActivity.this, InputAmountActivity2.class, false);
-						} else {
-							CommonFunc.startAction(SysMainActivity.this, HsSaleManagerActivity.class, false);
-						}
+
+						CommonFunc.startAction(SysMainActivity.this, InputAmountActivity2.class, false);
+
 						break;
 				}
 			}
 		});
 	}
 
-	private boolean isCheckStatus() {
 
-		if (!MyApplication.getInstance().getLoginData().isDownMasterKey()) {
-//            DownMasterKey();
-			ToastUtils.CustomShow(this, "请下载主密钥。。。");
-			return false;
-		}
-
-		if (CommonFunc.isLogin(this, Constants.HS_LOGIN_TIME, Constants.DEFAULT_HS_LOGIN_TIME)) {
-//            Hslogin();
-			ToastUtils.CustomShow(this, "请签到。。。");
-			return false;
-		}
-
-		return true;
-	}
 
 
 	@Override
@@ -255,12 +226,8 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 			public void onSuccess(TransUploadResponse data) {
 
 				FailureData failureData = CommonFunc.recoveryFailureInfo(SysMainActivity.this);
-//				//流水上送
-//				setQbPay1(data, failureData.getOrderNo(),
-//						failureData.getTime(), failureData.getTraceNum(), failureData.getCardNo());
 
 				setStkPay(failureData.getOrderNo(), failureData.getTime(), failureData.getTraceNum(), failureData.getPay_type());
-//                setStkRequestData(request);
 				final LoadingDialog dialog = new LoadingDialog(mContext);
 				dialog.show("正在查询...");
 				dialog.setCancelable(false);
@@ -430,7 +397,7 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 		}
 
 		if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_SBS) {
-			TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
+			TransUploadRequest request = CommonFunc.setTransUploadData(mContext, printerData, CommonFunc.recoveryMemberInfo(this),
 					data.getOutOrderNum(), printerData.getTransNo(), printerData.getAuthCode()
 			);
 			printerData.setClientOrderNo(data.getOutOrderNum());
@@ -467,7 +434,7 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 		}
 
 		if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_SBS) {
-			TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
+			TransUploadRequest request = CommonFunc.setTransUploadData(mContext, printerData, CommonFunc.recoveryMemberInfo(this),
 					data.getOutOrderNum(), printerData.getTransNo(), printerData.getAuthCode()
 			);
 			printerData.setClientOrderNo(data.getOutOrderNum());
@@ -476,57 +443,13 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 
 	}
 
-	/**
-	 * 设置钱包参数
-	 *
-	 * @param orderNo
-	 * @param time
-	 * @param traceNum
-	 */
-//	private void setQbPay1(ZfQbResponse data, String orderNo, String time, String traceNum, String cardNo) {
-//		printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
-//		printerData.setMerchantNo(data.getGroupId());
-//		printerData.setTerminalId(StringUtils.getSerial());
-//		printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
-//		printerData.setCardNo(cardNo);
-//		printerData.setDateTime(time);
-//		printerData.setClientOrderNo(orderNo);
-//		printerData.setTransNo(traceNum);
-//		printerData.setAuthCode(data.getSystemOrderNo());
-//		printerData.setDateTime(StringUtils.formatTime(time));
-//		printerData.setOrderAmount(CommonFunc.recoveryMemberInfo(this).getTradeMoney());
-//		printerData.setAmount(StringUtils.formatIntMoney(CommonFunc.recoveryMemberInfo(this).getRealMoney()));
-//		printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-//		printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
-//		printerData.setPayType(Constants.PAY_WAY_QB);
-//
-//		if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_SBS) {
-//			TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-//					CommonFunc.getNewClientSn(), printerData.getTransNo(), printerData.getAuthCode()
-//			);
-//			//这个地方保持和支付的时候一直
-//			request.setClientOrderNo(orderNo);
-//			if (StringUtils.isEmpty(request.getCardNo())){
-//				request.setCardNo(cardNo);
-//			}
-//			transUploadAction1(request);
-//		} else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_HD) {
-//			TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-//					CommonFunc.getNewClientSn(), printerData.getTransNo(), printerData.getAuthCode()
-//			);
-//			//这个地方保持和支付的时候一直
-//			request.setClientOrderNo(orderNo);
-//			transUploadAction2(request);
-//		}
-//
-//
-//	}
+
 
 
 	private void setStkPay(String orderNo, String time, String traceNum, int pay_type) {
 		printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
 		printerData.setMerchantNo("");
-		printerData.setTerminalId(StringUtils.getSerial());
+		printerData.setTerminalId(CommonFunc.getSerialNo(mContext));
 		printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
 		printerData.setDateTime(time);
 		printerData.setClientOrderNo(orderNo);
@@ -537,15 +460,6 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 		printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
 		printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
 		printerData.setPayType(pay_type);
-
-
-//        TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-//                orderNo, printerData.getTransNo(), printerData.getAuthCode()
-//        );
-//        //这个地方保持和支付的时候一直
-//        request.setClientOrderNo(orderNo);
-//        request.setPassword(psw);
-//        transUploadAction1(request);
 
 
 	}
@@ -694,7 +608,7 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 				// 保存打印的数据，不保存图片数据
 				PrinterDataSave();
 				// 打印
-				Printer.print(printerData, SysMainActivity.this);
+//				Printer.print(printerData, SysMainActivity.this);
 			}
 
 			@Override
@@ -715,154 +629,6 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 		});
 	}
 
-	/**
-	 * 流水上送
-	 *
-	 * @param request
-	 */
-	private void transUploadAction2(final TransUploadRequest request) {
-		final LoadingDialog dialog = new LoadingDialog(this);
-		dialog.show("正在计算积分...");
-		dialog.setCancelable(false);
-		this.sbsAction.transUpload(this, request, new ActionCallbackListener<TransUploadResponse>() {
-			@Override
-			public void onSuccess(TransUploadResponse data) {
-				dialog.dismiss();
-				setTransUpLoadData(request);
-				printerData.setApp_type(CommonFunc.recoveryFailureInfo(SysMainActivity.this).getApp_type());
-				printerData.setPoint(data.getPoint());
-				printerData.setPhoneNo(request.getPhone());
-				// 上送积分
-				HdAction.HdAdjustScore(SysMainActivity.this, request.getPhone(), data.getPoint(), new HdAction.HdCallResult() {
-					@Override
-					public void onSuccess(String data) {
-
-						HdAdjustScoreResponse response = new Gson().fromJson(data, HdAdjustScoreResponse.class);
-
-						//保存流水号和总积分
-						printerData.setPointCurrent(Integer.parseInt(response.getResult().getScoreTotal()));
-						printerData.setFlowNo(response.getResult().getFlowNo());
-
-						// 保存打印的数据，不保存图片数据
-						PrinterDataSave();
-						// 打印
-						Printer.print(printerData, SysMainActivity.this);
-					}
-
-					@Override
-					public void onFailed(String errorCode, String message) {
-						ToastUtils.CustomShow(SysMainActivity.this, errorCode + "#" + message);
-						// 保存打印的数据，不保存图片数据
-						PrinterDataSave();
-						// 打印
-						Printer.print(printerData, SysMainActivity.this);
-					}
-				});
-			}
-
-			@Override
-			public void onFailure(String errorEvent, String message) {
-				dialog.dismiss();
-				ToastUtils.CustomShow(SysMainActivity.this, errorEvent + "#" + message);
-
-
-				setTransUpLoadData(request);
-				// 设置当前交易流水需要上送
-				printerData.setUploadFlag(true);
-				printerData.setApp_type(CommonFunc.recoveryFailureInfo(SysMainActivity.this).getApp_type());
-				// 保存打印的数据，不保存图片数据
-				PrinterDataSave();
-				// 打印
-				Printer.print(printerData, SysMainActivity.this);
-			}
-
-			@Override
-			public void onFailurTimeOut(String s, String error_msg) {
-
-			}
-
-			@Override
-			public void onLogin() {
-				dialog.dismiss();
-				AppManager.getAppManager().finishAllActivity();
-				if (Config.OPERATOR_UI_BEFORE) {
-					CommonFunc.startAction(SysMainActivity.this, OperatorLoginActivity.class, false);
-				} else {
-					CommonFunc.startAction(SysMainActivity.this, OperatorLoginActivity1.class, false);
-				}
-			}
-		});
-	}
-
-
-	private void Richer_transUploadAction(final TransUploadRequest request) {
-		final LoadingDialog dialog = new LoadingDialog(this);
-		dialog.show("正在上传交易流水...");
-		dialog.setCancelable(false);
-
-		RicherQb.UploadTransInfo(SysMainActivity.this, request, new ActionCallbackListener<RicherGetMember>() {
-			@Override
-			public void onSuccess(RicherGetMember data) {
-				dialog.dismiss();
-				setTransUpLoadData(request);
-				// 设置流水返回的数据
-//                setTransUpdateResponse(data, dialog, true);
-				// 设置当前交易流水需要上送
-				printerData.setUploadFlag(false);
-
-				if (Config.isSign){
-					final SignDialog dialog = new SignDialog(SysMainActivity.this, new SignDialog.OnClickInterface() {
-						@Override
-						public void onClickSure(Bitmap bitmap) {
-							printerData.setSign_bitmap(bitmap);
-							PrinterDataSave();
-							// 打印
-							Printer.print(printerData, SysMainActivity.this);
-						}
-
-					});
-					dialog.setCancelable(false);
-					dialog.show();
-				}else {
-
-					PrinterDataSave();
-					// 打印
-					Printer.print(printerData, SysMainActivity.this);
-				}
-			}
-
-
-			@Override
-			public void onFailure(String errorEvent, String message) {
-				dialog.dismiss();
-				ToastUtils.CustomShow(SysMainActivity.this, errorEvent + "#" + message);
-
-
-				setTransUpLoadData(request);
-				// 设置当前交易流水需要上送
-				printerData.setUploadFlag(true);
-				// 保存打印的数据，不保存图片数据
-				PrinterDataSave();
-				// 打印
-				Printer.print(printerData, SysMainActivity.this);
-			}
-
-			@Override
-			public void onLogin() {
-				AppManager.getAppManager().finishAllActivity();
-				if (Config.OPERATOR_UI_BEFORE) {
-					CommonFunc.startAction(SysMainActivity.this, OperatorLoginActivity.class, false);
-				} else {
-					CommonFunc.startAction(SysMainActivity.this, OperatorLoginActivity1.class, false);
-				}
-			}
-
-			@Override
-			public void onFailurTimeOut(String s, String error_msg) {
-
-			}
-		});
-	}
 
 
 	private void setTransUpLoadData(TransUploadRequest request) {
@@ -883,7 +649,7 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 
 
 			// 打印
-			Printer.print(printerData, SysMainActivity.this);
+//			Printer.print(printerData, SysMainActivity.this);
 
 		}
 
@@ -902,9 +668,6 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 		printerData.setPoint(data.getPoint());
 		printerData.setPointCurrent(data.getPointCurrent());
 		setCounponData(data.getCoupon());
-//        printerData.setCoupon(data.getCoupon());
-//        printerData.setTitle_url(data.getTitle_url());
-//        printerData.setMoney(data.getMoney());
 		printerData.setBackAmt(data.getBackAmt());
 		printerData.setApp_type(CommonFunc.recoveryFailureInfo(this).getApp_type());
 		if (flag) {
@@ -1002,7 +765,7 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 
 
 				// 打印
-				Printer.getInstance(mContext).print(printerData, mContext);
+//				Printer.getInstance(mContext).print(printerData, mContext);
 			}
 
 			@Override
@@ -1015,7 +778,7 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 				// 保存打印的数据，不保存图片数据
 				PrinterDataSave();
 				// 打印
-				Printer.print(printerData, SysMainActivity.this);
+//				Printer.print(printerData, SysMainActivity.this);
 			}
 
 			@Override

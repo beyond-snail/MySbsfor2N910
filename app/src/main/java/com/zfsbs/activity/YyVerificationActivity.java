@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hd.enums.EnumConsts;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.yzq.testzxing.zxing.android.CaptureActivity;
@@ -15,7 +14,6 @@ import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.EnumConstsSbs;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
-import com.zfsbs.model.TicektResponse;
 import com.zfsbs.model.YyTicektResponse;
 import com.zfsbs.myapplication.MyApplication;
 

@@ -182,7 +182,7 @@ public class SbsAction {
         paramsMap.put("mobile", mobile);
         paramsMap.put("tradeMoney", tradeMoney);
         paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));
-        paramsMap.put("serialNum", StringUtils.getSerial());
+        paramsMap.put("serialNum", CommonFunc.getSerialNo(context));
         paramsMap.put("icCardNo", icCardNo);
 
 

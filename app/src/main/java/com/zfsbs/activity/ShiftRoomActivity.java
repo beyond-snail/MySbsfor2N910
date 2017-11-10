@@ -126,17 +126,6 @@ public class ShiftRoomActivity extends BaseActivity {
             public void onSuccess(final ShiftRoom data) {
                 LogUtils.e("onSuccess"+data.toString());
 
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putSerializable("ShiftRoom", data);
-//                        bundle.putLong("start_time", start_time);
-//                        bundle.putLong("end_time", end_time);
-//                        bundle.putInt("type", Constants.PRINTER_SHIFT_ROOM_DAY);
-//                        startAction(ShiftRoomActivity.this, ShiftRoomShowActivity.class, bundle, false);
-//                    }
-//                });
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("ShiftRoom", data);

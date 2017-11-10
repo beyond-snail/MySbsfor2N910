@@ -75,7 +75,7 @@ public class SystemManageActivity extends BaseActivity implements OnClickListene
 
 		txtMenchantName
 				.setText((String) SPUtils.get(SystemManageActivity.this, Constants.MERCHANT_NAME, Constants.DEFALULT_MERCHANT_NAME));
-		txtKsnNo.setText(StringUtils.getSerial());
+		txtKsnNo.setText(CommonFunc.getSerialNo(mContext));
 
 		txtUnMemberAuthCode.setText(
 				(String) SPUtils.get(SystemManageActivity.this, Constants.HS_AUTH1, Constants.DEFAULT_HS_AUTH1));

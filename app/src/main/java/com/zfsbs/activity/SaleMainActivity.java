@@ -15,10 +15,6 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.hd.core.HdAction;
-import com.hd.model.HdAdjustScoreResponse;
-import com.mycommonlib.core.PayCommon;
-import com.mycommonlib.model.ComTransInfo;
 import com.myokhttp.MyOkHttp;
 import com.myokhttp.response.JsonResponseHandler;
 import com.tool.utils.activityManager.AppManager;
@@ -37,7 +33,6 @@ import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.config.EnumConstsSbs;
 import com.zfsbs.core.action.FyBat;
-import com.zfsbs.core.action.Printer;
 import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.Couponsn;
@@ -64,33 +59,33 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
-public class SaleMainActivity extends BaseActivity implements OnClickListener {
+public class SaleMainActivity extends BaseActivity{
 
 
     private String TAG = "SaleMainActivity";
 
-    private RelativeLayout btnSale;
-    private RelativeLayout btnyxfSale;
-    private RelativeLayout btnyxfSaleManager;
-    private RelativeLayout btnhd;
-
-    private RelativeLayout btnRecord;
-    private RelativeLayout btnSaleManager;
-    private RelativeLayout btnSaleInfo;
-    private RelativeLayout btnGetInfo;
-    private RelativeLayout btnChangePass;
-    private RelativeLayout btnEndQuery;
-    private RelativeLayout btnShitRoom;
-    private RelativeLayout btnRicher_e_qb;
-    private RelativeLayout btnVerification;
-
-    private LinearLayout ll1;
-    private LinearLayout ll2;
-    private LinearLayout ll3;
-    private LinearLayout ll4;
-    private LinearLayout ll5;
-    private LinearLayout ll6;
-    private LinearLayout ll7;
+//    private RelativeLayout btnSale;
+//    private RelativeLayout btnyxfSale;
+//    private RelativeLayout btnyxfSaleManager;
+//    private RelativeLayout btnhd;
+//
+//    private RelativeLayout btnRecord;
+//    private RelativeLayout btnSaleManager;
+//    private RelativeLayout btnSaleInfo;
+//    private RelativeLayout btnGetInfo;
+//    private RelativeLayout btnChangePass;
+//    private RelativeLayout btnEndQuery;
+//    private RelativeLayout btnShitRoom;
+//    private RelativeLayout btnRicher_e_qb;
+//    private RelativeLayout btnVerification;
+//
+//    private LinearLayout ll1;
+//    private LinearLayout ll2;
+//    private LinearLayout ll3;
+//    private LinearLayout ll4;
+//    private LinearLayout ll5;
+//    private LinearLayout ll6;
+//    private LinearLayout ll7;
 
 
     private List<View> views = null;
@@ -116,19 +111,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 //        addLinstener();
 
         initData();
-        if (Config.isLianDong == true) {
-            PayCommon.bindService(SaleMainActivity.this, new PayCommon.ComTransResult<ComTransInfo>() {
-                @Override
-                public void success(ComTransInfo transInfo) {
-                    setPayParam();
-                }
 
-                @Override
-                public void failed(String error) {
-
-                }
-            });
-        }
 
 
     }
@@ -136,7 +119,6 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 
     @Override
     protected void onDestroy() {
-        PayCommon.unBindService(SaleMainActivity.this);
         super.onDestroy();
     }
 
@@ -153,91 +135,13 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 //        }
     }
 
-    /**
-     * 设置参数
-     */
-    private void setPayParam() {
-        // 设置参数
-        int keyIndex = MyApplication.getInstance().getLoginData().getKeyIndex();
-        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-        PayCommon.setParams(this, keyIndex, mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
 
-            }
-
-            @Override
-            public void failed(String error) {
-
-            }
-        });
-    }
 
 
 
 
 
     private void initView() {
-
-        if (Config.isLianDong == false) {
-            setPayParam();
-        }
-
-
-//        mViewPager = (ViewPager) findViewById(R.id.viewpager);
-//        viewPoints = (LinearLayout) findViewById(R.id.dots_parent);
-////
-//        views = new ArrayList<View>();
-//        View view1 = null, view2 = null;
-//
-//        if (Config.APP_UI == Config.APP_SBS_UI_SBS) {
-
-//        view1 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main, null);
-//        view2 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main2, null);
-//
-//        views.add(view1);
-//        views.add(view2);
-
-//            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
-//            btnRecord = (RelativeLayout) view1.findViewById(R.id.id_ll_record);
-//            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
-//            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
-//            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
-//            btnEndQuery = (RelativeLayout) view1.findViewById(R.id.id_ll_end_query);
-
-//            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
-//            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
-//            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
-//            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
-//            btnVerification = (RelativeLayout) view2.findViewById(R.id.id_ll_id_sn_verification);
-
-//
-//            btnyxfSale.setVisibility(View.INVISIBLE);
-//            btnyxfSaleManager.setVisibility(View.INVISIBLE);
-//        ll1 = (LinearLayout) view1.findViewById(R.id.id_ll_sale);
-//        ll1.setOnClickListener(this);
-//        ll2 = (LinearLayout) view1.findViewById(R.id.id_ll_record);
-//        ll2.setOnClickListener(this);
-//        ll3 = (LinearLayout) view1.findViewById(R.id.id_ll_member_recharge);
-//        ll3.setOnClickListener(this);
-//        ll4 = (LinearLayout) view1.findViewById(R.id.id_ll_open_card);
-//        ll4.setOnClickListener(this);
-//        ll5 = (LinearLayout) view1.findViewById(R.id.id_ll_id_sn_verification);
-//        ll5.setOnClickListener(this);
-//        ll6 = (LinearLayout) view1.findViewById(R.id.id_ll_change_pass);
-//        ll6.setOnClickListener(this);
-//        ll7 = (LinearLayout) view2.findViewById(R.id.id_ll_system_setting);
-//        ll7.setOnClickListener(this);
-
-
-//        linearLayout(R.id.id_ll_sale).setOnClickListener(this);
-//        linearLayout(R.id.id_ll_record).setOnClickListener(this);
-//        linearLayout(R.id.id_ll_member_recharge).setOnClickListener(this);
-//        linearLayout(R.id.id_ll_open_card).setOnClickListener(this);
-//        linearLayout(R.id.id_ll_id_sn_verification).setOnClickListener(this);
-//        linearLayout(R.id.id_ll_system_setting).setOnClickListener(this);
-
 
 
         for (int i = 0; i < EnumConstsSbs.MenuType.values().length; i++){
@@ -262,11 +166,9 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                 switch (index){
                     case 1:
                         SPUtils.put(SaleMainActivity.this, Config.APP_TYPE, Config.APP_SBS);
-                        if (isCheckStatus()) {
-                            CommonFunc.startAction(SaleMainActivity.this, InputAmountActivity.class, false);
-                        } else {
-                            CommonFunc.startAction(SaleMainActivity.this, HsSaleManagerActivity.class, false);
-                        }
+
+                        CommonFunc.startAction(SaleMainActivity.this, InputAmountActivity.class, false);
+
                         break;
                     case 2:
                         CommonFunc.startAction(SaleMainActivity.this, RecordInfoActivity.class, false);
@@ -281,10 +183,6 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                         CommonFunc.startAction(SaleMainActivity.this, VerificationActivity.class, false);
 //                        CommonFunc.startAction(SaleMainActivity.this, TestPopActivity.class, false);
 
-
-
-
-
                         break;
                     case 6:
                         CommonFunc.startAction(SaleMainActivity.this, SysMainActivity.class, false);
@@ -293,166 +191,40 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
             }
         });
 
-
-//        } else if (Config.APP_UI == Config.APP_SBS_UI_RICHER_E) {
-//            view1 = LayoutInflater.from(this).inflate(R.layout.richer_main_first_layout, null);
-//            view2 = LayoutInflater.from(this).inflate(R.layout.richer_main_second_layout, null);
-//            views.add(view1);
-//            views.add(view2);
-//
-//            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
-//            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
-//            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
-//            btnRecord = (RelativeLayout) view1.findViewById(R.id.id_ll_record);
-//            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
-//            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
-//            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
-//            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
-//
-//            btnEndQuery = (RelativeLayout) view2.findViewById(R.id.id_ll_end_query);
-//            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
-//
-//            btnRicher_e_qb = (RelativeLayout) view1.findViewById(R.id.id_ll_richer_e_qb);
-//
-//
-//            btnyxfSale.setVisibility(View.INVISIBLE);
-//            btnyxfSaleManager.setVisibility(View.INVISIBLE);
-//
-//
-//        } else if (Config.APP_UI == Config.APP_SBS_UI_YXF) {
-//            view1 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_yxf, null);
-//            view2 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_yxf1, null);
-//
-//            views.add(view1);
-//            views.add(view2);
-//
-////            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
-//            btnyxfSale = (RelativeLayout) view1.findViewById(R.id.id_ll_yxf_sale);
-//
-//            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
-//            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
-//            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
-//            btnEndQuery = (RelativeLayout) view1.findViewById(R.id.id_ll_end_query);
-//
-//            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
-//            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
-//            btnRecord = (RelativeLayout) view2.findViewById(R.id.id_ll_record);
-//            btnyxfSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_yxf_sale_manager);
-//
-//
-//
-//
-//        }else if (Config.APP_UI == Config.APP_LIANDONG){
-//            view1 = LayoutInflater.from(this).inflate(R.layout.richer_main_first_layout, null);
-//            view2 = LayoutInflater.from(this).inflate(R.layout.richer_main_second_layout, null);
-//            views.add(view1);
-//            views.add(view2);
-//
-//            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
-//            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
-//            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
-//            btnRecord = (RelativeLayout) view1.findViewById(R.id.id_ll_record);
-//            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
-//            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
-//            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
-//            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
-//
-//            btnEndQuery = (RelativeLayout) view2.findViewById(R.id.id_ll_end_query);
-//            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
-//
-//            btnRicher_e_qb = (RelativeLayout) view1.findViewById(R.id.id_ll_richer_e_qb);
-//
-//
-////            btnyxfSale.setVisibility(View.INVISIBLE);
-////            btnyxfSaleManager.setVisibility(View.INVISIBLE);
-//
-//
-//        }else if (Config.APP_UI == Config.APP_SBS_UI_HD) {
-//            view1 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_hd, null);
-//            view2 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_hd1, null);
-//
-//
-//            views.add(view1);
-//            views.add(view2);
-//
-//            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
-//            btnhd = (RelativeLayout) view1.findViewById(R.id.id_ll_hd);
-//            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
-//            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
-//            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
-//            btnEndQuery = (RelativeLayout) view1.findViewById(R.id.id_ll_end_query);
-//
-//            btnRecord = (RelativeLayout) view2.findViewById(R.id.id_ll_record);
-//            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
-//            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
-//            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
-//            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
-//
-//
-//            btnyxfSale.setVisibility(View.INVISIBLE);
-//            btnyxfSaleManager.setVisibility(View.GONE);
-//
-//
-//        }
-//
-//
-//        //注册滑动页面
-//        new ViewPagerHelper(false, mViewPager, views, viewPoints, R.mipmap.page_indicator_focused,
-//                R.mipmap.page_indicator_unfocused);
     }
 
-    private void addLinstener() {
-        if (Config.APP_UI != Config.APP_SBS_UI_YXF) {
-            btnSale.setOnClickListener(this);
-            btnVerification.setOnClickListener(this);
-        }
 
-        btnyxfSale.setOnClickListener(this);
-        btnyxfSaleManager.setOnClickListener(this);
-        btnRecord.setOnClickListener(this);
-        btnSaleManager.setOnClickListener(this);
-        btnSaleInfo.setOnClickListener(this);
-        btnGetInfo.setOnClickListener(this);
-        btnChangePass.setOnClickListener(this);
-        btnEndQuery.setOnClickListener(this);
-        btnShitRoom.setOnClickListener(this);
-        if ((Config.APP_UI == Config.APP_SBS_UI_RICHER_E) || (Config.APP_UI == Config.APP_LIANDONG)) {
-            btnRicher_e_qb.setOnClickListener(this);
-        } else if (Config.APP_UI == Config.APP_SBS_UI_HD) {
-            btnhd.setOnClickListener(this);
-        }
-    }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.id_ll_sale:
-                SPUtils.put(this, Config.APP_TYPE, Config.APP_SBS);
-                if (isCheckStatus()) {
-                    CommonFunc.startAction(this, InputAmountActivity.class, false);
-                } else {
-                    CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
-                }
-                break;
-            case R.id.id_ll_record:
-                CommonFunc.startAction(this, RecordInfoActivity.class, false);
-                break;
-            case R.id.id_ll_member_recharge:
-                CommonFunc.startAction(this, CheckOperatorLoginActivity.class, false);
-                break;
-            case R.id.id_ll_open_card:
-                CommonFunc.startAction(this, OpenCardActivity.class, false);
-                break;
-            case R.id.id_ll_system_setting:
-                CommonFunc.startAction(this, SysMainActivity.class, false);
-                break;
-//            case R.id.id_ll_change_pass:
-//                CommonFunc.startAction(this, CardChangeActivity.class, false);
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.id_ll_sale:
+//                SPUtils.put(this, Config.APP_TYPE, Config.APP_SBS);
+//                if (isCheckStatus()) {
+//                    CommonFunc.startAction(this, InputAmountActivity.class, false);
+//                } else {
+//                    CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
+//                }
 //                break;
-            case R.id.id_ll_id_sn_verification:
-                CommonFunc.startAction(this, VerificationActivity.class, false);
-                break;
-        }
+//            case R.id.id_ll_record:
+//                CommonFunc.startAction(this, RecordInfoActivity.class, false);
+//                break;
+//            case R.id.id_ll_member_recharge:
+//                CommonFunc.startAction(this, CheckOperatorLoginActivity.class, false);
+//                break;
+//            case R.id.id_ll_open_card:
+//                CommonFunc.startAction(this, OpenCardActivity.class, false);
+//                break;
+//            case R.id.id_ll_system_setting:
+//                CommonFunc.startAction(this, SysMainActivity.class, false);
+//                break;
+////            case R.id.id_ll_change_pass:
+////                CommonFunc.startAction(this, CardChangeActivity.class, false);
+////                break;
+//            case R.id.id_ll_id_sn_verification:
+//                CommonFunc.startAction(this, VerificationActivity.class, false);
+//                break;
+//        }
 
 //            case R.id.id_ll_sale:
 //                SPUtils.put(this, Config.APP_TYPE, Config.APP_SBS);
@@ -544,7 +316,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 //            default:
 //                break;
 //        }
-    }
+//    }
 
 
 //    //获取当前是否存在会员密钥
@@ -637,44 +409,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 //        }
 //    }
 
-    /**
-     * 钱包末笔查询
-     */
-//    private void ZfQbQuery() {
-//
-//        printerData = new SbsPrinterData();
-//
-//        CommonFunc.ZfQbFailQuery(this, new ActionCallbackListener<ZfQbResponse>() {
-//            @Override
-//            public void onSuccess(ZfQbResponse data) {
-//
-//                FailureData failureData = CommonFunc.recoveryFailureInfo(SaleMainActivity.this);
-//                //流水上送
-//                setQbPay1(data, failureData.getOrderNo(),
-//                        failureData.getTime(), failureData.getTraceNum(), failureData.getCardNo());
-//            }
-//
-//            @Override
-//            public void onFailure(String errorEvent, String message) {
-//                ToastUtils.CustomShow(SaleMainActivity.this, errorEvent + "#" + message);
-//            }
-//
-//            @Override
-//            public void onFailurTimeOut(String s, String error_msg) {
-//                ToastUtils.CustomShow(SaleMainActivity.this, s + "#" + error_msg);
-//            }
-//
-//            @Override
-//            public void onLogin() {
-//                AppManager.getAppManager().finishAllActivity();
-//                if (Config.OPERATOR_UI_BEFORE) {
-//                    CommonFunc.startAction(SaleMainActivity.this, OperatorLoginActivity.class, false);
-//                } else {
-//                    CommonFunc.startAction(SaleMainActivity.this, OperatorLoginActivity1.class, false);
-//                }
-//            }
-//        });
-//    }
+
 
 
     private FyBat.FYPayResultEvent listener1 = new FyBat.FYPayResultEvent() {
@@ -768,35 +503,11 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
         }
 
         if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_SBS) {
-            TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
+            TransUploadRequest request = CommonFunc.setTransUploadData(mContext, printerData, CommonFunc.recoveryMemberInfo(this),
                     data.getOutOrderNum(), printerData.getTransNo(), printerData.getAuthCode()
             );
             printerData.setClientOrderNo(data.getOutOrderNum());
             transUploadAction1(request);
-        } else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_YXF) {
-            if (!StringUtils.isEmpty(CommonFunc.recoveryMemberInfo(SaleMainActivity.this).getMemberCardNo())) {
-                printerData.setPhoneNo(CommonFunc.recoveryMemberInfo(SaleMainActivity.this).getMemberCardNo());
-                sendYxf(printerData);
-            } else {
-                printerData.setApp_type(Config.APP_YXF);
-                PrinterDataSave();
-                Printer.getInstance(SaleMainActivity.this).print(printerData, SaleMainActivity.this);
-            }
-        } else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_Richer_e) {
-
-        } else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_HD) {
-            if (CommonFunc.recoveryFailureInfo(this).isMember()) {
-                TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                        data.getOutOrderNum(), printerData.getTransNo(), printerData.getAuthCode()
-                );
-                printerData.setClientOrderNo(data.getOutOrderNum());
-                transUploadAction2(request);
-            } else {
-                printerData.setApp_type(Config.APP_HD);
-                printerData.setClientOrderNo(data.getOutOrderNum());
-                PrinterDataSave();
-                Printer.getInstance(SaleMainActivity.this).print(printerData, SaleMainActivity.this);
-            }
         }
 
     }
@@ -827,39 +538,11 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
         }
 
         if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_SBS) {
-            TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
+            TransUploadRequest request = CommonFunc.setTransUploadData(mContext, printerData, CommonFunc.recoveryMemberInfo(this),
                     data.getOutOrderNum(), printerData.getTransNo(), printerData.getAuthCode()
             );
             printerData.setClientOrderNo(data.getOutOrderNum());
             transUploadAction1(request);
-        } else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_YXF) {
-            if (!StringUtils.isEmpty(CommonFunc.recoveryMemberInfo(SaleMainActivity.this).getMemberCardNo())) {
-                printerData.setPhoneNo(CommonFunc.recoveryMemberInfo(SaleMainActivity.this).getMemberCardNo());
-                sendYxf(printerData);
-            } else {
-                printerData.setApp_type(Config.APP_YXF);
-                PrinterDataSave();
-                Printer.getInstance(SaleMainActivity.this).print(printerData, SaleMainActivity.this);
-            }
-        } else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_Richer_e) {
-            TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    data.getOutOrderNum(), printerData.getTransNo(), printerData.getAuthCode()
-            );
-            printerData.setClientOrderNo(data.getOutOrderNum());
-            Richer_transUploadAction(request);
-        } else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_HD) {
-            if (CommonFunc.recoveryFailureInfo(this).isMember()) {
-                TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                        data.getOutOrderNum(), printerData.getTransNo(), printerData.getAuthCode()
-                );
-                printerData.setClientOrderNo(data.getOutOrderNum());
-                transUploadAction2(request);
-            } else {
-                printerData.setApp_type(Config.APP_HD);
-                printerData.setClientOrderNo(data.getOutOrderNum());
-                PrinterDataSave();
-                Printer.getInstance(SaleMainActivity.this).print(printerData, SaleMainActivity.this);
-            }
         }
 
     }
@@ -942,7 +625,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                 // 保存打印的数据，不保存图片数据
                 PrinterDataSave();
                 // 打印
-                Printer.print(printerData, SaleMainActivity.this);
+//                Printer.print(printerData, SaleMainActivity.this);
             }
 
             @Override
@@ -963,154 +646,6 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
         });
     }
 
-    /**
-     * 流水上送
-     *
-     * @param request
-     */
-    private void transUploadAction2(final TransUploadRequest request) {
-        final LoadingDialog dialog = new LoadingDialog(this);
-        dialog.show("正在计算积分...");
-        dialog.setCancelable(false);
-        this.sbsAction.transUpload(this, request, new ActionCallbackListener<TransUploadResponse>() {
-            @Override
-            public void onSuccess(TransUploadResponse data) {
-                dialog.dismiss();
-                setTransUpLoadData(request);
-                printerData.setApp_type(CommonFunc.recoveryFailureInfo(SaleMainActivity.this).getApp_type());
-                printerData.setPoint(data.getPoint());
-                printerData.setPhoneNo(request.getPhone());
-                // 上送积分
-                HdAction.HdAdjustScore(SaleMainActivity.this, request.getPhone(), data.getPoint(), new HdAction.HdCallResult() {
-                    @Override
-                    public void onSuccess(String data) {
-
-                        HdAdjustScoreResponse response = new Gson().fromJson(data, HdAdjustScoreResponse.class);
-
-                        //保存流水号和总积分
-                        printerData.setPointCurrent(Integer.parseInt(response.getResult().getScoreTotal()));
-                        printerData.setFlowNo(response.getResult().getFlowNo());
-
-                        // 保存打印的数据，不保存图片数据
-                        PrinterDataSave();
-                        // 打印
-                        Printer.print(printerData, SaleMainActivity.this);
-                    }
-
-                    @Override
-                    public void onFailed(String errorCode, String message) {
-                        ToastUtils.CustomShow(SaleMainActivity.this, errorCode + "#" + message);
-                        // 保存打印的数据，不保存图片数据
-                        PrinterDataSave();
-                        // 打印
-                        Printer.print(printerData, SaleMainActivity.this);
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(String errorEvent, String message) {
-                dialog.dismiss();
-                ToastUtils.CustomShow(SaleMainActivity.this, errorEvent + "#" + message);
-
-
-                setTransUpLoadData(request);
-                // 设置当前交易流水需要上送
-                printerData.setUploadFlag(true);
-                printerData.setApp_type(CommonFunc.recoveryFailureInfo(SaleMainActivity.this).getApp_type());
-                // 保存打印的数据，不保存图片数据
-                PrinterDataSave();
-                // 打印
-                Printer.print(printerData, SaleMainActivity.this);
-            }
-
-            @Override
-            public void onFailurTimeOut(String s, String error_msg) {
-
-            }
-
-            @Override
-            public void onLogin() {
-                dialog.dismiss();
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(SaleMainActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(SaleMainActivity.this, OperatorLoginActivity1.class, false);
-                }
-            }
-        });
-    }
-
-
-    private void Richer_transUploadAction(final TransUploadRequest request) {
-        final LoadingDialog dialog = new LoadingDialog(this);
-        dialog.show("正在上传交易流水...");
-        dialog.setCancelable(false);
-
-        RicherQb.UploadTransInfo(SaleMainActivity.this, request, new ActionCallbackListener<RicherGetMember>() {
-            @Override
-            public void onSuccess(RicherGetMember data) {
-                dialog.dismiss();
-                setTransUpLoadData(request);
-                // 设置流水返回的数据
-//                setTransUpdateResponse(data, dialog, true);
-                // 设置当前交易流水需要上送
-                printerData.setUploadFlag(false);
-
-                if (Config.isSign) {
-                    final SignDialog dialog = new SignDialog(SaleMainActivity.this, new SignDialog.OnClickInterface() {
-                        @Override
-                        public void onClickSure(Bitmap bitmap) {
-                            printerData.setSign_bitmap(bitmap);
-                            PrinterDataSave();
-                            // 打印
-                            Printer.print(printerData, SaleMainActivity.this);
-                        }
-
-                    });
-                    dialog.setCancelable(false);
-                    dialog.show();
-                } else {
-
-                    PrinterDataSave();
-                    // 打印
-                    Printer.print(printerData, SaleMainActivity.this);
-                }
-            }
-
-
-            @Override
-            public void onFailure(String errorEvent, String message) {
-                dialog.dismiss();
-                ToastUtils.CustomShow(SaleMainActivity.this, errorEvent + "#" + message);
-
-
-                setTransUpLoadData(request);
-                // 设置当前交易流水需要上送
-                printerData.setUploadFlag(true);
-                // 保存打印的数据，不保存图片数据
-                PrinterDataSave();
-                // 打印
-                Printer.print(printerData, SaleMainActivity.this);
-            }
-
-            @Override
-            public void onLogin() {
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(SaleMainActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(SaleMainActivity.this, OperatorLoginActivity1.class, false);
-                }
-            }
-
-            @Override
-            public void onFailurTimeOut(String s, String error_msg) {
-
-            }
-        });
-    }
 
 
     private void setTransUpLoadData(TransUploadRequest request) {
@@ -1131,7 +666,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 
 
             // 打印
-            Printer.print(printerData, SaleMainActivity.this);
+//            Printer.print(printerData, SaleMainActivity.this);
 
         }
 
@@ -1150,9 +685,6 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
         printerData.setPoint(data.getPoint());
         printerData.setPointCurrent(data.getPointCurrent());
         setCounponData(data.getCoupon());
-//        printerData.setCoupon(data.getCoupon());
-//        printerData.setTitle_url(data.getTitle_url());
-//        printerData.setMoney(data.getMoney());
         printerData.setBackAmt(data.getBackAmt());
         printerData.setApp_type(CommonFunc.recoveryFailureInfo(this).getApp_type());
         if (flag) {
@@ -1166,220 +698,11 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 
                 Bitmap point_bitmap = Constants.ImageLoad(data.getPoint_url());
                 Bitmap title_bitmap = Constants.ImageLoad(data.getCoupon_url());
-//				LogUtils.e(point_bitmap.getByteCount()+"");
-//				LogUtils.e(title_bitmap.getByteCount()+"");
                 dialog.dismiss();
 
                 Message msg = new Message();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("point_bitmap", point_bitmap);
-                bundle.putParcelable("title_bitmap", title_bitmap);
-                msg.setData(bundle);
-                mhandler.sendMessage(msg);
-
-            }
-        }).start();
-
-    }
-
-    private String getMenchantNo(int PayType) {
-        String sm_type = MyApplication.getInstance().getLoginData().getScanPayType();
-        String menchantNo = "";
-        if (PayType == Constants.PAY_WAY_ALY || PayType == Constants.PAY_WAY_BFB || PayType == Constants.PAY_WAY_JD
-                || PayType == Constants.PAY_WAY_WX) {
-            if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_SQB)) {
-                menchantNo = MyApplication.getInstance().getLoginData().getActivateCodeMerchantNo();
-            } else {
-                menchantNo = MyApplication.getInstance().getLoginData().getFyMerchantNo();
-            }
-        } else if (PayType == Constants.PAY_WAY_FLOT || PayType == Constants.PAY_WAY_CASH) {
-            menchantNo = MyApplication.getInstance().getLoginData().getMerchantNo();
-        } else if (PayType == Constants.PAY_WAY_QB) {
-            menchantNo = printerData.getMerchantNo();
-        }
-
-        return menchantNo;
-    }
-
-    private String getAuthCode(int PayType) {
-        String authCode = "";
-
-        if (PayType == Constants.PAY_WAY_ALY || PayType == Constants.PAY_WAY_BFB || PayType == Constants.PAY_WAY_JD
-                || PayType == Constants.PAY_WAY_WX || PayType == Constants.PAY_WAY_QB) {
-            authCode = printerData.getAuthCode();
-        } else if (PayType == Constants.PAY_WAY_FLOT) {
-            authCode = printerData.getReferNo();
-        }
-        return authCode;
-    }
-
-    private String getClientOrderNo(int PayType) {
-        String sm_type = MyApplication.getInstance().getLoginData().getScanPayType();
-        String orderId = "";
-        if (PayType == Constants.PAY_WAY_ALY || PayType == Constants.PAY_WAY_BFB || PayType == Constants.PAY_WAY_JD
-                || PayType == Constants.PAY_WAY_WX) {
-            if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_SQB)) {
-//                orderId = bat.getMyOrderId();
-            } else if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_FY)) {
-                orderId = CommonFunc.getNewClientSn();
-            }
-        } else {
-            orderId = CommonFunc.getNewClientSn();
-        }
-
-        return orderId;
-    }
-
-    private String getTransNo(int PayType) {
-        String transNo = "";
-        if (PayType == Constants.PAY_WAY_FLOT) {
-            transNo = printerData.getVoucherNo();//AuthNo();// getReferNo();
-        } else if (PayType == Constants.PAY_WAY_ALY || PayType == Constants.PAY_WAY_BFB
-                || PayType == Constants.PAY_WAY_JD || PayType == Constants.PAY_WAY_WX ||
-                PayType == Constants.PAY_WAY_QB) {
-            transNo = printerData.getTransNo();
-        }
-        return transNo;
-    }
-
-
-    private void sendYxf(final SbsPrinterData recordData) {
-
-        String money = recordData.getAmount();//"0.01";
-        String mobile = recordData.getPhoneNo();//"13979328519";
-        String time = String.valueOf(StringUtils.getdate2TimeStamp(recordData.getDateTime()));
-        String orderId = time + StringUtils.getSerial();
-
-        String admin_id = (String) SPUtils.get(this, Config.YXF_MERCHANT_ID, Config.YXF_DEFAULT_MERCHANTID);
-
-        if (StringUtils.isEmpty(admin_id)) {
-
-            ToastUtils.CustomShow(this, "上送商户ID为空");
-//            return;
-        }
-
-        if (StringUtils.isEmpty(money)) {
-            ToastUtils.CustomShow(this, "上送金额为空");
-//            return;
-        }
-
-        if (StringUtils.isEmpty(mobile)) {
-//            ToastUtils.CustomShow(this, "上送手机号为空");
-            return;
-        }
-
-
-        String before = admin_id + money + mobile + time + orderId + Config.YXF_KEY;
-        LogUtils.e(before);
-        String skey = EncryptMD5Util.MD5(before);
-
-        Map<String, String> paramsMap = new LinkedHashMap<String, String>();
-        paramsMap.put("arr1", admin_id);
-        paramsMap.put("arr2", money);
-        paramsMap.put("arr3", mobile);
-        paramsMap.put("arr4", time);
-        paramsMap.put("arr5", orderId);
-        paramsMap.put("skey", skey);
-
-
-        LogUtils.e(paramsMap.toString());
-
-        final LoadingDialog dialog = new LoadingDialog(this);
-        dialog.show("正在上送...");
-        dialog.setCancelable(false);
-
-        MyOkHttp.get().get(this, Config.YXF_URL, paramsMap, new JsonResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, JSONObject response) {
-                LogUtils.e("sendYxf", response.toString());
-//                dialog.dismiss();
-                recordData.setApp_type(CommonFunc.recoveryFailureInfo(SaleMainActivity.this).getApp_type());
-                try {
-                    String state = response.getString("state");
-                    String info = response.getString("info");
-                    String qr_code = response.getString("qr_code");
-                    if (StringUtils.isEquals(state, "0")) {
-                        ToastUtils.CustomShow(SaleMainActivity.this, "上送成功");
-
-                        //判断二维码链接是否为空，为空直接打印，不为空去下载
-                        if (StringUtils.isEmpty(qr_code)) {
-                            dialog.dismiss();
-
-                            PrinterDataSave();
-                            Printer.getInstance(SaleMainActivity.this).print(recordData, SaleMainActivity.this);
-                        } else {
-                            yxf_setTransUpdateResponse(recordData, qr_code, dialog, true);
-                        }
-
-
-                    } else {
-                        dialog.dismiss();
-                        ToastUtils.CustomShow(SaleMainActivity.this, !StringUtils.isEmpty(info) ? info : "上送失败");
-                        recordData.setUploadFlag(false);
-                        PrinterDataSave();
-                        Printer.getInstance(SaleMainActivity.this).print(recordData, SaleMainActivity.this);
-                    }
-
-
-                } catch (JSONException e) {
-//                    e.printStackTrace();
-                    dialog.dismiss();
-                    ToastUtils.CustomShow(SaleMainActivity.this, "返回数据解析失败");
-                    recordData.setUploadFlag(false);
-                    PrinterDataSave();
-                    Printer.getInstance(SaleMainActivity.this).print(recordData, SaleMainActivity.this);
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, String error_msg) {
-                dialog.dismiss();
-                LogUtils.e("sendYxf", error_msg);
-                recordData.setApp_type(CommonFunc.recoveryFailureInfo(SaleMainActivity.this).getApp_type());
-                recordData.setUploadFlag(false);
-                PrinterDataSave();
-                Printer.getInstance(SaleMainActivity.this).print(recordData, SaleMainActivity.this);
-
-            }
-        });
-    }
-
-    protected void yxf_setTransUpdateResponse(final SbsPrinterData data, final String qr_code, final LoadingDialog dialog, boolean flag) {
-
-        data.setCoupon(qr_code);
-        if (flag) {
-            // 保存打印的数据，不保存图片数据
-            PrinterDataSave();
-        }
-
-        //开启线程下载二维码图片
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                Bitmap title_bitmap = null;
-                if (!StringUtils.isEmpty(qr_code)) {
-                    try {
-                        title_bitmap = Glide.with(getApplicationContext())
-                                .load(qr_code)
-                                .asBitmap()
-                                .centerCrop()
-                                .into(200, 200).get();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-                dialog.dismiss();
-
-                Message msg = new Message();
-                Bundle bundle = new Bundle();
                 bundle.putParcelable("title_bitmap", title_bitmap);
                 msg.setData(bundle);
                 mhandler.sendMessage(msg);
@@ -1402,20 +725,20 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
     }
 
 
-    private boolean isCheckStatus() {
-
-        if (!MyApplication.getInstance().getLoginData().isDownMasterKey()) {
-//            DownMasterKey();
-            ToastUtils.CustomShow(this, "请下载主密钥。。。");
-            return false;
-        }
-
-        if (CommonFunc.isLogin(this, Constants.HS_LOGIN_TIME, Constants.DEFAULT_HS_LOGIN_TIME)) {
-//            Hslogin();
-            ToastUtils.CustomShow(this, "请签到。。。");
-            return false;
-        }
-
-        return true;
-    }
+//    private boolean isCheckStatus() {
+//
+//        if (!MyApplication.getInstance().getLoginData().isDownMasterKey()) {
+////            DownMasterKey();
+//            ToastUtils.CustomShow(this, "请下载主密钥。。。");
+//            return false;
+//        }
+//
+//        if (CommonFunc.isLogin(this, Constants.HS_LOGIN_TIME, Constants.DEFAULT_HS_LOGIN_TIME)) {
+////            Hslogin();
+//            ToastUtils.CustomShow(this, "请签到。。。");
+//            return false;
+//        }
+//
+//        return true;
+//    }
 }

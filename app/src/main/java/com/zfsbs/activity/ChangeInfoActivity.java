@@ -6,13 +6,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.mycommonlib.core.PayCommon;
-import com.mycommonlib.model.ComTransInfo;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.zfsbs.R;
 import com.zfsbs.config.Constants;
-import com.zfsbs.myapplication.MyApplication;
 
 
 public class ChangeInfoActivity extends BaseActivity implements OnClickListener {
@@ -138,9 +135,6 @@ public class ChangeInfoActivity extends BaseActivity implements OnClickListener 
 			SPUtils.put(ChangeInfoActivity.this, Constants.SQB_DESCRIPTION, edDescription.getText().toString());
 
 
-			setPayParam();
-
-
 
 			ToastUtils.CustomShow(this, "信息保存成功");
 
@@ -153,25 +147,6 @@ public class ChangeInfoActivity extends BaseActivity implements OnClickListener 
 		}
 	}
 
-	/**
-	 * 设置参数
-	 */
-	private void setPayParam(){
-		// 设置参数
-		int keyIndex = MyApplication.getInstance().getLoginData().getKeyIndex();
-		String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-		String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-		PayCommon.setParams(this, keyIndex, mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
-			@Override
-			public void success(ComTransInfo transInfo) {
 
-			}
-
-			@Override
-			public void failed(String error) {
-
-			}
-		});
-	}
 
 }

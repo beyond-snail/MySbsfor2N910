@@ -12,7 +12,6 @@ import com.tool.utils.utils.ToastUtils;
 import com.zfsbs.R;
 import com.zfsbs.adapter.MyShiftRoom;
 import com.zfsbs.config.Constants;
-import com.zfsbs.core.action.Printer;
 import com.zfsbs.model.ShiftRoom;
 import com.zfsbs.model.ShiftRoomShow;
 
@@ -269,7 +268,7 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
         switch (v.getId()){
             case R.id.id_printer:
                 if (shiftRoom != null) {
-                    Printer.printShiftRoom(shiftRoom, start_time, end_time, Constants.PRINTER_SHIFT_ROOM);
+//                    Printer.printShiftRoom(shiftRoom, start_time, end_time, Constants.PRINTER_SHIFT_ROOM);
                 }
                 break;
 

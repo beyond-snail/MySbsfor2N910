@@ -8,26 +8,20 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.hd.core.HdAction;
-import com.mycommonlib.core.PayCommon;
-import com.mycommonlib.model.ComTransInfo;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.dialog.MemberNoDialog;
-import com.tool.utils.dialog.MemberNoDialog1;
-import com.tool.utils.msrcard.MsrCard;
+//import com.tool.utils.msrcard.MsrCard;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
-import com.zfsbs.activity.hd.HdRegisterActivity;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.CouponsResponse;
-import com.zfsbs.model.MemberTransAmountRequest;
 import com.zfsbs.model.MemberTransAmountResponse;
 import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SetClientOrder;
@@ -87,24 +81,8 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
     }
 
     private void initData() {
-
-//
-        PayCommon.getParams(this, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
-
-            }
-
-            @Override
-            public void failed(String error) {
-
-            }
-        });
-
         //是否是赢消费
         app_type = (int) SPUtils.get(this, Config.APP_TYPE, Config.DEFAULT_APP_TYPE);
-
-
 
     }
 
@@ -226,11 +204,9 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
 
         if (amount > 0 && amount <= 999999999) {
-            if (app_type == Config.APP_HD) {
-                isHdInputMemberNo();
-            } else {
+
                 isInputMemberNo();
-            }
+
         } else {
             if (amount > 999999999) {
                 ToastUtils.CustomShow(this, "金额过大");
@@ -298,9 +274,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
             @Override
             public void onClickRight() {
-                if (app_type == Config.APP_Richer_e) {
 
-                } else {
                     MemberNoDialog.setMemberNo("");
 
 
@@ -314,7 +288,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                     member.setTradeMoney(amount);
                     CommonFunc.setBackMemberInfo(InputAmountActivity.this, member);
                     startAction(InputAmountActivity.this, ZfPayActivity.class, true);
-                }
+
 
             }
 
@@ -322,109 +296,26 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
             public void onClickLeft(String result) {
                 if (app_type == Config.APP_SBS) {
                     memberInfoAction(result);
-                } else if (app_type == Config.APP_YXF) {
-
-                    MemberTransAmountResponse member = new MemberTransAmountResponse();
-                    member.setRealMoney(amount);
-                    member.setTradeMoney(amount);
-                    member.setMemberCardNo(result);
-                    CommonFunc.setBackMemberInfo(InputAmountActivity.this, member);
-                    startAction(InputAmountActivity.this, ZfPayActivity.class, true);
-
-                } else if (app_type == Config.APP_Richer_e) {
-                    Richer_memberInfoAction(result);
                 }
 
             }
         });
 
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                MsrCard.getMsrCard(InputAmountActivity.this).closeMsrCard();
-            }
-        });
+//        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialogInterface) {
+////                MsrCard.getMsrCard(InputAmountActivity.this).closeMsrCard();
+//            }
+//        });
         dialog.setCancelable(true);
         dialog.show();
 
     }
 
 
-    private void isHdInputMemberNo() {
-        MemberNoDialog1 dialog = new MemberNoDialog1(this, R.layout.activity_member_no1, new MemberNoDialog1.OnClickInterface() {
-
-            @Override
-            public void onResultScanContent() {
-            }
-
-            @Override
-            public void onClickMid() {
-                MemberNoDialog1.setMemberNo("");
-
-                MemberTransAmountResponse member = new MemberTransAmountResponse();
-                member.setRealMoney(amount);
-                member.setTradeMoney(amount);
-                CommonFunc.setBackMemberInfo(InputAmountActivity.this, member);
-                //是否会员
-                SPUtils.put(InputAmountActivity.this, Config.isHdMember, false);
-                startAction(InputAmountActivity.this, ZfPayActivity.class, true);
-            }
-
-            @Override
-            public void onClickRight() {
-                SPUtils.put(InputAmountActivity.this, Config.isHdMember, true);
-                goHdRegister();
-
-            }
-
-            @Override
-            public void onClickLeft(String result) {
-                SPUtils.put(InputAmountActivity.this, Config.isHdMember, true);
-                goHdQuery(result);
-
-            }
-        });
 
 
-        dialog.setCancelable(true);
-        dialog.show();
-        MemberNoDialog1.isHideScanIcon(true);
-        MemberNoDialog1.setBtnRightText("注册");
-        MemberNoDialog1.setEtInputNoText("请输入手机号");
 
-    }
-
-    /**
-     * 注册
-     */
-    private void goHdRegister() {
-        Bundle bundle = new Bundle();
-        bundle.putInt("amount", amount);
-        CommonFunc.startAction(InputAmountActivity.this, HdRegisterActivity.class, bundle, true);
-    }
-
-    /**
-     * 去海鼎查询
-     * @param result
-     */
-    private void goHdQuery(String result) {
-        HdAction.hdQuery(InputAmountActivity.this, result, new HdAction.HdCallResult(){
-            @Override
-            public void onSuccess(String data) {
-                MemberTransAmountResponse member = new MemberTransAmountResponse();
-                member.setRealMoney(amount);
-                member.setTradeMoney(amount);
-                member.setPhone(data);
-                CommonFunc.setBackMemberInfo(InputAmountActivity.this, member);
-                startAction(InputAmountActivity.this, ZfPayActivity.class, true);
-            }
-
-            @Override
-            public void onFailed(String errorCode, String message) {
-                ToastUtils.CustomShow(InputAmountActivity.this, errorCode+"#"+message);
-            }
-        });
-    }
 
     /**
      * 商博士-会员信息
@@ -467,18 +358,9 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
 
     private void memberTransAmountAction() {
-//        final MemberTransAmountRequest request = new MemberTransAmountRequest();
-//        request.setSid(MyApplication.getInstance().getLoginData().getSid());
-//        request.setMemberCardNo("");
-//        request.setPassword("");
-//        request.setTradeMoney(amount);
-//        request.setPoint(0);
-//        request.setCouponSn(""+yyId);
-//        request.setMemberName("");
-//        request.setClientOrderNo(getNewClientSn());
 
         Long sid = MyApplication.getInstance().getLoginData().getSid();
-        final String orderNo = getNewClientSn();
+        final String orderNo = getNewClientSn(mContext);
 
         this.sbsAction.otherCouponLock(InputAmountActivity.this, sid, couponCode, orderNo, amount, new ActionCallbackListener<MemberTransAmountResponse>() {
             @Override
@@ -525,83 +407,4 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
 
 
-    private void Richer_memberInfoAction(String phone) {
-        g_phone = phone;
-        RicherQb.getMemberInfo(this, phone, new ActionCallbackListener<RicherGetMember>() {
-            @Override
-            public void onSuccess(RicherGetMember data) {
-
-                CustomDialog_2 custom = new CustomDialog_2(InputAmountActivity.this, R.layout.activity_custom_dialog, new CustomDialog_2.onClickLeftListener() {
-                    @Override
-                    public void onClickLeft(CustomDialog_2 dialog, String result) {
-                        dialog.dismiss();
-                        printerData.setCardNo(g_phone);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("amount", tAmount.getText().toString());
-                        bundle.putString("phone", g_phone);
-
-                        MemberTransAmountResponse member = new MemberTransAmountResponse();
-                        member.setRealMoney(amount);
-                        member.setTradeMoney(amount);
-                        member.setMemberCardNo(g_phone);
-                        CommonFunc.setBackMemberInfo(InputAmountActivity.this, member);
-                        startAction(InputAmountActivity.this, ZfPayActivity.class, bundle, true);
-
-                    }
-                }, new CustomDialog_2.onClickRightListener() {
-                    @Override
-                    public void onClickRight(CustomDialog_2 dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                custom.setTitle(g_phone);
-                custom.setMessage("会员名称：" + data.getNickname());
-                custom.setCancelable(true);
-                custom.show();
-
-            }
-
-            @Override
-            public void onFailure(String errorEvent, String message) {
-                if (message.contains("网络异常")) {
-                    ToastUtils.CustomShow(InputAmountActivity.this, message);
-                    return;
-                }
-
-
-                CustomDialog_2 custom = new CustomDialog_2(InputAmountActivity.this, R.layout.activity_custom_dialog, new CustomDialog_2.onClickLeftListener() {
-                    @Override
-                    public void onClickLeft(CustomDialog_2 dialog, String result) {
-                        dialog.dismiss();
-                    }
-                }, new CustomDialog_2.onClickRightListener() {
-                    @Override
-                    public void onClickRight(CustomDialog_2 dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                custom.setTitle(g_phone);
-                custom.setMessage("非会员手机号不能进行交易");
-                custom.setCancelable(false);
-                custom.setRightButtonVisible(true);
-                custom.show();
-            }
-
-            @Override
-            public void onLogin() {
-                AppManager.getAppManager().finishAllActivity();
-
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(InputAmountActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(InputAmountActivity.this, OperatorLoginActivity1.class, false);
-                }
-            }
-
-            @Override
-            public void onFailurTimeOut(String s, String error_msg) {
-
-            }
-        });
-    }
 }

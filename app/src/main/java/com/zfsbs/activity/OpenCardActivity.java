@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.tool.utils.msrcard.MsrCard;
 import com.tool.utils.utils.AlertUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
@@ -27,7 +27,7 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
     private static final int USER_SEARCH = 0;
     private static final int USER_ADD = 1;
 
-
+    ToolNewLand toolNewLand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,32 +45,27 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
 
         initView();
 
-        MsrCard.getMsrCard(mContext).openMsrCard(listener);
+//        MsrCard.getMsrCard(mContext).openMsrCard(listener);
+
+        toolNewLand = new ToolNewLand();
+        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
 
     }
 
-
-
-
-
-    private MsrCard.TrackData listener = new MsrCard.TrackData() {
+    private ToolNewLand.DeviceListenser listenser = new ToolNewLand.DeviceListenser() {
         @Override
-        public void onSuccess(String track2Data) {
-//            if (track2Data.length() < 5){
-//                return;
-//            }
-//            String cardNumber = track2Data.substring(0, track2Data.indexOf("="));
-            etCard.setText(track2Data);
+        public void success(String data) {
+            etCard.setText(data);
             etCard.setSelection(etCard.length());
 
-            MsrCard.getMsrCard(mContext).closeMsrCard();
+            toolNewLand.deviceUnBindService();
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Thread.sleep(200);
-                        MsrCard.getMsrCard(mContext).openMsrCard(listener);
+                        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -80,23 +75,71 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
         }
 
         @Override
-        public void onFail() {
-            MsrCard.getMsrCard(mContext).closeMsrCard();
+        public void fail(String data) {
+            toolNewLand.deviceUnBindService();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Thread.sleep(200);
-                        MsrCard.getMsrCard(mContext).openMsrCard(listener);
+                        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
                 }
             }).start();
-
         }
     };
+
+
+
+
+
+//    private MsrCard.TrackData listener = new MsrCard.TrackData() {
+//        @Override
+//        public void onSuccess(String track2Data) {
+////            if (track2Data.length() < 5){
+////                return;
+////            }
+////            String cardNumber = track2Data.substring(0, track2Data.indexOf("="));
+//            etCard.setText(track2Data);
+//            etCard.setSelection(etCard.length());
+//
+//            MsrCard.getMsrCard(mContext).closeMsrCard();
+//
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Thread.sleep(200);
+//                        MsrCard.getMsrCard(mContext).openMsrCard(listener);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }).start();
+//        }
+//
+//        @Override
+//        public void onFail() {
+//            MsrCard.getMsrCard(mContext).closeMsrCard();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Thread.sleep(200);
+//                        MsrCard.getMsrCard(mContext).openMsrCard(listener);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }).start();
+//
+//        }
+//    };
 
     private void initView() {
 
@@ -193,7 +236,9 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MsrCard.getMsrCard(mContext).closeMsrCard();
+
+        toolNewLand.deviceUnBindService();
+        toolNewLand = null;
     }
 
     private void openRealizeCard() {
@@ -248,13 +293,13 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onFailure(String errorEvent, String message) {
                 ToastUtils.CustomShow(mContext, message);
-                MsrCard.getMsrCard(mContext).closeMsrCard();
+                toolNewLand.deviceUnBindService();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             Thread.sleep(200);
-                            MsrCard.getMsrCard(mContext).openMsrCard(listener);
+                            toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -310,13 +355,13 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onFailure(String errorEvent, String message) {
                 ToastUtils.CustomShow(mContext, message);
-                MsrCard.getMsrCard(mContext).closeMsrCard();
+                toolNewLand.deviceUnBindService();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             Thread.sleep(200);
-                            MsrCard.getMsrCard(mContext).openMsrCard(listener);
+                            toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

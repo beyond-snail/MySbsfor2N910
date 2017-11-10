@@ -97,9 +97,9 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
 
     private void commitTicket() {
         Long sid = MyApplication.getInstance().getLoginData().getSid();
-        String sn = StringUtils.getSerial();
+        String sn = CommonFunc.getSerialNo(mContext);
         String ticketNo = tNo.getText().toString().trim();
-        String orderNo = CommonFunc.getNewClientSn();
+        String orderNo = CommonFunc.getNewClientSn(mContext);
 
         sbsAction.ticketPay(this, sid, ticketNo, sn, orderNo, new ActionCallbackListener<String>() {
             @Override
@@ -128,7 +128,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
     private void checkTicket() {
 
         Long sid = MyApplication.getInstance().getLoginData().getSid();
-        String sn = StringUtils.getSerial();
+        String sn = CommonFunc.getSerialNo(mContext);
         String ticketNo = tNo.getText().toString().trim();
 
         sbsAction.ticketcheck(this, sid, ticketNo, sn, new ActionCallbackListener<TicektResponse>() {

@@ -1,7 +1,6 @@
 package com.zfsbs.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,15 +8,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.mycommonlib.core.PayCommon;
-import com.mycommonlib.model.ComTransInfo;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.NetUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.zfsbs.R;
 import com.zfsbs.core.action.LoginAction;
 import com.zfsbs.core.myinterface.UiAction;
-import com.zfsbs.myapplication.MyApplication;
 
 
 public class GetLoginInfoActivity1 extends BaseActivity implements OnClickListener{
@@ -63,7 +59,6 @@ public class GetLoginInfoActivity1 extends BaseActivity implements OnClickListen
             @Override
             public void UiAction(Activity context, Class<?> cls, boolean flag) {
                 LogUtils.e("UiAction02");
-                setPayParam(GetLoginInfoActivity1.this);
 
             }
         });
@@ -71,29 +66,7 @@ public class GetLoginInfoActivity1 extends BaseActivity implements OnClickListen
         loginAction.loginAction(username, password);
     }
 
-    /**
-     * 设置参数
-     */
-    private void setPayParam(Context context) {
-        int keyIndex = MyApplication.getInstance().getLoginData().getKeyIndex();
-        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-        PayCommon.setParams(context, keyIndex, mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
-            @Override
-            public void success(ComTransInfo transInfo) {
-                if (!MyApplication.getInstance().getLoginData().isDownMasterKey()) {
-                    DownMasterKey();
-                } else {
-                    payLogin();
-                }
-            }
 
-            @Override
-            public void failed(String error) {
-                finish();
-            }
-        });
-    }
 
 
     @Override
@@ -128,56 +101,5 @@ public class GetLoginInfoActivity1 extends BaseActivity implements OnClickListen
 
     }
 
-//    private void get() {
-//        String pass = (String) SPUtils.get(this, Constants.MASTER_PASS, Constants.DEFAULT_MASTER_PASS);
-//        if (NetUtils.isConnected(this)) {
-//            if (TextUtils.isEmpty(edPassWord.getText().toString())) {
-//                ToastUtils.CustomShow(this, "请输入密码");
-//                getFocus();
-//                return;
-//            }
-//            if (StringUtils.isEquals(pass, edPassWord.getText().toString())) {
-//                getInfo();
-//            } else {
-//                ToastUtils.CustomShow(this, "密码错误");
-//                getFocus();
-//            }
-//
-//        } else {
-//            ToastUtils.CustomShow(this, "请打开网络");
-//            getFocus();
-//        }
-//
-//    }
 
-//    private void getFocus() {
-//        edPassWord.postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                edPassWord.setFocusable(true);
-//                edPassWord.setFocusableInTouchMode(true);
-//                edPassWord.requestFocus();
-//                edPassWord.findFocus();
-//            }
-//        }, 500);
-//    }
-//
-//    @Override
-//    public boolean onTouch(View v, MotionEvent event) {
-//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(edPassWord.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-//        getFocus();
-//        return true;
-//    }
-//
-//
-//    @Override
-//    public boolean dispatchKeyEvent(KeyEvent event) {
-//        if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-//            get();
-//            return true;
-//        }
-//        return super.dispatchKeyEvent(event);
-//    }
 }
