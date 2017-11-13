@@ -32,12 +32,12 @@ public class LoginAction {
     private static final String TAG = "LoginAction";
 
     private Activity mContext;
-    private BATPay bat;
+//    private BATPay bat;
     private UiAction ui;
 
     public LoginAction(Activity context, UiAction ui) {
         this.mContext = context;
-        this.bat = new BATPay(context);
+//        this.bat = new BATPay(context);
         this.ui = ui;
     }
 
@@ -383,51 +383,7 @@ public class LoginAction {
         if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_FY)) {
             ui.UiAction(mContext, SaleMainActivity.class, true);
             return;
-        } else if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_SQB)) {
-            boolean flag = MyApplication.getInstance().getLoginData().isActive();
-            if (!flag) {
-                bat.activite(new BatInterface() {
-
-                    @Override
-                    public void success_bat(UpayResult result) {
-                        // 调用激活反馈接口
-                        activateAction(1);
-                        // 保存激活状态
-                        MyApplication.getInstance().getLoginData().setActive(true);
-                        // 更新到数据库
-                        ContentValues values = new ContentValues();
-                        values.put("isActive", true);
-                        DataSupport.update(LoginApiResponse.class, values,
-                                MyApplication.getInstance().getLoginData().getId());
-
-                    }
-
-                    @Override
-                    public void failed_bat(String error_code, String error_msg) {
-                        // 调用激活反馈接口
-                        activateAction(0);
-                        // 这里反馈没有成功，那就让这个激活码的状态为false ，重新签到的时候再次去激活，反馈
-                        // 保存激活状态
-                        MyApplication.getInstance().getLoginData().setActive(false);
-                        MyApplication.getInstance().getLoginData().setActiveCode("");
-                        // 更新到数据库
-                        ContentValues values = new ContentValues();
-                        values.put("isActive", false);
-                        values.put("activeCode", "");
-                        DataSupport.update(LoginApiResponse.class, values,
-                                MyApplication.getInstance().getLoginData().getId());
-                    }
-
-                    @Override
-                    public void onLogin() {
-
-                    }
-                });
-                return;
-            } else {
-                ui.UiAction(mContext, SaleMainActivity.class, true);
-            }
-        } else {
+        }else {
             ui.UiAction(mContext, SaleMainActivity.class, true);
             return;
         }

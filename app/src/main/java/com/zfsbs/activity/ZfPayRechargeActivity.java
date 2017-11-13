@@ -201,7 +201,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
      */
     private void setFyPayFailureQuery(String outOrderNum, String amount, String type, boolean isStatus, int payWay, int failureType) {
 
-        boolean isMember = (boolean) SPUtils.get(this, Config.isHdMember, false);
+//        boolean isMember = (boolean) SPUtils.get(this, Config.isHdMember, false);
 
         FailureData data = new FailureData();
         data.setOutOrderNo(outOrderNum);
@@ -211,7 +211,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         data.setPay_type(payWay);
         data.setFaiureType(failureType);
         data.setApp_type(0);
-        data.setMember(isMember);
+//        data.setMember(isMember);
 //        data.setCardId(cardId);
         data.setReal_get_money(Integer.parseInt(actualAmount));
         data.setReal_pay_money(Integer.parseInt(oldAmount));
@@ -229,7 +229,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
      * @param payWay
      */
     private void setFyQueryFailureQuery(String outOrderNum, String type, String order_no, boolean isStatus, int payWay, int failureType) {
-        boolean isMember = (boolean) SPUtils.get(this, Config.isHdMember, false);
+//        boolean isMember = (boolean) SPUtils.get(this, Config.isHdMember, false);
         FailureData data = new FailureData();
         data.setOutOrderNo(outOrderNum);
         data.setOrder_type(type);
@@ -238,7 +238,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         data.setOrderNo(order_no);
         data.setFaiureType(failureType);
         data.setApp_type(0);
-        data.setMember(isMember);
+//        data.setMember(isMember);
 //        data.setCardId(cardId);
         data.setReal_get_money(Integer.parseInt(actualAmount));
         data.setReal_pay_money(Integer.parseInt(oldAmount));

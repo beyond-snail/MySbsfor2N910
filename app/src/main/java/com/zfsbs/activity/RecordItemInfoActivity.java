@@ -817,13 +817,15 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
     private void refundTrans() {
 
 
-        if (recordData.getPayType() == Constants.PAY_WAY_UNDO) {
-            setTransCancel(Constants.PAY_WAY_UNDO, recordData.getVoucherNo());
+        if (recordData.getPayType() == Constants.PAY_WAY_UNDO ||
+                recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL ||
+                recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) {
+            setTransCancel(recordData.getPayType(), recordData.getVoucherNo());
             return;
         }
 
         if (recordData.getPayType() == Constants.PAY_WAY_QB || recordData.getPayType() == Constants.PAY_WAY_STK) {
-            setTransPacketCancel(Constants.PAY_WAY_REFUND_QB);
+            setTransPacketCancel(recordData.getPayType());
             return;
         }
 
@@ -929,7 +931,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
         Gson gson = new Gson();
         TransUploadRequest data = gson.fromJson(recordData.getTransUploadData(), TransUploadRequest.class);
-        String oldOrderNo = data.getClientOrderNo();
+        String oldOrderNo = data.getOld_trade_order_num();//data.getClientOrderNo();
         long t = StringUtils.getdate2TimeStamp(StringUtils.getCurTime());//data.getT();
         final String phone = data.getPhone();
         final int point = recordData.getPoint();
@@ -979,7 +981,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 recordData.setRefund(true);
                 recordData.setRefundUpload(false);
                 recordData.setRefund_order_no(authCode);
-                btnRefund.setText("退款流水上送");
+                btnRefund.setText((recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? "撤销流水上送" : "退款流水上送");
 
                 myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? false : true);
                 setResult(Activity.RESULT_OK, myintent);

@@ -440,7 +440,7 @@ public class CommonFunc {
 
         request.setTransNo(transNo);
         request.setAuthCode(authCode);
-        request.setSerialNum(StringUtils.getSerial());
+        request.setSerialNum(ToolNewLand.getToolNewLand().getSerialNo());
         request.setPayType(printerData.getPayType());
         request.setPointAmount(memberData.getPoint());
         request.setPhone(memberData.getPhone());

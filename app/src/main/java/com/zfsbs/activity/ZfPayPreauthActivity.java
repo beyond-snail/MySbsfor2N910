@@ -275,7 +275,6 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
                             "amt:" + data.getStringExtra("amt") + "\n" +
                             "systraceno:" + data.getStringExtra("systraceno") + "\n" +
                             "sysoldtraceno:" + data.getStringExtra("sysoldtraceno") + "\n" +
-                            "oldauthcode:" + data.getStringExtra("oldauthcode") + "\n" +
                             "order_no:" + data.getStringExtra("order_no") + "\n" +
                             "appid:" + data.getStringExtra("appid") + "\n" +
                             "time_stamp:" + data.getStringExtra("time_stamp") + "\n" +
@@ -307,10 +306,10 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
                             transUploadAction1(request);
                         }else if (currentPayType == Constants.PAY_WAY_AUTHCANCEL){
                             setFlot(detail);
-                            if (getTraceNo(sysoldtraceno, Constants.PAY_WAY_PREAUTH)) {
+                            if (getAuthCode(printerData.getAuthNo(), Constants.PAY_WAY_PREAUTH)) {
                                 setTransCancel(currentPayType);
                             }else{
-                                ToastUtils.CustomShow(mContext,"本地没查到该交易凭证号");
+                                ToastUtils.CustomShow(mContext,"本地没查到该交易授权码");
                             }
                         }else if (currentPayType == Constants.PAY_WAY_VOID_AUTHCOMPLETE){
                             setFlot(detail);
@@ -415,7 +414,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
             @Override
             public void onSuccess(String data) {
                 showLayout();
-                ToastUtils.CustomShow(ZfPayPreauthActivity.this, "上传失败");
+                ToastUtils.CustomShow(ZfPayPreauthActivity.this, "上传成功");
                 printerData.setRefundUpload(true);
                 //这个地方用来 在交易记录里去打印用的
                 request.setSid(MyApplication.getInstance().getLoginData().getSid());
@@ -663,6 +662,37 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
         ToastUtils.CustomShow(this, "没有该笔交易");
         return false;
     }
+
+
+    private boolean getAuthCode(String authCode, int type) {
+
+        // 从交易记录中读取数据
+        allData = DataSupport.order("id desc").limit(100).find(SbsPrinterData.class);
+        if (allData.size() <= 0) {
+            ToastUtils.CustomShow(this, "没有交易记录");
+            return false;
+        }
+
+        // 遍历
+        for (int i = 0; i < allData.size(); i++) {
+            // 遍历刷卡支付
+            if (allData.get(i).getPayType() == type && !StringUtils.isEmpty(allData.get(i).getAuthNo())) {
+                if (StringUtils.isEquals(allData.get(i).getAuthNo(),authCode)) {
+                    //获取交易的订单号
+                    Gson gson = new Gson();
+                    TransUploadRequest data = gson.fromJson(allData.get(i).getTransUploadData(), TransUploadRequest.class);
+
+                    if (data != null) {
+                        orderNo = data.getClientOrderNo();
+                    }
+                    return true;
+                }
+            }
+        }
+        ToastUtils.CustomShow(this, "没有该笔交易");
+        return false;
+    }
+
 
 
 }

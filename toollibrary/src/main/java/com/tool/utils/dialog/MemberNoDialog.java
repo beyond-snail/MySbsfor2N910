@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +18,9 @@ import android.widget.ImageView;
 import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.utils.ToolNewLand;
 import com.toollibrary.R;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MemberNoDialog extends Dialog implements View.OnClickListener {
@@ -150,6 +154,19 @@ public class MemberNoDialog extends Dialog implements View.OnClickListener {
 
 	private void initView() {
 		etInputNo = (EditText) findViewById(R.id.id_phoneNo);
+
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			public void run() {
+				etInputNo.setFocusable(true);
+				etInputNo.setFocusableInTouchMode(true);
+				etInputNo.requestFocus();
+				InputMethodManager inputManager = (InputMethodManager) etInputNo.getContext()
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(etInputNo, 0);
+			}
+		}, 500);
+
 		ivScan = (ImageView) findViewById(R.id.id_scan);
 		btnLeft = (Button) findViewById(R.id.id_left);
 		btnRight = (Button) findViewById(R.id.id_right);
