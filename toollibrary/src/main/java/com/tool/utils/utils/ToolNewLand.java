@@ -1,10 +1,6 @@
 package com.tool.utils.utils;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -12,10 +8,15 @@ import com.nld.cloudpos.aidl.AidlDeviceService;
 import com.nld.cloudpos.aidl.magcard.AidlMagCard;
 import com.nld.cloudpos.aidl.magcard.MagCardListener;
 import com.nld.cloudpos.aidl.magcard.TrackData;
+import com.nld.cloudpos.aidl.printer.AidlPrinter;
+import com.nld.cloudpos.aidl.printer.AidlPrinterListener;
+import com.nld.cloudpos.aidl.printer.PrintItemObj;
+import com.nld.cloudpos.aidl.printer.PrintItemObj.ALIGN;
 import com.nld.cloudpos.aidl.system.AidlSystem;
-import com.nld.cloudpos.aidl.system.ApnData;
 import com.nld.cloudpos.data.AidlErrorCode;
+import com.nld.cloudpos.data.PrinterConstant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,97 +27,72 @@ public class ToolNewLand {
 
     private static String TAG = "ToolNewLand";
 
-    private Context mContext;
+    private static Context mContext;
 
-    private AidlDeviceService aidlDeviceService = null;
+    private static ToolNewLand toolNewLand;
+
+    private static AidlDeviceService aidlDeviceService = null;
+
+    /**
+     * 打印机
+     */
+    private static AidlPrinter aidlPrinter = null;
 
     /**
      * 磁条卡
      */
-    private AidlMagCard aidlMagCard = null;
+    private static AidlMagCard aidlMagCard = null;
 
     /**
      * 系统及设备信息
      */
-    AidlSystem aidlSystem = null;
+    private static AidlSystem aidlSystem = null;
 
     public final static int magcard = 0;
     public final static int print = 1;
     public final static int serialNo = 2;
 
     private int currentType = -1;
-    DeviceListenser mlistener;
+//    private DeviceListener mListener;
 
-    public interface DeviceListenser{
+    public interface DeviceListener{
         void success(String data);
         void fail(String data);
     }
 
 
 
+    private ToolNewLand(Context context, AidlDeviceService aidlDeviceService){
+//        this.aidlDeviceService = aidlDeviceService;
+        mContext = context;
+        try {
+            aidlSystem = AidlSystem.Stub.asInterface(aidlDeviceService.getSystemService());
+            aidlMagCard = AidlMagCard.Stub.asInterface(aidlDeviceService.getMagCardReader());
+            aidlPrinter = AidlPrinter.Stub.asInterface(aidlDeviceService.getPrinter());
 
-    public void deviceBindService(Context context, int type, DeviceListenser listenser){
-        this.mContext = context;
-        this.currentType = type;
-        this.mlistener = listenser;
-
-        context.bindService(new Intent("nld_cloudpos_device_service"), serviceConnection,
-                Context.BIND_AUTO_CREATE);
-
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void deviceUnBindService(){
-        mContext.unbindService(serviceConnection);
+    public synchronized static ToolNewLand getInstance(Context context, AidlDeviceService aidlDeviceService) {
+        if (toolNewLand == null) {
+            toolNewLand = new ToolNewLand(context, aidlDeviceService);
+        }
+        return toolNewLand;
     }
 
 
+    public static ToolNewLand getToolNewLand(){
+        return toolNewLand;
+    }
 
 
-
-
-    /**
-     * 服务连接
-     */
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.e(TAG, "bind device service");
-            aidlDeviceService = AidlDeviceService.Stub.asInterface(service);
-            if (currentType == magcard){
-                try {
-                    getMagCard();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }else if (currentType == print){
-
-            }else if (currentType == serialNo){
-//                try {
-//                    getSerialNo();
-//                } catch (RemoteException e) {
-//                    e.printStackTrace();
-//                }
-            }
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.e(TAG, "unbind device service");
-            aidlDeviceService = null;
-            if (currentType == magcard){
-                stopSearch();
-            }else if (currentType == print){
-
-            }
-        }
-    };
 
 
     public String getSerialNo(){
        String serialNo;
         try {
-            Log.e(TAG, "获取AidlSystem实例");
-            aidlSystem = AidlSystem.Stub.asInterface(aidlDeviceService.getSystemService());
             serialNo = aidlSystem.getSerialNo();
             Log.e(TAG, serialNo);
             return serialNo;
@@ -124,43 +100,38 @@ public class ToolNewLand {
             e.printStackTrace();
         }
 
-       return null;
+        return null;
     }
 
 
-
-
-    private void getMagCard() throws RemoteException {
-        Log.e(TAG, "获取磁条卡读卡器实例");
-        aidlMagCard = AidlMagCard.Stub.asInterface(aidlDeviceService.getMagCardReader());
-        Log.e(TAG, "magcard module init succ");
-        searchCard();
-    }
 
 
     /**
      * 寻卡 获取明文磁道信息
+     * @param listener
      */
-    private void searchCard() {
+    public void searchCard(final DeviceListener listener) {
         try {
             //----------------------磁卡参数--------------------------------------
-            final int timeout = 6000;//超时时间
+            final int timeout = 40000;//超时时间
 
             if (aidlMagCard != null) {
+                Log.e(TAG, "开始寻卡");
                 aidlMagCard.searchCard(timeout, new MagCardListener.Stub() {
 
                     @Override
                     public void onTimeout() throws RemoteException {
                         Log.e(TAG, "读卡超时");
 //                        ma.appendInteractiveInfoAndShow("读卡超时");
-                        ToastUtils.CustomShow(mContext, "读卡超时");
+//                        ToastUtils.CustomShow(mContext, "读卡超时");
+                        listener.fail("读卡超时");
                     }
 
                     @Override
                     public void onSuccess(TrackData trackData) throws RemoteException {
                         Log.e(TAG, "读卡成功!");
                         Log.e(TAG, "cardno:"+trackData.getCardno());
-                        mlistener.success(trackData.getCardno());
+                        listener.success(trackData.getCardno());
                     }
 
                     @Override
@@ -199,13 +170,15 @@ public class ToolNewLand {
                     public void onCanceled() throws RemoteException {
                         Log.e(TAG, "被取消");
 //                        ma.appendInteractiveInfoAndShow("被取消");
-                        ToastUtils.CustomShow(mContext, "被取消");
+//                        ToastUtils.CustomShow(mContext, "被取消");
+//                        listener.fail("被取消");
                     }
                 });
             }else {
                 Log.e(TAG, "未检到磁卡设备实例");
-                ToastUtils.CustomShow(mContext, "未检到磁卡设备实例");
+//                ToastUtils.CustomShow(mContext, "未检到磁卡设备实例");
 //                ma.appendInteractiveInfoAndShow("未检到磁卡设备实例");
+                listener.fail("未检到磁卡设备实例");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -230,6 +203,84 @@ public class ToolNewLand {
         } catch (Exception e) {
             e.printStackTrace();
 //            ma.appendInteractiveInfoAndShow("stopSearch failed:"+e.getMessage());
+        }
+    }
+
+
+    /**
+     * 获取打印机状态
+     */
+    public void getPrinterState() {
+        try {
+            if (aidlPrinter != null) {
+                int printerState = aidlPrinter.getPrinterState();
+                Log.e(TAG, ""+printerState);
+            }else {
+                Log.e(TAG, "未检测到打印机模块访问权限");
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 打印文本
+     */
+    public void printText() {
+        try {
+            //--------------------------打印文本-----------------------------
+            final List<PrintItemObj> data = new ArrayList<PrintItemObj>();
+            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体1", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
+            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体2", PrinterConstant.FontScale.FONTSCALE_DW_DH, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
+            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体3", PrinterConstant.FontScale.FONTSCALE_W_DH, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
+            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体4", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
+
+            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体5", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_S,ALIGN.CENTER, false, 6));
+            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体6", PrinterConstant.FontScale.FONTSCALE_DW_DH, PrinterConstant.FontType.FONTTYPE_S,ALIGN.CENTER, false, 6));
+            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体7", PrinterConstant.FontScale.FONTSCALE_W_DH, PrinterConstant.FontType.FONTTYPE_S,ALIGN.CENTER, false, 6));
+            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体8", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S,ALIGN.CENTER, false, 6));
+
+            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体9", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S,ALIGN.CENTER, true, 6));
+
+
+            data.add(new PrintItemObj("商户名称(MERCHANT NAME)"));
+            data.add(new PrintItemObj("商户编号(MERCHANTNO)  123123"));
+            data.add(new PrintItemObj("\r"));
+            data.add(new PrintItemObj("\r"));
+            data.add(new PrintItemObj("\r"));
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (aidlPrinter != null) {
+                        try {
+                            aidlPrinter.open();
+//                            Bitmap bitmap = BitmapFactory.decodeResource(ma.getResources(), R.drawable.ic_launcher);
+//                            aidlPrinter.printImage(PrinterConstant.Align.ALIGN_CENTER, bitmap);
+                            aidlPrinter.printText(data);
+                            aidlPrinter.start(new AidlPrinterListener.Stub() {
+
+                                @Override
+                                public void onPrintFinish() throws RemoteException {
+                                    Log.e(TAG, "打印结束");
+                                    aidlPrinter.paperSkip(2);
+                                }
+
+                                @Override
+                                public void onError(int errorCode) throws RemoteException {
+                                    Log.e(TAG, "打印异常");
+                                }
+                            });
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Log.e(TAG, "未检测到打印机模块访问权限");
+                    }
+                }
+            }).start();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -10,9 +10,9 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.wosai.upay.bean.UpayResult;
 import com.zfsbs.activity.SaleMainActivity;
-import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.core.myinterface.BatInterface;
@@ -43,7 +43,7 @@ public class LoginAction {
 
     @SuppressLint("NewApi")
     public void loginAction() {
-        String serialNo = CommonFunc.getSerialNo(mContext);
+        String serialNo = ToolNewLand.getToolNewLand().getSerialNo();
 
         if (StringUtils.isBlank(serialNo)){
             ToastUtils.CustomShow(mContext, "设备序列号为空");
@@ -87,7 +87,7 @@ public class LoginAction {
     @SuppressLint("NewApi")
     public void loginAction(final String username, final String password) {
 
-        String serialNo = CommonFunc.getSerialNo(mContext);
+        String serialNo = ToolNewLand.getToolNewLand().getSerialNo();
 
         if (StringUtils.isBlank(serialNo)){
             ToastUtils.CustomShow(mContext, "设备序列号为空");

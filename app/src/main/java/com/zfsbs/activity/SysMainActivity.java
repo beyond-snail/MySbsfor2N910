@@ -20,6 +20,7 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.tool.utils.view.MyGridView;
 import com.zfsbs.R;
 import com.zfsbs.adapter.MyMenuAdapter;
@@ -110,6 +111,7 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 						CommonFunc.startAction(SysMainActivity.this, MasterChangePass.class, false);
 						break;
 					case 6:
+						CommonFunc.startAction(SysMainActivity.this, CardChangeActivity.class, false);
 //						CommonFunc.startAction(SysMainActivity.this, HsSaleManagerActivity.class, false);
 						break;
 					case 3:
@@ -449,7 +451,7 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 	private void setStkPay(String orderNo, String time, String traceNum, int pay_type) {
 		printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
 		printerData.setMerchantNo("");
-		printerData.setTerminalId(CommonFunc.getSerialNo(mContext));
+		printerData.setTerminalId(ToolNewLand.getToolNewLand().getSerialNo());
 		printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
 		printerData.setDateTime(time);
 		printerData.setClientOrderNo(orderNo);

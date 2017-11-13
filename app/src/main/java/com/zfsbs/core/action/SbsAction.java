@@ -41,7 +41,7 @@ import com.myokhttp.response.JsonResponseHandler;
 import com.tool.utils.dialog.LoadingDialog;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
-import com.tool.utils.utils.StringUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
@@ -182,7 +182,7 @@ public class SbsAction {
         paramsMap.put("mobile", mobile);
         paramsMap.put("tradeMoney", tradeMoney);
         paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));
-        paramsMap.put("serialNum", CommonFunc.getSerialNo(context));
+        paramsMap.put("serialNum", ToolNewLand.getToolNewLand().getSerialNo());
         paramsMap.put("icCardNo", icCardNo);
 
 

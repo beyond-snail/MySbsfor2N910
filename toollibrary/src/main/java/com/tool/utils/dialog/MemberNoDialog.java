@@ -1,5 +1,6 @@
 package com.tool.utils.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -29,7 +30,6 @@ public class MemberNoDialog extends Dialog implements View.OnClickListener {
 	private static Button btnLeft;
 	private static Button btnRight;
 
-	ToolNewLand toolNewLand;
 
 
 
@@ -90,20 +90,40 @@ public class MemberNoDialog extends Dialog implements View.OnClickListener {
         initView();
         addListener();
 
-
-		toolNewLand = new ToolNewLand();
-		toolNewLand.deviceBindService(context, ToolNewLand.magcard, new ToolNewLand.DeviceListenser() {
+		ToolNewLand.getToolNewLand().searchCard(new ToolNewLand.DeviceListener() {
 			@Override
 			public void success(String data) {
-				etInputNo.setText(data);
-				etInputNo.setSelection(data.length());
+				final String cardNo = data;
+				((Activity) context).runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						etInputNo.setText(cardNo);
+						etInputNo.setSelection(cardNo.length());
+					}
+				});
+
 			}
 
 			@Override
 			public void fail(String data) {
-//				dismiss();
+
 			}
 		});
+
+
+//		toolNewLand = new ToolNewLand();
+//		toolNewLand.deviceBindService(context, ToolNewLand.magcard, new ToolNewLand.DeviceListenser() {
+//			@Override
+//			public void success(String data) {
+//				etInputNo.setText(data);
+//				etInputNo.setSelection(data.length());
+//			}
+//
+//			@Override
+//			public void fail(String data) {
+////				dismiss();
+//			}
+//		});
 
 
 //		MsrCard.getMsrCard(context).openMsrCard(new MsrCard.TrackData() {
@@ -123,8 +143,9 @@ public class MemberNoDialog extends Dialog implements View.OnClickListener {
 	@Override
 	public void dismiss() {
 		super.dismiss();
-		toolNewLand.deviceUnBindService();
-		toolNewLand = null;
+		ToolNewLand.getToolNewLand().stopSearch();
+//		toolNewLand.deviceUnBindService();
+//		toolNewLand = null;
 	}
 
 	private void initView() {

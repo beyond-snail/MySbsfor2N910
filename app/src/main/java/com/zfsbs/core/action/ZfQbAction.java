@@ -41,8 +41,8 @@ import com.myokhttp.response.GsonResponseHandler;
 import com.tool.utils.dialog.CustomTimingProgressDialog;
 import com.tool.utils.dialog.LoadingDialog;
 import com.tool.utils.utils.SPUtils;
-import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
@@ -127,7 +127,7 @@ public class ZfQbAction {
         paramsMap.put("qrCode", qrCode);
         paramsMap.put("cardNo", cardNo);
         paramsMap.put("MerchantId", sid);
-        paramsMap.put("TerminalNo", CommonFunc.getSerialNo(mContext));
+        paramsMap.put("TerminalNo", ToolNewLand.getToolNewLand().getSerialNo());
         paramsMap.put("OrgOrderNum", orderNo);
         paramsMap.put("OrgTranDateTime", time);
         paramsMap.put("SysTraceNum", traceNum);
@@ -245,7 +245,7 @@ public class ZfQbAction {
         Map<String, Object> paramsMap = new HashMap<String, Object>();
 
         paramsMap.put("MerchantId", sid);
-        paramsMap.put("TerminalNo", CommonFunc.getSerialNo(context));
+        paramsMap.put("TerminalNo", ToolNewLand.getToolNewLand().getSerialNo());
         paramsMap.put("OrgOrderNum", orderNo);
         paramsMap.put("OrgTranDateTime", time);
         paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));

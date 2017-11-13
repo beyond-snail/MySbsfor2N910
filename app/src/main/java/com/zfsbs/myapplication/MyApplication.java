@@ -39,6 +39,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.tool.utils.utils.ALog;
+import com.tool.utils.utils.AidlUtils;
 import com.zfsbs.core.action.SbsAction;
 import com.zfsbs.model.LoginApiResponse;
 
@@ -90,12 +91,11 @@ public class MyApplication extends LitePalApplication {
                 .setLog2FileSwitch(false)// 打印log时是否存到文件的开关，默认关
                 .setBorderSwitch(true)// 输出日志是否带边框开关，默认开
                 .setLogFilter(ALog.V);// log过滤器，和logcat过滤器同理，默认Verbose
+
+        AidlUtils.getInstance(this);
     }
 
-//
-//    public EmvImpl getEmvImpl() {
-//        return emvImpl;
-////    }
+
 
 
     public SbsAction getSbsAction() {
@@ -116,34 +116,13 @@ public class MyApplication extends LitePalApplication {
         return loginData;
     }
 
-//    public LoginApiResponse getLoginData() {
-////        if (loginData == null) {
-////            // 从数据库中读取
-////            List<LoginApiResponse> list = DataSupport.findAll(LoginApiResponse.class);
-////            for (int i = 0; i < list.size(); i++) {
-////                if (list.get(i).isCurrent()) {
-////                    loginData = list.get(i);
-////                    break;
-////                }
-////           }
-////        }
-//
-//        boolean isMember = (boolean) SPUtils.get(this, Constants.isMember, false);
-//
-//        if (isMember){
-//            List<LoginApiResponse> list = DataSupport.findAll(LoginApiResponse.class);
-//            loginData = list.get(Constants.FY_INDEX_1);
-//        }else {
-//            List<LoginApiResponse> list = DataSupport.findAll(LoginApiResponse.class);
-//            loginData = list.get(Constants.FY_INDEX_0);
-//        }
-//
-//        return loginData;
-//    }
+
 
 
 
     public void setLoginData(LoginApiResponse Data) {
         loginData = Data;
     }
+
+
 }

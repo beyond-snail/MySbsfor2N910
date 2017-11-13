@@ -198,44 +198,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
     private void preauth() {
 
         currentPayType = Constants.PAY_WAY_PREAUTH;
-
         CommonFunc.pay(this, 0, "300000", StringUtils.formatIntMoney(amount), "");
-
-
-//        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-//        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-//        PayCommon.PreAuth(this, amount, mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
-//            @Override
-//            public void success(ComTransInfo transInfo) {
-//                ToastUtils.CustomShow(ZfPayPreauthActivity.this, "预授权成功");
-//                setFlotPrintData1(transInfo, Constants.PAY_WAY_PREAUTH);
-//
-//
-//                //设置流水上送需要上送的参数
-//                TransUploadRequest request = CommonFunc.setTransUploadData(printerData,
-//                        CommonFunc.recoveryMemberInfo(ZfPayPreauthActivity.this),
-//                        CommonFunc.getNewClientSn(),
-//                        printerData.getVoucherNo(), printerData.getReferNo());
-//
-//                //打印的订单号与流水上送的统一
-//                printerData.setClientOrderNo(request.getClientOrderNo());
-//
-//                //流水上送
-//                transUploadAction1(request);
-//            }
-//
-//            @Override
-//            public void failed(String error) {
-//                final CommonDialog confirmDialog = new CommonDialog(ZfPayPreauthActivity.this, error);
-//                confirmDialog.show();
-//                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
-//                    @Override
-//                    public void doConfirm() {
-//
-//                    }
-//                });
-//            }
-//        });
     }
 
 
@@ -243,69 +206,8 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
      * 预授权撤销
      */
     private void authCancel(){
-
         currentPayType = Constants.PAY_WAY_AUTHCANCEL;
-
         CommonFunc.pay(ZfPayPreauthActivity.this, 0, "400000", "", "");
-
-//        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View view = inflater.inflate(R.layout.activity_set_password, null);
-//        LinearLayout ll_authcode = (LinearLayout) view.findViewById(R.id.id_ll_authCode);
-//        ll_authcode.setVisibility(View.VISIBLE);
-//        LinearLayout ll_date = (LinearLayout) view.findViewById(R.id.id_ll_date);
-//        ll_date.setVisibility(View.VISIBLE);
-//        final EditText etName = (EditText) view.findViewById(R.id.et_name);
-//        final EditText etOldDate = (EditText) view.findViewById(R.id.et_Ic_no);
-//        AlertUtils.alertSetPassword(this, "输入授权码", "确认",
-//                new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                       dialog.dismiss();
-//                        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-//                        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-//                        String authCode = etName.getText().toString().trim();
-//                        String oldDate = etOldDate.getText().toString().trim();
-//                        if (StringUtils.isBlank(authCode)){
-//                            ToastUtils.CustomShow(ZfPayPreauthActivity.this, "授权码不可为空");
-//                            return;
-//                        }
-//                        if (StringUtils.isBlank(oldDate)){
-//                            ToastUtils.CustomShow(ZfPayPreauthActivity.this, "输入日期");
-//                            return;
-//                        }
-//                        if (!getAuthCode(authCode, Constants.PAY_WAY_PREAUTH)){
-//                            return;
-//                        }
-//
-//
-//
-//                        PayCommon.AuthCancel(ZfPayPreauthActivity.this, amount, mid, tid, authCode, oldDate, new PayCommon.ComTransResult<ComTransInfo>() {
-//                            @Override
-//                            public void success(ComTransInfo transInfo) {
-//                                ToastUtils.CustomShow(ZfPayPreauthActivity.this, "预授权撤销成功");
-//                                setFlotPrintData1(transInfo, Constants.PAY_WAY_AUTHCANCEL);
-//
-//                                setTransCancel(Constants.PAY_WAY_AUTHCANCEL);
-//                            }
-//
-//                            @Override
-//                            public void failed(String error) {
-//                                final CommonDialog confirmDialog = new CommonDialog(ZfPayPreauthActivity.this, error);
-//                                confirmDialog.show();
-//                                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
-//                                    @Override
-//                                    public void doConfirm() {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//                    }
-//
-//                }, view);
-
-
     }
 
 
@@ -313,171 +215,18 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
      * 预授权完成
      */
     private void authComplete(){
-
         currentPayType = Constants.PAY_WAY_AUTHCOMPLETE;
-
         CommonFunc.pay(ZfPayPreauthActivity.this, 0, "330000", "", "");
-
-//        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View view = inflater.inflate(R.layout.activity_set_password, null);
-//        LinearLayout ll_authcode = (LinearLayout) view.findViewById(R.id.id_ll_authCode);
-//        ll_authcode.setVisibility(View.VISIBLE);
-//        LinearLayout ll_date = (LinearLayout) view.findViewById(R.id.id_ll_date);
-//        ll_date.setVisibility(View.VISIBLE);
-//        final EditText etName = (EditText) view.findViewById(R.id.et_name);
-//        final EditText etOldDate = (EditText) view.findViewById(R.id.et_Ic_no);
-//
-//        AlertUtils.alertSetPassword(this, "输入原交易信息", "确认",
-//                new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-//                        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-//                        String authCode = etName.getText().toString().trim();
-//                        String oldDate = etOldDate.getText().toString().trim();
-//                        if (StringUtils.isBlank(authCode)){
-//                            ToastUtils.CustomShow(ZfPayPreauthActivity.this, "授权码不可为空");
-//                            return;
-//                        }
-//                        if (StringUtils.isBlank(oldDate)){
-//                            ToastUtils.CustomShow(ZfPayPreauthActivity.this, "输入日期");
-//                            return;
-//                        }
-//                        if (!getAuthCode(authCode, Constants.PAY_WAY_PREAUTH)){
-//                            return;
-//                        }
-//
-//
-//                        currentPayType = Constants.PAY_WAY_AUTHCOMPLETE;
-//
-//                        CommonFunc.pay(ZfPayPreauthActivity.this, 0, "330000", StringUtils.formatIntMoney(amount), "");
-//
-//                        PayCommon.AuthComplete(ZfPayPreauthActivity.this, amount, mid, tid, authCode, oldDate, new PayCommon.ComTransResult<ComTransInfo>() {
-//                            @Override
-//                            public void success(ComTransInfo transInfo) {
-//                                ToastUtils.CustomShow(ZfPayPreauthActivity.this, "预授权完成成功");
-//                                setFlotPrintData1(transInfo, Constants.PAY_WAY_AUTHCOMPLETE);
-//
-//                                //设置流水上送需要上送的参数
-//                                TransUploadRequest request = CommonFunc.setTransUploadData(printerData,
-//                                        CommonFunc.recoveryMemberInfo(ZfPayPreauthActivity.this),
-//                                        CommonFunc.getNewClientSn(),
-//                                        printerData.getVoucherNo(), printerData.getReferNo());
-//
-//                                //打印的订单号与流水上送的统一
-//                                printerData.setClientOrderNo(request.getClientOrderNo());
-//
-//                                //流水上送
-//                                transUploadAction1(request);
-////                                setTransCancel(Constants.PAY_WAY_AUTHCOMPLETE);
-//                            }
-//
-//                            @Override
-//                            public void failed(String error) {
-//                                final CommonDialog confirmDialog = new CommonDialog(ZfPayPreauthActivity.this, error);
-//                                confirmDialog.show();
-//                                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
-//                                    @Override
-//                                    public void doConfirm() {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//                    }
-//
-//                }, view);
-
     }
 
     private void voidAuthComplete(){
-
-
         currentPayType = Constants.PAY_WAY_VOID_AUTHCOMPLETE;
-
         CommonFunc.pay(ZfPayPreauthActivity.this, 0, "440000", "", "");
-
-//        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View view = inflater.inflate(R.layout.activity_set_password, null);
-//        LinearLayout ll_trace_no = (LinearLayout) view.findViewById(R.id.id_ll_trace_no);
-//        ll_trace_no.setVisibility(View.VISIBLE);
-//        final EditText ettrace = (EditText) view.findViewById(R.id.et_trace);
-//        AlertUtils.alertSetPassword(this, "输入原交易信息", "确认",
-//                new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-//                        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-//
-//                        if (StringUtils.isBlank(ettrace.getText().toString().trim())){
-//                            ToastUtils.CustomShow(ZfPayPreauthActivity.this, "原交易流水不可为空");
-//                            return;
-//                        }
-//                        int trace_no = Integer.parseInt(ettrace.getText().toString());
-//                        if (!getTraceNo(ettrace.getText().toString().trim(), Constants.PAY_WAY_AUTHCOMPLETE)){
-//                            return;
-//                        }
-//
-//                        currentPayType = Constants.PAY_WAY_VOID_AUTHCOMPLETE;
-//
-//                        CommonFunc.pay(ZfPayPreauthActivity.this, 0, "440000", StringUtils.formatIntMoney(amount), "");
-//
-//                        PayCommon.VoidAuthComplete(ZfPayPreauthActivity.this, amount, mid, tid,  trace_no, new PayCommon.ComTransResult<ComTransInfo>() {
-//                            @Override
-//                            public void success(ComTransInfo transInfo) {
-//                                ToastUtils.CustomShow(ZfPayPreauthActivity.this, "预授权完成撤销成功");
-//                                setFlotPrintData1(transInfo, Constants.PAY_WAY_VOID_AUTHCOMPLETE);
-//
-//
-//                                setTransCancel(Constants.PAY_WAY_VOID_AUTHCOMPLETE);
-//                            }
-//
-//                            @Override
-//                            public void failed(String error) {
-//                                final CommonDialog confirmDialog = new CommonDialog(ZfPayPreauthActivity.this, error);
-//                                confirmDialog.show();
-//                                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
-//                                    @Override
-//                                    public void doConfirm() {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//                    }
-//
-//                }, view);
-
-
     }
 
 
 
 
-//    protected void setFlotPrintData1(ComTransInfo transInfo, int type) {
-//        printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
-//        printerData.setMerchantNo(MyApplication.getInstance().getLoginData().getMerchantNo());//(transInfo.getMid());
-//        printerData.setTerminalId(transInfo.getTid());
-//        printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
-//        printerData.setAcquirer(transInfo.getAcquirerCode());
-//        printerData.setAuthNo(transInfo.getAuthCode());
-//        printerData.setIssuer(transInfo.getIssuerCode());
-//        printerData.setCardNo(transInfo.getPan());
-//        printerData.setTransType(transInfo.getTransType() + "");
-//        printerData.setExpDate(transInfo.getExpiryDate());
-//        printerData.setBatchNO(StringUtils.fillZero(transInfo.getBatchNumber() + "", 6));
-//        printerData.setVoucherNo(StringUtils.fillZero(transInfo.getTrace() + "", 6));
-//        printerData.setDateTime(
-//                StringUtils.formatTime(StringUtils.getCurYear() + transInfo.getTransDate() + transInfo.getTransTime()));
-//        printerData.setReferNo(transInfo.getRrn());
-//        printerData.setOrderAmount(amount);
-//        printerData.setAmount(StringUtils.formatIntMoney(transInfo.getTransAmount()));
-//        printerData.setPayType(type);
-//    }
 
 
     private void setFlot(String data){
@@ -506,18 +255,6 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
         printerData.setAmount(smResponse.getTransamount());
         printerData.setPayType(currentPayType);
 
-
-//        //设置流水上送需要上送的参数
-//        TransUploadRequest request = CommonFunc.setTransUploadData(printerData,
-//                CommonFunc.recoveryMemberInfo(ZfPayActivity.this),
-//                clientNo,
-//                printerData.getVoucherNo(), printerData.getReferNo());
-//
-//        //打印的订单号与流水上送的统一
-//        printerData.setClientOrderNo(request.getClientOrderNo());
-//
-//        //流水上送
-//        transUploadAction1(request);
     }
 
 
@@ -531,7 +268,28 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
             switch (resultCode) {
                 case Activity.RESULT_OK:
 
-                    String payType = data.getStringExtra("proc_tp");
+                    LogUtils.e("msg_tp:" + data.getStringExtra("msg_tp") + "\n" +
+                            "pay_tp:" + data.getStringExtra("pay_tp") + "\n" +
+                            "proc_tp:" + data.getStringExtra("proc_tp") + "\n" +
+                            "proc_cd:" + data.getStringExtra("proc_cd") + "\n" +
+                            "amt:" + data.getStringExtra("amt") + "\n" +
+                            "systraceno:" + data.getStringExtra("systraceno") + "\n" +
+                            "sysoldtraceno:" + data.getStringExtra("sysoldtraceno") + "\n" +
+                            "oldauthcode:" + data.getStringExtra("oldauthcode") + "\n" +
+                            "order_no:" + data.getStringExtra("order_no") + "\n" +
+                            "appid:" + data.getStringExtra("appid") + "\n" +
+                            "time_stamp:" + data.getStringExtra("time_stamp") + "\n" +
+                            "print_info:" + data.getStringExtra("print_info") + "\n" +
+                            "batchbillno:" + data.getStringExtra("batchbillno") + "\n" +
+                            "merid:" + data.getStringExtra("merid") + "\n" +
+                            "termid:" + data.getStringExtra("termid") + "\n");
+
+//                    LogUtils.e("txndetail:" + data.getExtras().getString("txndetail"));
+
+                    ALog.json("txndetail", data.getExtras().getString("txndetail"));
+
+                    String payType = data.getStringExtra("pay_tp");
+                    String sysoldtraceno = data.getStringExtra("sysoldtraceno");
                     String detail = data.getExtras().getString("txndetail");
                     if ("0".equals(payType)){ //银行卡
                         if (currentPayType == Constants.PAY_WAY_PREAUTH || currentPayType == Constants.PAY_WAY_AUTHCOMPLETE) {
@@ -547,8 +305,20 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
 
                             //流水上送
                             transUploadAction1(request);
-                        }else if (currentPayType == Constants.PAY_WAY_AUTHCANCEL || currentPayType == Constants.PAY_WAY_VOID_AUTHCOMPLETE){
-                            setTransCancel(Constants.PAY_WAY_AUTHCANCEL);
+                        }else if (currentPayType == Constants.PAY_WAY_AUTHCANCEL){
+                            setFlot(detail);
+                            if (getTraceNo(sysoldtraceno, Constants.PAY_WAY_PREAUTH)) {
+                                setTransCancel(currentPayType);
+                            }else{
+                                ToastUtils.CustomShow(mContext,"本地没查到该交易凭证号");
+                            }
+                        }else if (currentPayType == Constants.PAY_WAY_VOID_AUTHCOMPLETE){
+                            setFlot(detail);
+                            if (getTraceNo(sysoldtraceno, Constants.PAY_WAY_AUTHCOMPLETE)) {
+                                setTransCancel(currentPayType);
+                            }else{
+                                ToastUtils.CustomShow(mContext,"本地没查到该交易凭证号");
+                            }
                         }
 
                     }
@@ -566,72 +336,6 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
                     break;
             }
         }
-    }
-
-
-
-
-
-
-
-
-
-    private boolean getAuthCode(String authCode, int type) {
-
-        // 从交易记录中读取数据
-        allData = DataSupport.order("id desc").limit(100).find(SbsPrinterData.class);
-        if (allData.size() <= 0) {
-            ToastUtils.CustomShow(this, "没有交易记录");
-            return false;
-        }
-
-        // 遍历
-        for (int i = 0; i < allData.size(); i++) {
-            // 遍历刷卡支付
-            if (allData.get(i).getPayType() == type && !StringUtils.isEmpty(allData.get(i).getAuthNo())) {
-                if (StringUtils.isEquals(allData.get(i).getAuthNo(),authCode)) {
-                    //获取交易的订单号
-                    Gson gson = new Gson();
-                    TransUploadRequest data = gson.fromJson(allData.get(i).getTransUploadData(), TransUploadRequest.class);
-
-                    if (data != null) {
-                        orderNo = data.getClientOrderNo();
-                    }
-                    return true;
-                }
-            }
-        }
-        ToastUtils.CustomShow(this, "没有该笔交易");
-        return false;
-    }
-
-
-    private boolean getTraceNo(String traceNo, int type) {
-        // 从交易记录中读取数据
-        allData = DataSupport.order("id desc").limit(100).find(SbsPrinterData.class);
-        if (allData.size() <= 0) {
-            ToastUtils.CustomShow(this, "没有交易记录");
-            return false;
-        }
-
-        // 遍历
-        for (int i = 0; i < allData.size(); i++) {
-            // 遍历刷卡支付
-            if (allData.get(i).getPayType() == type && !StringUtils.isEmpty(allData.get(i).getVoucherNo())) {
-                if (StringUtils.isEquals(allData.get(i).getVoucherNo(),traceNo)) {
-                    //获取交易的订单号
-                    Gson gson = new Gson();
-                    TransUploadRequest data = gson.fromJson(allData.get(i).getTransUploadData(), TransUploadRequest.class);
-
-                    if (data != null) {
-                        orderNo = data.getClientOrderNo();
-                    }
-                    return true;
-                }
-            }
-        }
-        ToastUtils.CustomShow(this, "没有该笔交易");
-        return false;
     }
 
 
@@ -704,14 +408,14 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
         request.setNew_trade_order_num(orderId);
         request.setPayType(type);
         request.setAuthCode(printerData.getVoucherNo());
-        request.setClientOrderNo(orderNo);
+//        request.setClientOrderNo(orderNo);
         request.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
 
         this.sbsAction.transCancelRefund(this, request, new ActionCallbackListener<String>() {
             @Override
             public void onSuccess(String data) {
                 showLayout();
-                ToastUtils.CustomShow(ZfPayPreauthActivity.this, "撤销成功");
+                ToastUtils.CustomShow(ZfPayPreauthActivity.this, "上传失败");
                 printerData.setRefundUpload(true);
                 //这个地方用来 在交易记录里去打印用的
                 request.setSid(MyApplication.getInstance().getLoginData().getSid());
@@ -731,7 +435,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
             @Override
             public void onFailure(String errorEvent, String message) {
                 showLayout();
-                ToastUtils.CustomShow(ZfPayPreauthActivity.this, "撤销成功");
+                ToastUtils.CustomShow(ZfPayPreauthActivity.this, "上传失败");
                 // 备份下交易流水数据
                 request.setSid(MyApplication.getInstance().getLoginData().getSid());
                 setTransUpLoadData(request);
@@ -925,6 +629,39 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
         Gson gson = new GsonBuilder().serializeNulls().create();
         String counponStr = gson.toJson(data);
         printerData.setCouponData(counponStr);
+    }
+
+
+    private boolean getTraceNo(String traceNo, int type) {
+
+        if (StringUtils.isBlank(traceNo)){
+            return false;
+        }
+        // 从交易记录中读取数据
+        allData = DataSupport.order("id desc").limit(100).find(SbsPrinterData.class);
+        if (allData.size() <= 0) {
+            ToastUtils.CustomShow(this, "没有交易记录");
+            return false;
+        }
+
+        // 遍历
+        for (int i = 0; i < allData.size(); i++) {
+            // 遍历刷卡支付
+            if (allData.get(i).getPayType() == type && !StringUtils.isEmpty(allData.get(i).getVoucherNo())) {
+                if (StringUtils.isEquals(allData.get(i).getVoucherNo(),traceNo)) {
+                    //获取交易的订单号
+                    Gson gson = new Gson();
+                    TransUploadRequest data = gson.fromJson(allData.get(i).getTransUploadData(), TransUploadRequest.class);
+
+                    if (data != null) {
+                        orderNo = data.getClientOrderNo();
+                    }
+                    return true;
+                }
+            }
+        }
+        ToastUtils.CustomShow(this, "没有该笔交易");
+        return false;
     }
 
 

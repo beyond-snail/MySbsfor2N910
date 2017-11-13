@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.util.Log;
 
 import com.nld.cloudpos.aidl.AidlDeviceService;
@@ -23,7 +22,7 @@ public class AidlUtils {
 
     private static Context mContext;
 
-    private AidlDeviceService aidlDeviceService = null;
+    private static AidlDeviceService aidlDeviceService = null;
 
     /**
      * 系统及设备信息
@@ -44,16 +43,21 @@ public class AidlUtils {
         return aidlUtils;
     }
 
+    public static void unBindService(){
+        mContext.unbindService(serviceConnection);
+    }
+
 
 
     /**
      * 服务连接
      */
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    private static ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.e(TAG, "bind device service");
             aidlDeviceService = AidlDeviceService.Stub.asInterface(service);
+            ToolNewLand.getInstance(mContext, aidlDeviceService);
         }
 
         @Override

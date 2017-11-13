@@ -1,5 +1,6 @@
 package com.zfsbs.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,6 @@ public class CardChangeActivity extends BaseActivity implements View.OnClickList
     private EditText etNewPwd;
     private EditText etCofimPwd;
 
-    ToolNewLand toolNewLand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,70 +42,61 @@ public class CardChangeActivity extends BaseActivity implements View.OnClickList
         button(R.id.id_ok).setOnClickListener(this);
 
 
-//        MsrCard.getMsrCard(mContext).openMsrCard(listener);
-        toolNewLand = new ToolNewLand();
-        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
+
+
     }
 
-    private ToolNewLand.DeviceListenser listenser = new ToolNewLand.DeviceListenser() {
+    private ToolNewLand.DeviceListener listenser = new ToolNewLand.DeviceListener() {
         @Override
         public void success(String data) {
-            etCardNo.setText(data);
-            etCardNo.setSelection(etCardNo.length());
+            final String cardNo = data;
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    etCardNo.setText(cardNo);
+                    etCardNo.setSelection(etCardNo.length());
+                }
+            });
+
         }
 
         @Override
-        public void fail(String data) {
-            toolNewLand.deviceUnBindService();
-            new Thread(new Runnable() {
+        public void fail(final String data) {
+
+            runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        Thread.sleep(200);
-                        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
+                    ToastUtils.CustomShow(mContext, data);
                 }
-            }).start();
-        }
-    };
+            });
 
-
-//    private MsrCard.TrackData listener = new MsrCard.TrackData() {
-//        @Override
-//        public void onSuccess(String track2Data) {
-//
-//            etCardNo.setText(track2Data);
-//            etCardNo.setSelection(etCardNo.length());
-//        }
-//
-//        @Override
-//        public void onFail() {
-//            MsrCard.getMsrCard(mContext).closeMsrCard();
+//            ToolNewLand.getToolNewLand().searchCard(listenser);
 //            new Thread(new Runnable() {
 //                @Override
 //                public void run() {
 //                    try {
 //                        Thread.sleep(200);
-//                        MsrCard.getMsrCard(mContext).openMsrCard(listener);
+//                        ToolNewLand.getToolNewLand().searchCard(listenser);
 //                    } catch (InterruptedException e) {
 //                        e.printStackTrace();
 //                    }
 //
 //                }
 //            }).start();
-//
-//        }
-//    };
+        }
+    };
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ToolNewLand.getToolNewLand().searchCard(listenser);
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        MsrCard.getMsrCard(mContext).closeMsrCard();
-        toolNewLand.deviceUnBindService();
-        toolNewLand = null;
+        ToolNewLand.getToolNewLand().stopSearch();
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
@@ -31,7 +32,6 @@ import com.zfsbs.model.FyRefundResponse;
 import com.zfsbs.model.RechargeUpLoad;
 import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.SmResponse;
-import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.myapplication.MyApplication;
 
 import org.litepal.crud.DataSupport;
@@ -366,7 +366,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
     private void setCashPrintData1(int oddChangeAmout, int payType) {
         printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
         printerData.setMerchantNo(MyApplication.getInstance().getLoginData().getMerchantNo());
-        printerData.setTerminalId(CommonFunc.getSerialNo(mContext));
+        printerData.setTerminalId(ToolNewLand.getToolNewLand().getSerialNo());
         printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
         printerData.setDateTime(StringUtils.getCurTime());
         printerData.setAmount(StringUtils.formatStrMoney(oldAmount));
@@ -397,7 +397,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         rechargeUpLoad.setActivateCode(MyApplication.getInstance().getLoginData().getTerminalNo());
         rechargeUpLoad.setMerchantNo(MyApplication.getInstance().getLoginData().getMerchantNo());
         rechargeUpLoad.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
-        rechargeUpLoad.setSerialNum(CommonFunc.getSerialNo(mContext));
+        rechargeUpLoad.setSerialNum(ToolNewLand.getToolNewLand().getSerialNo());
         rechargeUpLoad.setPayType(printerData.getPayType());
         rechargeUpLoad.setOperator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
         rechargeUpLoad.setPayType(Constants.PAY_WAY_CASH);
@@ -522,7 +522,26 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
             switch (resultCode) {
                 case Activity.RESULT_OK:
 
-                    String payType = data.getStringExtra("proc_tp");
+                    LogUtils.e("msg_tp:" + data.getStringExtra("msg_tp") + "\n" +
+                            "pay_tp:" + data.getStringExtra("pay_tp") + "\n" +
+                            "proc_tp:" + data.getStringExtra("proc_tp") + "\n" +
+                            "proc_cd:" + data.getStringExtra("proc_cd") + "\n" +
+                            "amt:" + data.getStringExtra("amt") + "\n" +
+                            "systraceno:" + data.getStringExtra("systraceno") + "\n" +
+                            "sysoldtraceno:" + data.getStringExtra("sysoldtraceno") + "\n" +
+                            "order_no:" + data.getStringExtra("order_no") + "\n" +
+                            "appid:" + data.getStringExtra("appid") + "\n" +
+                            "time_stamp:" + data.getStringExtra("time_stamp") + "\n" +
+                            "print_info:" + data.getStringExtra("print_info") + "\n" +
+                            "batchbillno:" + data.getStringExtra("batchbillno") + "\n" +
+                            "merid:" + data.getStringExtra("merid") + "\n" +
+                            "termid:" + data.getStringExtra("termid") + "\n");
+
+//                    LogUtils.e("txndetail:" + data.getExtras().getString("txndetail"));
+
+                    ALog.json("txndetail", data.getExtras().getString("txndetail"));
+
+                    String payType = data.getStringExtra("pay_tp");
                     String detail = data.getExtras().getString("txndetail");
                     if ("0".equals(payType)){ //银行卡
                         setFlot(detail);
@@ -604,7 +623,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         rechargeUpLoad.setActivateCode(MyApplication.getInstance().getLoginData().getActiveCode());
         rechargeUpLoad.setMerchantNo(MyApplication.getInstance().getLoginData().getFyMerchantNo());
         rechargeUpLoad.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
-        rechargeUpLoad.setSerialNum(CommonFunc.getSerialNo(mContext));
+        rechargeUpLoad.setSerialNum(ToolNewLand.getToolNewLand().getSerialNo());
         rechargeUpLoad.setPayType(printerData.getPayType());
         rechargeUpLoad.setOperator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
 
@@ -653,7 +672,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         rechargeUpLoad.setActivateCode(MyApplication.getInstance().getLoginData().getActiveCode());
         rechargeUpLoad.setMerchantNo(MyApplication.getInstance().getLoginData().getFyMerchantNo());
         rechargeUpLoad.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
-        rechargeUpLoad.setSerialNum(CommonFunc.getSerialNo(mContext));
+        rechargeUpLoad.setSerialNum(ToolNewLand.getToolNewLand().getSerialNo());
         rechargeUpLoad.setPayType(printerData.getPayType());
         rechargeUpLoad.setOperator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
 

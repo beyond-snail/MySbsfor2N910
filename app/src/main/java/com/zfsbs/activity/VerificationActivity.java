@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
@@ -97,7 +98,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
 
     private void commitTicket() {
         Long sid = MyApplication.getInstance().getLoginData().getSid();
-        String sn = CommonFunc.getSerialNo(mContext);
+        String sn = ToolNewLand.getToolNewLand().getSerialNo();
         String ticketNo = tNo.getText().toString().trim();
         String orderNo = CommonFunc.getNewClientSn(mContext);
 
@@ -128,7 +129,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
     private void checkTicket() {
 
         Long sid = MyApplication.getInstance().getLoginData().getSid();
-        String sn = CommonFunc.getSerialNo(mContext);
+        String sn = ToolNewLand.getToolNewLand().getSerialNo();
         String ticketNo = tNo.getText().toString().trim();
 
         sbsAction.ticketcheck(this, sid, ticketNo, sn, new ActionCallbackListener<TicektResponse>() {

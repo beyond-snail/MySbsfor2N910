@@ -1,5 +1,6 @@
 package com.zfsbs.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,6 @@ import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.utils.ToolNewLand;
 import com.zfsbs.R;
-import com.zfsbs.common.CommonFunc;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.ApiResponse;
 import com.zfsbs.model.VipCardNo;
@@ -24,10 +24,7 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
     private EditText etCard;
 
 
-    private static final int USER_SEARCH = 0;
-    private static final int USER_ADD = 1;
 
-    ToolNewLand toolNewLand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,108 +35,95 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
 
         initTitle("开卡/绑卡");
         if (findViewById(R.id.add) != null) {
-            findViewById(R.id.add).setVisibility(View.VISIBLE);
+            findViewById(R.id.add).setVisibility(View.GONE);
             findViewById(R.id.add).setOnClickListener(this);
         }
 
 
         initView();
 
-//        MsrCard.getMsrCard(mContext).openMsrCard(listener);
 
-        toolNewLand = new ToolNewLand();
-        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
+
+
 
     }
 
-    private ToolNewLand.DeviceListenser listenser = new ToolNewLand.DeviceListenser() {
+    private ToolNewLand.DeviceListener listenser = new ToolNewLand.DeviceListener() {
         @Override
         public void success(String data) {
-            etCard.setText(data);
-            etCard.setSelection(etCard.length());
 
-            toolNewLand.deviceUnBindService();
-
-            new Thread(new Runnable() {
+            final String cardNo = data;
+            ((Activity) mContext).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        Thread.sleep(200);
-                        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
+                    etCard.setText(cardNo);
+                    etCard.setSelection(etCard.length());
                 }
-            }).start();
+            });
+
+//
+//            ToolNewLand.getToolNewLand().stopSearch();
+//            ToolNewLand.getToolNewLand().searchCard(listenser);
+
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Thread.sleep(200);
+//                        ToolNewLand.getToolNewLand().searchCard(listenser);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }).start();
         }
 
         @Override
-        public void fail(String data) {
-            toolNewLand.deviceUnBindService();
-            new Thread(new Runnable() {
+        public void fail(final String data) {
+
+            runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        Thread.sleep(200);
-                        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
+                    ToastUtils.CustomShow(mContext, data);
                 }
-            }).start();
+            });
+//            ToolNewLand.getToolNewLand().stopSearch();
+//            ToolNewLand.getToolNewLand().searchCard(listenser);
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Thread.sleep(200);
+//                        ToolNewLand.getToolNewLand().searchCard(listenser);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }).start();
         }
     };
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ToolNewLand.getToolNewLand().searchCard(listenser);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        ToolNewLand.getToolNewLand().stopSearch();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ToolNewLand.getToolNewLand().stopSearch();
 
-//    private MsrCard.TrackData listener = new MsrCard.TrackData() {
-//        @Override
-//        public void onSuccess(String track2Data) {
-////            if (track2Data.length() < 5){
-////                return;
-////            }
-////            String cardNumber = track2Data.substring(0, track2Data.indexOf("="));
-//            etCard.setText(track2Data);
-//            etCard.setSelection(etCard.length());
-//
-//            MsrCard.getMsrCard(mContext).closeMsrCard();
-//
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        Thread.sleep(200);
-//                        MsrCard.getMsrCard(mContext).openMsrCard(listener);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }).start();
-//        }
-//
-//        @Override
-//        public void onFail() {
-//            MsrCard.getMsrCard(mContext).closeMsrCard();
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        Thread.sleep(200);
-//                        MsrCard.getMsrCard(mContext).openMsrCard(listener);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }).start();
-//
-//        }
-//    };
+    }
 
     private void initView() {
 
@@ -159,14 +143,15 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.id_bind_card:
+
                 openRealizeCard();
                 break;
             case R.id.id_change_card:
                 changeCard();
                 break;
             case R.id.add:
-                CommonFunc.startAction(this, CardChangeActivity.class, false);
-
+//                CommonFunc.startAction(this, CardChangeActivity.class, false);
+//                finish();
 
                 break;
             default:
@@ -233,13 +218,7 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-        toolNewLand.deviceUnBindService();
-        toolNewLand = null;
-    }
 
     private void openRealizeCard() {
 
@@ -293,19 +272,20 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onFailure(String errorEvent, String message) {
                 ToastUtils.CustomShow(mContext, message);
-                toolNewLand.deviceUnBindService();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(200);
-                            toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }).start();
+//                ToolNewLand.getToolNewLand().stopSearch();
+//                ToolNewLand.getToolNewLand().searchCard(listenser);
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            Thread.sleep(200);
+//                            ToolNewLand.getToolNewLand().searchCard(listenser);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                }).start();
             }
 
             @Override
@@ -355,19 +335,20 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onFailure(String errorEvent, String message) {
                 ToastUtils.CustomShow(mContext, message);
-                toolNewLand.deviceUnBindService();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(200);
-                            toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }).start();
+//                ToolNewLand.getToolNewLand().stopSearch();
+//                ToolNewLand.getToolNewLand().searchCard(listenser);
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            Thread.sleep(200);
+//                            ToolNewLand.getToolNewLand().searchCard(listenser);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                }).start();
             }
 
             @Override

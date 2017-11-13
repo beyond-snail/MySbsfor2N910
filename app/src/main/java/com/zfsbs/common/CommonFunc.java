@@ -128,7 +128,7 @@ public class CommonFunc {
         String device = "2"; // 1:手机 2:Pos机
         String timestamp = StringUtils.getFormatCurTime();
         String randomNum = StringUtils.createRandomNumStr(3);
-        String serial_no = StringUtils.getTerminalNo(CommonFunc.getSerialNo(context));
+        String serial_no = StringUtils.getTerminalNo(ToolNewLand.getToolNewLand().getSerialNo());
 
         return device + timestamp + randomNum + serial_no;
     }
@@ -146,7 +146,7 @@ public class CommonFunc {
                 break;
             case Constants.PAY_WAY_QB:
             case Constants.PAY_WAY_REFUND_QB:
-                activateCode = CommonFunc.getSerialNo(context);
+                activateCode = ToolNewLand.getToolNewLand().getSerialNo();
                 break;
             case Constants.PAY_WAY_ALY:
             case Constants.PAY_WAY_BFB:
@@ -326,14 +326,14 @@ public class CommonFunc {
     }
 
 
-    public static String getSerialNo(Context context){
-        String serialNo;
-        ToolNewLand toolNewLand = new ToolNewLand();
-        toolNewLand.deviceBindService(context, ToolNewLand.serialNo, null);
-        serialNo = "";//toolNewLand.getSerialNo();
-//        toolNewLand.deviceUnBindService();
-        return serialNo;
-    }
+//    public static String getSerialNo(Context context){
+//        String serialNo;
+//        ToolNewLand toolNewLand = new ToolNewLand();
+//        toolNewLand.deviceBindService(context, ToolNewLand.serialNo, null);
+//        serialNo = "";//toolNewLand.getSerialNo();
+////        toolNewLand.deviceUnBindService();
+//        return serialNo;
+//    }
 
 
 

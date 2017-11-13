@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.tool.utils.utils.SPUtils;
-import com.tool.utils.utils.StringUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Constants;
@@ -75,7 +75,7 @@ public class SystemManageActivity extends BaseActivity implements OnClickListene
 
 		txtMenchantName
 				.setText((String) SPUtils.get(SystemManageActivity.this, Constants.MERCHANT_NAME, Constants.DEFALULT_MERCHANT_NAME));
-		txtKsnNo.setText(CommonFunc.getSerialNo(mContext));
+		txtKsnNo.setText(ToolNewLand.getToolNewLand().getSerialNo());
 
 		txtUnMemberAuthCode.setText(
 				(String) SPUtils.get(SystemManageActivity.this, Constants.HS_AUTH1, Constants.DEFAULT_HS_AUTH1));

@@ -7,20 +7,14 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.myokhttp.MyOkHttp;
-import com.myokhttp.response.JsonResponseHandler;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.dialog.LoadingDialog;
-import com.tool.utils.dialog.SignDialog;
-import com.tool.utils.utils.EncryptMD5Util;
+import com.tool.utils.utils.AidlUtils;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
@@ -33,7 +27,6 @@ import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.config.EnumConstsSbs;
 import com.zfsbs.core.action.FyBat;
-import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.Couponsn;
 import com.zfsbs.model.FyMicropayRequest;
@@ -42,21 +35,15 @@ import com.zfsbs.model.FyQueryRequest;
 import com.zfsbs.model.FyQueryResponse;
 import com.zfsbs.model.FyRefundResponse;
 import com.zfsbs.model.Menu;
-import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
 import com.zfsbs.myapplication.MyApplication;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 
 public class SaleMainActivity extends BaseActivity{
@@ -120,6 +107,7 @@ public class SaleMainActivity extends BaseActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        AidlUtils.unBindService();
     }
 
     private void initData() {
@@ -741,4 +729,8 @@ public class SaleMainActivity extends BaseActivity{
 //
 //        return true;
 //    }
+
+
+
+
 }

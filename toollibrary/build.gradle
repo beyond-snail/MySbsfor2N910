@@ -46,4 +46,5 @@ dependencies {
     compile files('src/main/libs/sun.misc.BASE64Decoder.jar')
     compile files('src/main/libs/universal-image-loader-1.9.5.jar')
     compile files('src/main/libs/glide-3.7.0.jar')
+    compile files('src/main/libs/cloudposApi-1.0.0-release.jar')
 }

@@ -68,7 +68,7 @@ public class EnumConstsSbs {
 		SYS_MENU_7(3, R.color.menu3,"预授权"),
 		SYS_MENU_4(4, R.color.menu4,"扫码末笔查询"),
 		SYS_MENU_5(5, R.color.menu5,"主管理员密码修改"),
-		SYS_MENU_6(6, R.color.menu6,"消费管理"),
+		SYS_MENU_6(6, R.color.menu6,"卡密码修改"),
 		SYS_MENU_3(7, R.color.menu1,"班结"),
 		;
 

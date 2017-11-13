@@ -1,5 +1,6 @@
 package com.zfsbs.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -52,7 +53,6 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 //    private LinearLayout ll_meal;
     private MyGridView gridview;
 
-    ToolNewLand toolNewLand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,71 +64,64 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
         initView();
 
 
-        toolNewLand = new ToolNewLand();
-        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
+        ToolNewLand.getToolNewLand().searchCard(listenser);
 
     }
 
 
-//    private MsrCard.TrackData listener = new MsrCard.TrackData() {
-//        @Override
-//        public void onSuccess(String track2Data) {
-////            String cardNumber = track2Data.substring(0, track2Data.indexOf("="));
-//            etCardNo.setText(track2Data);
-//            etCardNo.setSelection(etCardNo.length());
-//        }
+
+
+
+    private ToolNewLand.DeviceListener listenser = new ToolNewLand.DeviceListener() {
+        @Override
+        public void success(String data) {
+
+            final String cardNo = data;
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    etCardNo.setText(cardNo);
+                    etCardNo.setSelection(etCardNo.length());
+                }
+            });
+
+
+
+        }
+
+        @Override
+        public void fail(final String data) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtils.CustomShow(mContext, data);
+                }
+            });
 //
-//        @Override
-//        public void onFail() {
-//            MsrCard.getMsrCard(mContext).closeMsrCard();
+//            ToolNewLand.getToolNewLand().stopSearch();
+//            ToolNewLand.getToolNewLand().searchCard(listenser);
 //            new Thread(new Runnable() {
 //                @Override
 //                public void run() {
 //                    try {
 //                        Thread.sleep(200);
-//                        MsrCard.getMsrCard(mContext).openMsrCard(listener);
+//                        ToolNewLand.getToolNewLand().searchCard(listenser);
 //                    } catch (InterruptedException e) {
 //                        e.printStackTrace();
 //                    }
 //
 //                }
 //            }).start();
-//
-//        }
-//    };
-
-
-    private ToolNewLand.DeviceListenser listenser = new ToolNewLand.DeviceListenser() {
-        @Override
-        public void success(String data) {
-            etCardNo.setText(data);
-            etCardNo.setSelection(etCardNo.length());
-
-        }
-
-        @Override
-        public void fail(String data) {
-            toolNewLand.deviceUnBindService();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(200);
-                        toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }).start();
         }
     };
+
+
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        toolNewLand.deviceUnBindService();
-        toolNewLand = null;
+        ToolNewLand.getToolNewLand().stopSearch();
     }
 
 
@@ -314,7 +307,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
                 }
 
 
-                toolNewLand.deviceBindService(mContext, ToolNewLand.magcard, listenser);
+//                ToolNewLand.getToolNewLand().searchCard(listenser);
             }
 
 
@@ -360,7 +353,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
         sbsAction.rechargeSure(mContext, sid, amount, orderNo, cardNo, new ActionCallbackListener<CardId>() {
             @Override
             public void onSuccess(CardId data) {
-                toolNewLand.deviceUnBindService();
+                ToolNewLand.getToolNewLand().stopSearch();
                 Bundle bundle = new Bundle();
 //                bundle.putSerializable("RechargeAmount", vo);
                 bundle.putString("orderNo", orderNo);

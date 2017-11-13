@@ -1,7 +1,6 @@
 package com.zfsbs.activity;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -19,19 +18,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.myokhttp.MyOkHttp;
-import com.myokhttp.response.JsonResponseHandler;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.dialog.LoadingDialog;
 import com.tool.utils.dialog.PassWordDialog;
 import com.tool.utils.utils.ALog;
-import com.tool.utils.utils.EncryptMD5Util;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.tool.utils.view.MyGridView;
-import com.wosai.upay.bean.UpayResult;
 import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
 import com.zfsbs.adapter.MyPayTypeAdapter;
@@ -41,53 +37,27 @@ import com.zfsbs.config.Constants;
 import com.zfsbs.config.EnumConstsSbs;
 import com.zfsbs.core.action.BATPay;
 import com.zfsbs.core.action.FyBat;
-import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.action.ZfQbAction;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
-import com.zfsbs.core.myinterface.BatInterface;
-import com.zfsbs.model.ActivateApiResponse;
 import com.zfsbs.model.Couponsn;
 import com.zfsbs.model.FailureData;
-import com.zfsbs.model.FyMicropayRequest;
-import com.zfsbs.model.FyMicropayResponse;
-import com.zfsbs.model.FyQueryRequest;
-import com.zfsbs.model.FyQueryResponse;
-import com.zfsbs.model.FyRefundResponse;
-import com.zfsbs.model.LoginApiResponse;
 import com.zfsbs.model.MemberTransAmountResponse;
 import com.zfsbs.model.PayType;
-import com.zfsbs.model.RicherGetMember;
-import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.SetClientOrder;
 import com.zfsbs.model.SmResponse;
 import com.zfsbs.model.StkPayRequest;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
-import com.zfsbs.model.ZfQbResponse;
 import com.zfsbs.myapplication.MyApplication;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.litepal.crud.DataSupport;
-
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import static com.wosai.upay.common.UpayTask.context;
-import static com.zfsbs.R.string.pay_type;
 import static com.zfsbs.common.CommonFunc.getNewClientSn;
 import static com.zfsbs.common.CommonFunc.startAction;
 import static com.zfsbs.common.CommonFunc.startResultAction;
-import static com.zfsbs.config.Constants.PAY_FY_ALY;
-import static com.zfsbs.config.Constants.PAY_FY_UNION;
-import static com.zfsbs.config.Constants.PAY_FY_WX;
-import static com.zfsbs.config.Constants.REQUEST_CAPTURE_ALY;
 import static com.zfsbs.config.Constants.REQUEST_CAPTURE_QB;
-import static com.zfsbs.config.Constants.REQUEST_CAPTURE_UNIPAY;
-import static com.zfsbs.config.Constants.REQUEST_CAPTURE_WX;
 import static com.zfsbs.config.Constants.REQUEST_CASH;
 
 public class ZfPayActivity extends BaseActivity implements OnClickListener {
@@ -157,7 +127,6 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         app_type = (int) SPUtils.get(this, Config.APP_TYPE, Config.DEFAULT_APP_TYPE);
 
         initView();
-//        initData();
         getData();
         addListenster();
 
@@ -187,18 +156,6 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         ll_pointAmount = (LinearLayout) findViewById(R.id.id_ll_pointAmount);
         ll_couponAmount = (LinearLayout) findViewById(R.id.id_ll_coupon_amount);
 
-//        if (!Constants.isUsedQb || app_type == Config.APP_Richer_e) {
-//            btnQb.setVisibility(View.INVISIBLE);
-//            btnCash.setVisibility(View.INVISIBLE);
-//        }
-//
-//        if (app_type == Config.APP_HD) {
-//            ll_pointAmount.setVisibility(View.INVISIBLE);
-//            ll_couponAmount.setVisibility(View.INVISIBLE);
-//            btnQb.setVisibility(View.INVISIBLE);
-//        } else if (app_type == Config.APP_YXF) {
-//            btnQb.setVisibility(View.INVISIBLE);
-//        }
 
 
     }
@@ -211,8 +168,6 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             type.setName(EnumConstsSbs.PaymentType.values()[i].getName());
             list.add(type);
         }
-
-
 
         gridView = (MyGridView) findViewById(R.id.id_gridview);
         adapter = new MyPayTypeAdapter(mContext, list);
@@ -286,9 +241,6 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             clientNo = getNewClientSn(mContext);
         }
 
-
-//        bat = new BATPay(this);
-        fybat = new FyBat(this, listener1);
         qbpay = new ZfQbAction(this);
 
         if (!StringUtils.isEmpty(CommonFunc.recoveryMemberInfo(ZfPayActivity.this).getMemberCardNo())) {
@@ -299,77 +251,6 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
     }
 
 
-    private FyBat.FYPayResultEvent listener1 = new FyBat.FYPayResultEvent() {
-        @Override
-        public void onSuccess(FyMicropayResponse data) {
-
-            setFySmPay1(data);
-        }
-
-        @Override
-        public void onSuccess(FyQueryResponse data) {
-            //先判断本地数据是否存在，防止从华尔街平台拿到的是上一笔成功的交易
-            SbsPrinterData datas = DataSupport.findLast(SbsPrinterData.class);
-//            LogUtils.e("AuthCode",datas.getAuthCode());
-//            LogUtils.e("getMchnt_order_no",data.getMchnt_order_no());
-            if (!StringUtils.isEmpty(datas.getAuthCode()) && datas.getAuthCode().equals(data.getMchnt_order_no())) {
-                ToastUtils.CustomShow(ZfPayActivity.this, "请确认消费者交易成功。");
-                return;
-            }
-//            setFySmPayQurey1(data);
-        }
-
-        @Override
-        public void onSuccess(FyRefundResponse data) {
-
-        }
-
-        @Override
-        public void onFailure(int statusCode, String error_msg, String type, String query_amount) {
-            showLayoutEndQuery();
-        }
-
-        @Override
-        public void onFailure(FyMicropayRequest data) {
-            showLayoutEndQuery();
-            if (data.getType().equals(Constants.PAY_FY_ALY)) {
-                setFyPayFailureQuery(data.getOutOrderNum(), data.getAmount() + "", data.getType(), true, Constants.PAY_WAY_ALY, Constants.FY_FAILURE_PAY);
-            } else if (data.getType().equals(Constants.PAY_FY_WX)) {
-                setFyPayFailureQuery(data.getOutOrderNum(), data.getAmount() + "", data.getType(), true, Constants.PAY_WAY_WX, Constants.FY_FAILURE_PAY);
-            } else if (data.getType().equals(Constants.PAY_FY_UNION)){
-                setFyPayFailureQuery(data.getOutOrderNum(), data.getAmount() + "", data.getType(), true, Constants.PAY_WAY_UNIPAY, Constants.FY_FAILURE_PAY);
-            }
-
-        }
-
-        @Override
-        public void onFailure(FyQueryRequest data) {
-            showLayoutEndQuery();
-            if (data == null) {
-                ToastUtils.CustomShow(ZfPayActivity.this, "请求数据为空，无法查询末笔");
-                return;
-            }
-            if (data.getOrder_type().equals(Constants.PAY_FY_ALY)) {
-                setFyQueryFailureQuery(data.getOutOrderNum(), data.getOrder_type(), data.getMchnt_order_no(), true, Constants.PAY_WAY_ALY, Constants.FY_FAILURE_QUERY);
-            } else if (data.getOrder_type().equals(Constants.PAY_FY_WX)) {
-                setFyQueryFailureQuery(data.getOutOrderNum(), data.getOrder_type(), data.getMchnt_order_no(), true, Constants.PAY_WAY_WX, Constants.FY_FAILURE_QUERY);
-            }else if (data.getOrder_type().equals(Constants.PAY_FY_UNION)) {
-                setFyQueryFailureQuery(data.getOutOrderNum(), data.getOrder_type(), data.getMchnt_order_no(), true, Constants.PAY_WAY_UNIPAY, Constants.FY_FAILURE_QUERY);
-            }
-
-        }
-
-
-        @Override
-        public void onLogin() {
-            AppManager.getAppManager().finishAllActivity();
-            if (Config.OPERATOR_UI_BEFORE) {
-                CommonFunc.startAction(ZfPayActivity.this, OperatorLoginActivity.class, false);
-            } else {
-                CommonFunc.startAction(ZfPayActivity.this, OperatorLoginActivity1.class, false);
-            }
-        }
-    };
 
 
     private void showLayoutEndQuery() {
@@ -413,7 +294,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                         Gson gson = new Gson();
                         TransUploadRequest data = gson.fromJson(printerData.getTransUploadData(), TransUploadRequest.class);
                         LogUtils.e(data.toString());
-                        getPrinterData(data);//(printerData.getRequest());
+                        getPrinterData(data);
                     }
                 }
                 break;
@@ -465,10 +346,10 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         final StkPayRequest request = new StkPayRequest();
         request.setSid(MyApplication.getInstance().getLoginData().getSid());
         request.setCardNo(CommonFunc.recoveryMemberInfo(this).getMemberCardNo());
-        request.setActivateCode(CommonFunc.getSerialNo(mContext));
+        request.setActivateCode(ToolNewLand.getToolNewLand().getSerialNo());
         request.setOrderNo(clientNo);
         request.setPayPassword(psw);
-        request.setSerialNum(CommonFunc.getSerialNo(mContext));
+        request.setSerialNum(ToolNewLand.getToolNewLand().getSerialNo());
         request.setOperator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
         request.setT(StringUtils.getdate2TimeStamp(StringUtils.formatTime(time)));
         request.setTransNo(traceNum);
@@ -528,10 +409,10 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             request.setCardNo(temp[1]);
         }
 
-        request.setActivateCode(CommonFunc.getSerialNo(mContext));
+        request.setActivateCode(ToolNewLand.getToolNewLand().getSerialNo());
         request.setOrderNo(clientNo);
         request.setQrCode(temp[0]);
-        request.setSerialNum(CommonFunc.getSerialNo(mContext));
+        request.setSerialNum(ToolNewLand.getToolNewLand().getSerialNo());
         request.setOperator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
         request.setT(StringUtils.getdate2TimeStamp(StringUtils.formatTime(time)));
         request.setTransNo(traceNum);
@@ -576,7 +457,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
     private void setStkPay(String orderNo, String time, String traceNum, int pay_type) {
         printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
         printerData.setMerchantNo("");
-        printerData.setTerminalId(CommonFunc.getSerialNo(mContext));
+        printerData.setTerminalId(ToolNewLand.getToolNewLand().getSerialNo());
         printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
         printerData.setDateTime(time);
         printerData.setClientOrderNo(orderNo);
@@ -587,30 +468,21 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
         printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
         printerData.setPayType(pay_type);
-
     }
 
 
 
 
     private void setNoPayAmount1() {
-
         setCashPrintData1(0);
-
-        if (app_type == Config.APP_SBS) {
-
-            //设置流水上送参数
-            TransUploadRequest request = CommonFunc.setTransUploadData(mContext,printerData, CommonFunc.recoveryMemberInfo(this),
-                    clientNo, "", ""
-            );
-
-            //打印订单号与流水上送统一
-            printerData.setClientOrderNo(request.getClientOrderNo());
-
-            //流水上送
-            transUploadAction1(request);
-        }
-
+        //设置流水上送参数
+        TransUploadRequest request = CommonFunc.setTransUploadData(mContext,printerData, CommonFunc.recoveryMemberInfo(this),
+                clientNo, "", ""
+        );
+        //打印订单号与流水上送统一
+        printerData.setClientOrderNo(request.getClientOrderNo());
+        //流水上送
+        transUploadAction1(request);
     }
 
 
@@ -621,15 +493,15 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             case Constants.PAY_WAY_STK:
                 ZfQbQuery();
                 break;
-            case Constants.PAY_WAY_ALY:
-            case Constants.PAY_WAY_WX:
-            case Constants.PAY_WAY_UNIPAY:
-                if (CommonFunc.recoveryFailureInfo(this).getFaiureType() == Constants.FY_FAILURE_PAY) {
-                    ZfFyPayQuery();
-                } else if (CommonFunc.recoveryFailureInfo(this).getFaiureType() == Constants.FY_FAILURE_QUERY) {
-                    ZfFyQuery();
-                }
-                break;
+//            case Constants.PAY_WAY_ALY:
+//            case Constants.PAY_WAY_WX:
+//            case Constants.PAY_WAY_UNIPAY:
+//                if (CommonFunc.recoveryFailureInfo(this).getFaiureType() == Constants.FY_FAILURE_PAY) {
+//                    ZfFyPayQuery();
+//                } else if (CommonFunc.recoveryFailureInfo(this).getFaiureType() == Constants.FY_FAILURE_QUERY) {
+//                    ZfFyQuery();
+//                }
+//                break;
 
         }
 
@@ -637,29 +509,20 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
 
     private void payBat(int type) {
-        String sm_type = MyApplication.getInstance().getLoginData().getScanPayType();
         int amt = CommonFunc.recoveryMemberInfo(this).getRealMoney();
 
-        //富友扫码
-        if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_FY)) {
-
-            switch (type) {
-                case Constants.PAY_WAY_ALY:
-//                    startResultAction(ZfPayActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE_ALY);
-
-                    CommonFunc.pay(this, 12, "660000", StringUtils.formatIntMoney(amt), clientNo);
-                    break;
-                case Constants.PAY_WAY_WX:
-//                    startResultAction(ZfPayActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE_WX);
-                    CommonFunc.pay(this, 11, "660000", StringUtils.formatIntMoney(amt), clientNo);
-                    break;
-                case Constants.PAY_WAY_UNIPAY:
+        switch (type) {
+            case Constants.PAY_WAY_ALY:
+                CommonFunc.pay(this, 12, "660000", StringUtils.formatIntMoney(amt), clientNo);
+                break;
+            case Constants.PAY_WAY_WX:
+                CommonFunc.pay(this, 11, "660000", StringUtils.formatIntMoney(amt), clientNo);
+                break;
+            case Constants.PAY_WAY_UNIPAY:
 //                    startResultAction(ZfPayActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE_UNIPAY);
-                    break;
-            }
-
-            return;
+                break;
         }
+
 
     }
 
@@ -673,50 +536,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
     private void payflot1() {
 
         int amt = CommonFunc.recoveryMemberInfo(this).getRealMoney();
-
-
         CommonFunc.pay(this, 0, "000000", StringUtils.formatIntMoney(amt), clientNo);
-
-
-//        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-//        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-//        PayCommon.sale(this, CommonFunc.recoveryMemberInfo(this).getRealMoney(), mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
-//            @Override
-//            public void success(ComTransInfo transInfo) {
-//                //设置打印的信息
-//                setFlotPrintData1(transInfo);
-//
-//                //判断是否是商博士
-//                if (app_type == Config.APP_SBS) {
-//
-//                    //设置流水上送需要上送的参数
-//                    TransUploadRequest request = CommonFunc.setTransUploadData(printerData,
-//                            CommonFunc.recoveryMemberInfo(ZfPayActivity.this),
-//                            clientNo,
-//                            printerData.getVoucherNo(), printerData.getReferNo());
-//
-//                    //打印的订单号与流水上送的统一
-//                    printerData.setClientOrderNo(request.getClientOrderNo());
-//
-//                    //流水上送
-//                    transUploadAction1(request);
-//                }
-//            }
-//
-//            @Override
-//            public void failed(String error) {
-////                ToastUtils.CustomShow(ZfPayActivity.this, error);
-//                final CommonDialog confirmDialog = new CommonDialog(ZfPayActivity.this, error);
-//                confirmDialog.show();
-//                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
-//                    @Override
-//                    public void doConfirm() {
-//
-//                    }
-//                });
-//            }
-//        });
-
 
     }
 
@@ -730,19 +550,17 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
         //设置打印信息
         setCashPrintData1(oddChangeAmout);
+        //设置流水上送参数
+        TransUploadRequest request = CommonFunc.setTransUploadData(mContext, printerData, CommonFunc.recoveryMemberInfo(this),
+                clientNo, "", ""
+        );
 
-        if (app_type == Config.APP_SBS) {
-            //设置流水上送参数
-            TransUploadRequest request = CommonFunc.setTransUploadData(mContext, printerData, CommonFunc.recoveryMemberInfo(this),
-                    clientNo, "", ""
-            );
+        //打印订单号与流水上送统一
+        printerData.setClientOrderNo(request.getClientOrderNo());
 
-            //打印订单号与流水上送统一
-            printerData.setClientOrderNo(request.getClientOrderNo());
+        //流水上送
+        transUploadAction1(request);
 
-            //流水上送
-            transUploadAction1(request);
-        }
 
     }
 
@@ -756,7 +574,26 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             switch (resultCode) {
                 case Activity.RESULT_OK:
 
-                    String payType = data.getStringExtra("proc_tp");
+                    LogUtils.e("msg_tp:" + data.getStringExtra("msg_tp") + "\n" +
+                            "pay_tp:" + data.getStringExtra("pay_tp") + "\n" +
+                            "proc_tp:" + data.getStringExtra("proc_tp") + "\n" +
+                            "proc_cd:" + data.getStringExtra("proc_cd") + "\n" +
+                            "amt:" + data.getStringExtra("amt") + "\n" +
+                            "systraceno:" + data.getStringExtra("systraceno") + "\n" +
+                            "sysoldtraceno:" + data.getStringExtra("sysoldtraceno") + "\n" +
+                            "order_no:" + data.getStringExtra("order_no") + "\n" +
+                            "appid:" + data.getStringExtra("appid") + "\n" +
+                            "time_stamp:" + data.getStringExtra("time_stamp") + "\n" +
+                            "print_info:" + data.getStringExtra("print_info") + "\n" +
+                            "batchbillno:" + data.getStringExtra("batchbillno") + "\n" +
+                            "merid:" + data.getStringExtra("merid") + "\n" +
+                            "termid:" + data.getStringExtra("termid") + "\n");
+
+//                    LogUtils.e("txndetail:" + data.getExtras().getString("txndetail"));
+
+                    ALog.json("txndetail", data.getExtras().getString("txndetail"));
+
+                    String payType = data.getStringExtra("pay_tp");
                     String detail = data.getExtras().getString("txndetail");
                     if ("0".equals(payType)){ //银行卡
                         setFlot(detail);
@@ -767,11 +604,9 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                     }
                     break;
                 case Activity.RESULT_CANCELED:
-//                    mTvResult.setText("reason:" + data.getStringExtra("reason"));
                     ToastUtils.CustomShow(mContext, data.getStringExtra("reason"));
                     break;
                 case -2:
-//                    mTvResult.setText("reason" + data.getStringExtra("reason"));
                     ToastUtils.CustomShow(mContext, data.getStringExtra("reason"));
                     break;
                 default:
@@ -786,23 +621,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                 case REQUEST_CASH:
                     int oddChangeAmout = data.getBundleExtra("bundle").getInt("oddChangeAmout");
                     payCash1(oddChangeAmout);
-
                     break;
-//                case REQUEST_CAPTURE_WX:
-//                    String result_wx = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
-//                    LogUtils.e("result", result_wx);
-//                    FyWxPay1(result_wx);
-//                    break;
-//                case REQUEST_CAPTURE_ALY:
-//                    String result_aly = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
-//                    LogUtils.e("result", result_aly);
-//                    FyAlyPay1(result_aly);
-//                    break;
-//                case REQUEST_CAPTURE_UNIPAY:
-//                    String result_uni = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
-//                    LogUtils.e("result", result_uni);
-//                    FyUnionPay1(result_uni);
-//                    break;
                 case REQUEST_CAPTURE_QB:
                     String result_qb = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
                     LogUtils.e("result", result_qb);
@@ -814,28 +633,6 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             }
         }
     }
-
-
-    private void FyWxPay1(String code) {
-        printerData.setPayType(Constants.PAY_WAY_WX);
-        printerData.setClientOrderNo(clientNo);
-        fybat.pay1(code, PAY_FY_WX, printerData.getClientOrderNo(), CommonFunc.recoveryMemberInfo(this).getRealMoney());
-    }
-
-
-    private void FyAlyPay1(String code) {
-        printerData.setPayType(Constants.PAY_WAY_ALY);
-        printerData.setClientOrderNo(clientNo);
-        fybat.pay1(code, PAY_FY_ALY, printerData.getClientOrderNo(), CommonFunc.recoveryMemberInfo(this).getRealMoney());
-    }
-
-    private void FyUnionPay1(String code) {
-        printerData.setPayType(Constants.PAY_WAY_UNIPAY);
-        printerData.setClientOrderNo(clientNo);
-        fybat.pay1(code, PAY_FY_UNION, printerData.getClientOrderNo(), CommonFunc.recoveryMemberInfo(this).getRealMoney());
-    }
-
-
 
 
 
@@ -879,23 +676,6 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
     }
 
 
-    /**
-     * 富友扫码支付异常处理
-     */
-    private void ZfFyPayQuery() {
-        fybat.terminalQuery1(CommonFunc.recoveryFailureInfo(this).getOrder_type(), CommonFunc.recoveryFailureInfo(this).getAmount(), true,
-                CommonFunc.recoveryFailureInfo(this).getOutOrderNo());
-    }
-
-    /**
-     * 富友扫码查询异常处理
-     */
-    private void ZfFyQuery() {
-
-        fybat.query1(this, CommonFunc.recoveryFailureInfo(this).getOrder_type(), CommonFunc.recoveryFailureInfo(this).getOrderNo(),
-                CommonFunc.recoveryFailureInfo(this).getOutOrderNo());
-    }
-
 
     /**
      * 设置钱包异常查询
@@ -915,52 +695,6 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         CommonFunc.setBackFailureInfo(this, data);
     }
 
-    /**
-     * 设置富友SM异常查询
-     *
-     * @param amount
-     * @param type
-     * @param isStatus
-     */
-    private void setFyPayFailureQuery(String outOrderNum, String amount, String type, boolean isStatus, int payWay, int failureType) {
-
-        boolean isMember = (boolean) SPUtils.get(this, Config.isHdMember, false);
-
-        FailureData data = new FailureData();
-        data.setOutOrderNo(outOrderNum);
-        data.setAmount(amount);
-        data.setOrder_type(type);
-        data.setStatus(isStatus);
-        data.setPay_type(payWay);
-        data.setFaiureType(failureType);
-        data.setApp_type(app_type);
-        data.setMember(isMember);
-        CommonFunc.setBackFailureInfo(this, data);
-
-    }
-
-    /**
-     * 设置富友查询异常查询数据
-     *
-     * @param type
-     * @param order_no
-     * @param isStatus
-     * @param payWay
-     */
-    private void setFyQueryFailureQuery(String outOrderNum, String type, String order_no, boolean isStatus, int payWay, int failureType) {
-        boolean isMember = (boolean) SPUtils.get(this, Config.isHdMember, false);
-        FailureData data = new FailureData();
-        data.setOutOrderNo(outOrderNum);
-        data.setOrder_type(type);
-        data.setStatus(isStatus);
-        data.setPay_type(payWay);
-        data.setOrderNo(order_no);
-        data.setFaiureType(failureType);
-        data.setApp_type(app_type);
-        data.setMember(isMember);
-        CommonFunc.setBackFailureInfo(this, data);
-    }
-
 
 
 
@@ -969,7 +703,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
     private void setCashPrintData1(int oddChangeAmout) {
         printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
         printerData.setMerchantNo(MyApplication.getInstance().getLoginData().getMerchantNo());
-        printerData.setTerminalId(CommonFunc.getSerialNo(mContext));
+        printerData.setTerminalId(ToolNewLand.getToolNewLand().getSerialNo());
         printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
         printerData.setDateTime(StringUtils.getCurTime());
         printerData.setAmount(StringUtils.formatIntMoney(CommonFunc.recoveryMemberInfo(this).getTradeMoney()));
@@ -982,28 +716,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
     }
 
 
-//    protected void setFlotPrintData1(ComTransInfo transInfo) {
-//        printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
-//        printerData.setMerchantNo(MyApplication.getInstance().getLoginData().getMerchantNo());//(transInfo.getMid());
-//        printerData.setTerminalId(transInfo.getTid());
-//        printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
-//        printerData.setAcquirer(transInfo.getAcquirerCode());
-//        printerData.setIssuer(transInfo.getIssuerCode());
-//        printerData.setCardNo(transInfo.getPan());
-//        printerData.setTransType(transInfo.getTransType() + "");
-//        printerData.setExpDate(transInfo.getExpiryDate());
-//        printerData.setBatchNO(StringUtils.fillZero(transInfo.getBatchNumber() + "", 6));
-//        printerData.setVoucherNo(StringUtils.fillZero(transInfo.getTrace() + "", 6));
-//        printerData.setDateTime(
-//                StringUtils.formatTime(StringUtils.getCurYear() + transInfo.getTransDate() + transInfo.getTransTime()));
-//        printerData.setAuthNo(transInfo.getAuthCode());
-//        printerData.setReferNo(transInfo.getRrn());
-//        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-//        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
-//        printerData.setOrderAmount(CommonFunc.recoveryMemberInfo(this).getTradeMoney());
-//        printerData.setAmount(StringUtils.formatIntMoney(transInfo.getTransAmount()));
-//        printerData.setPayType(Constants.PAY_WAY_FLOT);
-//    }
+
 
     private void setFlot(String data){
 
@@ -1047,39 +760,6 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
 
 
-
-
-    private void setFySmPay1(FyMicropayResponse data) {
-        printerData.setMerchantName(MyApplication.getInstance().getLoginData().getFyMerchantName());
-        printerData.setMerchantNo(MyApplication.getInstance().getLoginData().getFyMerchantNo());
-        printerData.setTerminalId(StringUtils.getTerminalNo(StringUtils.getSerial()));
-        printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
-        printerData.setTransNo(data.getTransaction_id());
-        printerData.setAuthCode(data.getMchnt_order_no());
-        printerData.setDateTime(StringUtils.formatTime(data.getTxn_begin_ts()));
-        printerData.setOrderAmount(CommonFunc.recoveryMemberInfo(this).getTradeMoney());
-        printerData.setAmount(StringUtils.formatStrMoney(data.getTotal_amount()));
-        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
-        printerData.setScanPayType(MyApplication.getInstance().getLoginData().getScanPayType());
-        if (data.getOrder_type().equals(Constants.PAY_FY_ALY)) {
-            printerData.setPayType(Constants.PAY_WAY_ALY);
-        } else if (data.getOrder_type().equals(Constants.PAY_FY_WX)) {
-            printerData.setPayType(Constants.PAY_WAY_WX);
-        } else if (data.getOrder_type().equals(Constants.PAY_FY_UNION)) {
-            printerData.setPayType(Constants.PAY_WAY_UNIPAY);
-        }
-
-        if (app_type == Config.APP_SBS) {
-            TransUploadRequest request = CommonFunc.setTransUploadData(mContext,printerData, CommonFunc.recoveryMemberInfo(this),
-                    clientNo, printerData.getTransNo(), printerData.getAuthCode()
-            );
-            printerData.setClientOrderNo(request.getClientOrderNo());
-            transUploadAction1(request);
-        }
-
-    }
-
     private void setSmPay(String data, int type){
 
         Gson gson = new Gson();
@@ -1112,44 +792,6 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
     }
 
 
-    private void setFySmPayQurey1(String data) {
-
-//        Gson gson = new Gson();
-//        SmResponse smResponse = gson.fromJson(data, SmResponse.class);
-
-
-
-//        printerData.setMerchantName(smResponse.getMername());
-//        printerData.setMerchantNo(smResponse.getMerid());
-//        printerData.setTerminalId(smResponse.getTermid());
-//        printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
-//        printerData.setTransNo(smResponse.getSystraceno());
-//        printerData.setAuthCode(smResponse.getOrderid_scan());
-//        printerData.setDateTime(StringUtils.formatTime(smResponse.getTranslocaldate()+smResponse.getTranslocaltime()));
-//        printerData.setOrderAmount(CommonFunc.recoveryMemberInfo(this).getTradeMoney());
-//        printerData.setAmount(smResponse.getTransamount());
-//        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-//        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
-//        printerData.setScanPayType(MyApplication.getInstance().getLoginData().getScanPayType());
-//        if (data.getOrder_type().equals(Constants.PAY_FY_ALY)) {
-//            printerData.setPayType(Constants.PAY_WAY_ALY);
-//        } else if (data.getOrder_type().equals(Constants.PAY_FY_WX)) {
-//            printerData.setPayType(Constants.PAY_WAY_WX);
-//        } else if (data.getOrder_type().equals(Constants.PAY_FY_UNION)) {
-//            printerData.setPayType(Constants.PAY_WAY_UNIPAY);
-//        }
-//
-//        printerData.setPayType(type);
-//
-//        if (app_type == Config.APP_SBS) {
-//            TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-//                    clientNo, printerData.getTransNo(), printerData.getAuthCode()
-//            );
-//            printerData.setClientOrderNo(request.getClientOrderNo());
-//            transUploadAction1(request);
-//        }
-
-    }
 
 
     /**
