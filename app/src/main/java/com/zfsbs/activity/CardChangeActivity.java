@@ -70,19 +70,6 @@ public class CardChangeActivity extends BaseActivity implements View.OnClickList
                 }
             });
 
-//            ToolNewLand.getToolNewLand().searchCard(listenser);
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        Thread.sleep(200);
-//                        ToolNewLand.getToolNewLand().searchCard(listenser);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }).start();
         }
     };
 

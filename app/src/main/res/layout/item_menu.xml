@@ -12,9 +12,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
 
-            android:text="dfd"
+            android:text="--"
+            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:visibility="visible" />
 
 </LinearLayout>

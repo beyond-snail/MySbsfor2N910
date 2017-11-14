@@ -1,4 +1,4 @@
-package com.zfsbs.model;
+package com.model;
 
 import android.graphics.Bitmap;
 
@@ -54,8 +54,6 @@ public class SbsPrinterData extends DataSupport implements Serializable {
     private String refund_order_no; //退款订单号
     private String scanPayType; //扫码支付通道
 
-    private TransUploadRequest request; // 目的是跟对应的打印数据对应起来
-    private TransCancel cancelRequest; //退款的接口保存
     private String transUploadData; //上传流水数据
     private String stkRequestData; //实体卡交易上送数据
     private String oldOrderId; //消费撤销时保存原交易订单号。
@@ -389,25 +387,7 @@ public class SbsPrinterData extends DataSupport implements Serializable {
         this.couponCoverMoney = couponCoverMoney;
     }
 
-    public TransUploadRequest getRequest() {
-        List<TransUploadRequest> list = DataSupport.where("sbsprinterdata_id = ?", "" + getId()).find(TransUploadRequest.class);
-        if (list != null && list.size() > 0) {
-            return list.get(0);
-        }
-        return request;
-    }
 
-    public void setRequest(TransUploadRequest request) {
-        this.request = request;
-    }
-
-    public TransCancel getCancelRequest() {
-        return cancelRequest;
-    }
-
-    public void setCancelRequest(TransCancel cancelRequest) {
-        this.cancelRequest = cancelRequest;
-    }
 
     public String getTransUploadData() {
         return transUploadData;
@@ -603,8 +583,6 @@ public class SbsPrinterData extends DataSupport implements Serializable {
                 ", isRefundUpload=" + isRefundUpload +
                 ", refund_order_no='" + refund_order_no + '\'' +
                 ", scanPayType='" + scanPayType + '\'' +
-                ", request=" + request +
-                ", cancelRequest=" + cancelRequest +
                 ", transUploadData='" + transUploadData + '\'' +
                 ", oldOrderId='" + oldOrderId + '\'' +
                 ", backAmt=" + backAmt +

@@ -290,6 +290,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                 if (app_type == Config.APP_SBS) {
                     if (printerData.getPayType() == Constants.PAY_WAY_STK || printerData.getPayType() == Constants.PAY_WAY_QB){
 //                        Printer.print(printerData, ZfPayActivity.this);
+                        ToolNewLand.getToolNewLand().printText(printerData);
                     }else {
                         Gson gson = new Gson();
                         TransUploadRequest data = gson.fromJson(printerData.getTransUploadData(), TransUploadRequest.class);
@@ -834,13 +835,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void onLogin() {
-                dialog.dismiss();
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(ZfPayActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(ZfPayActivity.this, OperatorLoginActivity1.class, false);
-                }
+
             }
         });
     }
@@ -878,6 +873,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                 PrinterDataSave();
                 // 打印
 //                Printer.print(printerData, ZfPayActivity.this);
+                ToolNewLand.getToolNewLand().printText(printerData);
             }
 
             @Override
@@ -887,13 +883,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void onLogin() {
-                dialog.dismiss();
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(ZfPayActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(ZfPayActivity.this, OperatorLoginActivity1.class, false);
-                }
+
             }
         });
     }
@@ -958,6 +948,8 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
             // 打印
 //            Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
+            ToolNewLand.getToolNewLand().printText(printerData);
+
 
         }
 

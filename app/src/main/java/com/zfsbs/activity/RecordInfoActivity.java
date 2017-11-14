@@ -10,13 +10,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.model.SbsPrinterData;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.zfsbs.R;
 import com.zfsbs.adapter.MyRecordsAdapter;
 import com.zfsbs.config.Constants;
-import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.TransUploadResponse;
 
 import org.litepal.crud.DataSupport;

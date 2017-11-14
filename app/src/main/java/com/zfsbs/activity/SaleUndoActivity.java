@@ -13,40 +13,27 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.model.SbsPrinterData;
 import com.tool.utils.activityManager.AppManager;
-import com.tool.utils.dialog.CommonDialog;
-import com.tool.utils.dialog.LoadingDialog;
-import com.tool.utils.utils.EncryptMD5Util;
+import com.tool.utils.utils.ALog;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
-import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
-import com.zfsbs.model.RicherGetMember;
-import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.SmResponse;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.myapplication.MyApplication;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
-import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
-import static com.zfsbs.config.Constants.REQUEST_CAPTURE_QB;
-import static com.zfsbs.config.Constants.REQUEST_CASH;
 
 public class SaleUndoActivity extends BaseActivity implements OnClickListener {
 
@@ -97,8 +84,6 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
 
         tv = (TextView) findViewById(R.id.id_tv);
 
-
-//        app_type = (int) SPUtils.get(this, Config.APP_TYPE, Config.DEFAULT_APP_TYPE);
     }
 
     private void addListener() {
@@ -129,38 +114,9 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
     }
 
     private void SaleUndoAction() {
-//        int trace_no = Integer.parseInt(etTraceNo.getText().toString());
         String traceNo = StringUtils.removeBlank(etTraceNo.getText().toString(), ' ');
         LogUtils.e(traceNo + "");
-
         CommonFunc.undo(this, 0, "200000", "", "", traceNo);
-
-//        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
-//        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
-//        PayCommon.voidSale(this, trace_no, mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
-//            @Override
-//            public void success(ComTransInfo transInfo) {
-//                LogUtils.e("SaleUndoAction", transInfo.toString());
-//                setUndoPrintData(transInfo);
-//
-//
-//                    setTransCancel();
-//
-//
-//            }
-//
-//            @Override
-//            public void failed(String error) {
-//                final CommonDialog confirmDialog = new CommonDialog(SaleUndoActivity.this, error);
-//                confirmDialog.show();
-//                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
-//                    @Override
-//                    public void doConfirm() {
-//
-//                    }
-//                });
-//            }
-//        });
     }
 
 
@@ -172,32 +128,39 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
             switch (resultCode) {
                 case Activity.RESULT_OK:
 
-                    String payType = data.getStringExtra("proc_tp");
+                    LogUtils.e("msg_tp:" + data.getStringExtra("msg_tp") + "\n" +
+                            "pay_tp:" + data.getStringExtra("pay_tp") + "\n" +
+                            "proc_tp:" + data.getStringExtra("proc_tp") + "\n" +
+                            "proc_cd:" + data.getStringExtra("proc_cd") + "\n" +
+                            "amt:" + data.getStringExtra("amt") + "\n" +
+                            "systraceno:" + data.getStringExtra("systraceno") + "\n" +
+                            "sysoldtraceno:" + data.getStringExtra("sysoldtraceno") + "\n" +
+                            "order_no:" + data.getStringExtra("order_no") + "\n" +
+                            "appid:" + data.getStringExtra("appid") + "\n" +
+                            "time_stamp:" + data.getStringExtra("time_stamp") + "\n" +
+                            "print_info:" + data.getStringExtra("print_info") + "\n" +
+                            "batchbillno:" + data.getStringExtra("batchbillno") + "\n" +
+                            "merid:" + data.getStringExtra("merid") + "\n" +
+                            "termid:" + data.getStringExtra("termid") + "\n");
+
+//                    LogUtils.e("txndetail:" + data.getExtras().getString("txndetail"));
+
+                    ALog.json("txndetail", data.getExtras().getString("txndetail"));
+
+                    String payType = data.getStringExtra("pay_tp");
                     String detail = data.getExtras().getString("txndetail");
                     if ("0".equals(payType)){ //银行卡
                         setUndo(detail);
                         setTransCancel();
                     }
-
-//                    mTvResult.setText("msg_tp:" + data.getStringExtra("msg_tp") + "\n" +
-//                            "pay_tp:" + data.getStringExtra("pay_tp") + "\n" +
-//                            "proc_tp:" + data.getStringExtra("proc_tp") + "\n" +
-//                            "proc_cd:" + data.getStringExtra("proc_cd") + "\n" +
-//                            "amt:" + data.getStringExtra("amt") + "\n" +
-//                            "order_no:" + data.getStringExtra("order_no") + "\n" +
-//                            "appid:" + data.getStringExtra("appid") + "\n" +
-//                            "time_stamp:" + data.getStringExtra("time_stamp") + "\n" +
-//                            "print_info:" + data.getStringExtra("print_info") + "\n" +
-//                            "batchbillno:" + data.getStringExtra("batchbillno") + "\n" +
-//                            "merid:" + data.getStringExtra("merid") + "\n" +
-//                            "termid:" + data.getStringExtra("termid") + "\n");
-//                    mTvResult.append("txndetail:" + data.getExtras().getString("txndetail"));
                     break;
                 case Activity.RESULT_CANCELED:
 //                    mTvResult.setText("reason:" + data.getStringExtra("reason"));
+                    ToastUtils.CustomShow(mContext, data.getStringExtra("reason"));
                     break;
                 case -2:
 //                    mTvResult.setText("reason" + data.getStringExtra("reason"));
+                    ToastUtils.CustomShow(mContext, data.getStringExtra("reason"));
                     break;
                 default:
                     break;
@@ -234,32 +197,6 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
         printerData.setPayType(Constants.PAY_WAY_UNDO);
     }
 
-//    protected void setUndoPrintData(ComTransInfo transInfo) {
-//        printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
-//        printerData.setMerchantNo(transInfo.getMid());
-//        printerData.setTerminalId(transInfo.getTid());
-//        printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
-//        printerData.setAcquirer(transInfo.getAcquirerCode());
-//        printerData.setIssuer(transInfo.getIssuerCode());
-//        printerData.setCardNo(transInfo.getPan());
-//        printerData.setTransType(transInfo.getTransType() + "");
-//        printerData.setExpDate(transInfo.getExpiryDate());
-//        printerData.setBatchNO(StringUtils.fillZero(transInfo.getBatchNumber() + "", 6));
-//        printerData.setVoucherNo(StringUtils.fillZero(transInfo.getTrace() + "", 6));
-//        printerData.setDateTime(
-//                StringUtils.formatTime(StringUtils.getCurYear() + transInfo.getTransDate() + transInfo.getTransTime()));
-//        printerData.setAuthNo(transInfo.getAuthCode());
-//        LogUtils.e(transInfo.getRrn());
-//        printerData.setReferNo(transInfo.getRrn());
-//        printerData.setPointCoverMoney(0);
-//        printerData.setCouponCoverMoney(0);
-//        // transInfo.setTransAmount(56000);
-//        printerData.setOrderAmount(transInfo.getTransAmount());
-//        printerData.setAmount(StringUtils.formatIntMoney(transInfo.getTransAmount()));
-//        printerData.setPayType(Constants.PAY_WAY_UNDO);
-//
-////        amount = transInfo.getTransAmount();
-//    }
 
 
     private void setTransUpLoadData(TransUploadRequest request) {
@@ -300,10 +237,11 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
 
 
 
-                    PrinterDataSave();
+                PrinterDataSave();
                     // 打印
 //                    Printer.print(printerData, SaleUndoActivity.this);
-                    finish();
+                ToolNewLand.getToolNewLand().printText(printerData);
+                finish();
 
             }
 
@@ -318,6 +256,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
                 PrinterDataSave();
                 // 打印
 //                Printer.print(printerData, SaleUndoActivity.this);
+                ToolNewLand.getToolNewLand().printText(printerData);
                 finish();
             }
 
@@ -328,12 +267,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void onLogin() {
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(SaleUndoActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(SaleUndoActivity.this, OperatorLoginActivity1.class, false);
-                }
+
             }
         });
     }
@@ -355,6 +289,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
 
             // 打印
 //            Printer.print(printerData, SaleUndoActivity.this);
+            ToolNewLand.getToolNewLand().printText(printerData);
             finish();
         }
 

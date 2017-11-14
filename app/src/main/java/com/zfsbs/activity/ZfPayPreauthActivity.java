@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.model.SbsPrinterData;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.dialog.LoadingDialog;
 import com.tool.utils.utils.ALog;
@@ -22,13 +23,13 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.utils.ToolNewLand;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.Couponsn;
-import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.SmResponse;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
@@ -171,7 +172,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
                 break;
             case R.id.id_finish:
             case R.id.id_terminal_query_sure: {
-                startAction(this, InputAmountActivity2.class, true);
+                CommonFunc.startAction(this, InputAmountActivity2.class, true);
             }
                 break;
             case R.id.pay_preauth:
@@ -381,13 +382,13 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
 
             @Override
             public void onLogin() {
-                dialog.dismiss();
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(ZfPayPreauthActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(ZfPayPreauthActivity.this, OperatorLoginActivity1.class, false);
-                }
+//                dialog.dismiss();
+//                AppManager.getAppManager().finishAllActivity();
+//                if (Config.OPERATOR_UI_BEFORE) {
+//                    CommonFunc.startAction(ZfPayPreauthActivity.this, OperatorLoginActivity.class, false);
+//                } else {
+//                    CommonFunc.startAction(ZfPayPreauthActivity.this, OperatorLoginActivity1.class, false);
+//                }
             }
         });
     }
@@ -427,6 +428,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
                 PrinterDataSave();
                 // 打印
 //                Printer.print(printerData, ZfPayPreauthActivity.this);
+                ToolNewLand.getToolNewLand().printText(printerData);
 
 
             }
@@ -443,6 +445,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
                 PrinterDataSave();
                 // 打印
 //                Printer.print(printerData, ZfPayPreauthActivity.this);
+                ToolNewLand.getToolNewLand().printText(printerData);
 
             }
 
@@ -496,6 +499,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
 
                 // 打印
 //                Printer.print(printerData, ZfPayPreauthActivity.this);
+                ToolNewLand.getToolNewLand().printText(printerData);
             }
 
             @Override
@@ -505,8 +509,8 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
 
             @Override
             public void onLogin() {
-                dialog.dismiss();
-                AppManager.getAppManager().finishAllActivity();
+//                dialog.dismiss();
+//                AppManager.getAppManager().finishAllActivity();
 
 
 
@@ -552,6 +556,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
 
             // 打印
 //            Printer.getInstance(ZfPayPreauthActivity.this).print(printerData, ZfPayPreauthActivity.this);
+            ToolNewLand.getToolNewLand().printText(printerData);
 
         }
 

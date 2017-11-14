@@ -12,6 +12,7 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.NetUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.zfsbs.R;
+import com.zfsbs.common.CommonFunc;
 import com.zfsbs.core.action.LoginAction;
 import com.zfsbs.core.myinterface.UiAction;
 
@@ -59,7 +60,7 @@ public class GetLoginInfoActivity1 extends BaseActivity implements OnClickListen
             @Override
             public void UiAction(Activity context, Class<?> cls, boolean flag) {
                 LogUtils.e("UiAction02");
-
+                CommonFunc.startAction(context, cls, flag);
             }
         });
 

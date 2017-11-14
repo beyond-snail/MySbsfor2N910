@@ -123,7 +123,7 @@ public class EnumConstsSbs {
 		BankCard(1, R.mipmap.icon_payflot, "刷卡"),
 		AliPay(2, R.mipmap.icon_aly, "支付宝"),
 		WebChat(3, R.mipmap.icon_weixin, "微信"),
-		UnionBank(4, R.mipmap.pay_union_bg, "银联"),
+//		UnionBank(4, R.mipmap.pay_union_bg, "银联"),
 		Cash(5, R.mipmap.icon_paycash,"现金"),
 		Wallet(6, R.mipmap.icon_qb, "钱包"),
 		STK(7, R.mipmap.stk_card, "会员卡");

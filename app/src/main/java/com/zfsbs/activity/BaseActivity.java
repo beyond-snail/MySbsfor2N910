@@ -20,11 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.model.SbsPrinterData;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.utils.WifiChangeBroadcastReceiver;
 import com.zfsbs.R;
 import com.zfsbs.core.action.SbsAction;
-import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.myapplication.MyApplication;
 import com.zfsbs.service.LoginReceiver;
 

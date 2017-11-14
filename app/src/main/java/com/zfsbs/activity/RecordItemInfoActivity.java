@@ -17,26 +17,23 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.myokhttp.MyOkHttp;
-import com.myokhttp.response.JsonResponseHandler;
+import com.model.SbsPrinterData;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.dialog.LoadingDialog;
+import com.tool.utils.utils.ALog;
 import com.tool.utils.utils.AlertUtils;
-import com.tool.utils.utils.EncryptMD5Util;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.wosai.upay.bean.UpayResult;
+import com.tool.utils.utils.ToolNewLand;
+import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
-import com.zfsbs.core.action.BATPay;
 import com.zfsbs.core.action.FyBat;
-import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
-import com.zfsbs.core.myinterface.BatInterface;
 import com.zfsbs.model.ChargeBlance;
 import com.zfsbs.model.FyMicropayRequest;
 import com.zfsbs.model.FyMicropayResponse;
@@ -44,20 +41,18 @@ import com.zfsbs.model.FyQueryRequest;
 import com.zfsbs.model.FyQueryResponse;
 import com.zfsbs.model.FyRefundResponse;
 import com.zfsbs.model.RechargeUpLoad;
-import com.zfsbs.model.RicherGetMember;
-import com.zfsbs.model.SbsPrinterData;
+import com.zfsbs.model.SmResponse;
 import com.zfsbs.model.StkPayRequest;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import static com.zfsbs.config.Constants.REQUEST_CAPTURE_QB;
+import static com.zfsbs.config.Constants.REQUEST_CASH;
 
 
 public class RecordItemInfoActivity extends BaseActivity implements View.OnClickListener {
@@ -278,15 +273,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 lv_bat.setVisibility(View.VISIBLE);
                 lv_flot.setVisibility(View.GONE);
 
-                //交易失败显示
-//                if (recordData.isStatus()) {
-//                    btnPrinter.setVisibility(View.GONE);
-//                    btnRefund.setVisibility(View.GONE);
-//                    btnTransUpload.setVisibility(View.GONE);
-//                    btnQuery.setVisibility(View.VISIBLE);
-//
-//                    break;
-//                }
 
                 if (recordData.isRefund()) {
                     if (recordData.isRefundUpload()) {
@@ -308,22 +294,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 lv_flot.setVisibility(View.GONE);
                 btnRefund.setVisibility(View.GONE);
                 break;
-//            case Constants.PAY_WAY_QB:
-//                lv_cash.setVisibility(View.GONE);
-//                lv_bat.setVisibility(View.VISIBLE);
-//                lv_flot.setVisibility(View.GONE);
-//                btnRefund.setVisibility(View.GONE);
-////                if (recordData.isRefund()) {
-////                    if (recordData.isRefundUpload()){
-////                        btnRefund.setVisibility(View.GONE);
-////                    }else {
-////                        btnRefund.setVisibility(View.VISIBLE);
-////                        btnRefund.setText("退款流水上送");
-////                    }
-////                }else {
-////                    btnRefund.setVisibility(View.VISIBLE);
-////                }
-//                break;
             case Constants.PAY_WAY_CASH:
             case Constants.PAY_WAY_PAY_FLOT:
             case Constants.PAY_WAY_RECHARGE_CASH:
@@ -373,11 +343,8 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         tvBMerchantName.setText(StringUtils.isEmpty(recordData.getMerchantName()) ? "" : recordData.getMerchantName());
         tvBMerchantNo.setText(StringUtils.isEmpty(recordData.getMerchantNo()) ? "" : recordData.getMerchantNo());
         tvBTerminalNo.setText(StringUtils.isEmpty(recordData.getTerminalId()) ? "" : recordData.getTerminalId());
-//        if (!recordData.isStatus()) {
         tvBClientOrderNo.setText(StringUtils.isEmpty(recordData.getClientOrderNo()) ? "" : recordData.getClientOrderNo());
         tvBAuthCode.setText(StringUtils.isEmpty(recordData.getAuthCode()) ? "" : recordData.getAuthCode());
-
-
         if (recordData.getPayType() == Constants.PAY_WAY_RECHARGE_ALY || recordData.getPayType() == Constants.PAY_WAY_RECHARGE_WX ||
                 recordData.getPayType() == Constants.PAY_WAY_RECHARGE_UNIPAY) {
             textView(R.id.id_text_B_orderAmount).setText("到账金额");
@@ -385,33 +352,18 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
             textView(R.id.id_text_B_blance_amount).setText("会员账号余额：");
             linearLayout(R.id.id_bat_recharge_balance).setVisibility(View.VISIBLE);
             textView(R.id.id_bat_r_balance_amount).setText(StringUtils.formatIntMoney(recordData.getPacektRemian()));
-
         } else {
             textView(R.id.id_text_B_orderAmount).setText("订单金额");
             textView(R.id.id_text_B_amount).setText("支付金额");
             linearLayout(R.id.id_bat_recharge_balance).setVisibility(View.GONE);
         }
-
         tvBOrderAmount.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getOrderAmount())) ? "" : StringUtils.formatIntMoney(recordData.getOrderAmount()));
-//        } else {
-//            tvBClientOrderNo.setVisibility(View.GONE);
-//            tvBAuthCode.setVisibility(View.GONE);
-//            tvBOrderAmount.setVisibility(View.GONE);
-//        }
-
         tvBAmount.setText(StringUtils.isEmpty(recordData.getAmount()) ? "" : recordData.getAmount());
-//        if (!recordData.isStatus()) {
         tvBBackAmount.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getBackAmt())) ? "" : StringUtils.formatIntMoney(recordData.getBackAmt()));
         tvBPointCoverMoney.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getPointCoverMoney())) ? "" : StringUtils.formatIntMoney(recordData.getPointCoverMoney()));
         tvBCouponCoverMoney.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getCouponCoverMoney())) ? "" : StringUtils.formatIntMoney(recordData.getCouponCoverMoney()));
-//        } else {
-//            tvBBackAmount.setVisibility(View.GONE);
-//            tvBPointCoverMoney.setVisibility(View.GONE);
-//            tvBCouponCoverMoney.setVisibility(View.GONE);
-//        }
         tvBTransTime.setText(StringUtils.isEmpty(recordData.getDateTime()) ? "" : recordData.getDateTime());
         tvBTransPayType.setText(StringUtils.isEmpty(Constants.getPayWayDesc(recordData.getPayType())) ? "" : Constants.getPayWayDesc(recordData.getPayType()));
-
     }
 
     private void show_flot() {
@@ -444,8 +396,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.id_printer: {
-//                printer(recordData);
-
                     if (recordData.getPayType() == Constants.PAY_WAY_RECHARGE_ALY || recordData.getPayType() == Constants.PAY_WAY_RECHARGE_WX ||
                             recordData.getPayType() == Constants.PAY_WAY_PAY_FLOT || recordData.getPayType() == Constants.PAY_WAY_RECHARGE_CASH
                             || recordData.getPayType() == Constants.PAY_WAY_RECHARGE_UNIPAY || recordData.getPayType() == Constants.PAY_WAY_STK || recordData.getPayType() == Constants.PAY_WAY_QB) {
@@ -455,7 +405,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                         TransUploadRequest data = gson.fromJson(recordData.getTransUploadData(), TransUploadRequest.class);
                         getPrinterData(data.getSid(), data.getClientOrderNo());
                     }
-
             }
             break;
             case R.id.id_refund:
@@ -487,40 +436,36 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
 
     private void showCustomizeDialog() {
-    /* @setView 装入自定义View ==> R.layout.dialog_customize
-     * 由于dialog_customize.xml只放置了一个EditView，因此和图8一样
-     * dialog_customize.xml可自定义更复杂的View
-     */
-
         if (!recordData.isRefundUpload() && recordData.isRefund()) {
             setTransCancel(recordData.getPayType(), refund_order_no);
             return;
         }
 
+        refundTrans();
 
-        final View view = this.getLayoutInflater().inflate(R.layout.activity_password, null);
-        AlertUtils.alertSetPassword(mContext, "请输入主管理员密码。", "确定", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                // 获取EditView中的输入内容
-                EditText edit_text = (EditText) view.findViewById(R.id.et_password);
-
-                String pass = (String) SPUtils.get(RecordItemInfoActivity.this, Constants.MASTER_PASS, Constants.DEFAULT_MASTER_PASS);
-                if (StringUtils.isEmpty(edit_text.getText().toString())) {
-                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "请输入主管理密码");
-                    return;
-                }
-                if (!StringUtils.isEquals(pass, edit_text.getText().toString())) {
-                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "主管理密码错误");
-                    return;
-                }
-                dialog.dismiss();
-                refundTrans();
-            }
-
-        }, view);
+//        final View view = this.getLayoutInflater().inflate(R.layout.activity_password, null);
+//        AlertUtils.alertSetPassword(mContext, "请输入主管理员密码。", "确定", new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                // 获取EditView中的输入内容
+//                EditText edit_text = (EditText) view.findViewById(R.id.et_password);
+//
+//                String pass = (String) SPUtils.get(RecordItemInfoActivity.this, Constants.MASTER_PASS, Constants.DEFAULT_MASTER_PASS);
+//                if (StringUtils.isEmpty(edit_text.getText().toString())) {
+//                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "请输入主管理密码");
+//                    return;
+//                }
+//                if (!StringUtils.isEquals(pass, edit_text.getText().toString())) {
+//                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "主管理密码错误");
+//                    return;
+//                }
+//                dialog.dismiss();
+//                refundTrans();
+//            }
+//
+//        }, view);
     }
 
 
@@ -532,8 +477,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onSuccess(TransUploadResponse data) {
-//                setTransUpdateResponse(data, dialog, false);
-
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 String counponStr = gson.toJson(data.getCoupon());
 
@@ -544,8 +487,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 values.put("pointCurrent", data.getPointCurrent());
                 values.put("couponData", counponStr);
                 values.put("coupon", data.getCoupon_url());
-//                values.put("title_url", data.getTitle_url());
-//                values.put("money", data.getMoney());
                 values.put("backAmt", data.getBackAmt());
                 DataSupport.update(SbsPrinterData.class, values, recordData.getId());
 
@@ -553,9 +494,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 recordData.setPoint(data.getPoint());
                 recordData.setPointCurrent(data.getPointCurrent());
                 recordData.setCoupon(data.getCoupon_url());
-//                recordData.setCoupon(data.getCoupon());
-//                recordData.setTitle_url(data.getTitle_url());
-//                recordData.setMoney(data.getMoney());
                 recordData.setCouponData(counponStr);
                 recordData.setBackAmt(data.getBackAmt());
 
@@ -566,7 +504,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
             @Override
             public void onFailure(String errorEvent, String message) {
                 dialog.dismiss();
-//                ToastUtils.CustomShow(RecordItemInfoActivity.this, errorEvent + "#" + message);
                 printer(recordData);
             }
 
@@ -577,12 +514,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onLogin() {
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity1.class, false);
-                }
+
             }
         });
     }
@@ -648,6 +580,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
             SbsPrinterData data = (SbsPrinterData) bundle.getSerializable("data");
             // 打印
 //            Printer.print(data, RecordItemInfoActivity.this);
+            ToolNewLand.getToolNewLand().printText(data);
         }
     };
 
@@ -661,7 +594,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         sbsAction.rechargePay(mContext, rechargeUpLoad, new ActionCallbackListener<ChargeBlance>() {
             @Override
             public void onSuccess(ChargeBlance data) {
-//                ToastUtils.CustomShow(RecordItemInfoActivity.this, data);
                 //更新
                 ContentValues values = new ContentValues();
                 values.put("promotion_num", rechargeUpLoad.getPromotion_num());
@@ -681,15 +613,10 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
-//                        textView(R.id.id_bat_r_balance_amount).setText(recordData.getPacektRemian());
-//                        textView(R.id.id_C_r_balance_amount).setText(recordData.getPacektRemian());
-
                         setTvText(R.id.id_bat_r_balance_amount, StringUtils.formatIntMoney(recordData.getPacektRemian()));
                         setTvText(R.id.id_C_r_balance_amount, StringUtils.formatIntMoney(recordData.getPacektRemian()));
                         btnTransUpload.setVisibility(View.GONE);
                         btnTransUpload.invalidate();
-
                     }
                 });
 
@@ -727,17 +654,13 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         LogUtils.e(transUploadRequest.toString());
 
         final LoadingDialog dialog = new LoadingDialog(this);
-        if (recordData.getApp_type() == Config.APP_HD) {
-            dialog.show("正在计算积分...");
-        } else {
-            dialog.show("正在上传交易流水...");
-        }
+
+        dialog.show("正在上传交易流水...");
+
         this.sbsAction.transUpload(this, transUploadRequest, new ActionCallbackListener<TransUploadResponse>() {
             @Override
             public void onSuccess(TransUploadResponse data) {
                 dialog.dismiss();
-//                LogUtils.e(data.toString());
-
                 if (recordData.getApp_type() != Config.APP_HD) {
                     ToastUtils.CustomShow(RecordItemInfoActivity.this, "交易流水上送成功");
                 }
@@ -751,9 +674,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 values.put("point", data.getPoint());
                 values.put("pointCurrent", data.getPointCurrent());
                 values.put("couponData", counponStr);
-//                values.put("coupon", data.getCoupon());
-//                values.put("title_url", data.getTitle_url());
-//                values.put("money", data.getMoney());
                 values.put("backAmt", data.getBackAmt());
                 values.put("UploadFlag", false);
                 DataSupport.update(SbsPrinterData.class, values, recordData.getId());
@@ -761,9 +681,6 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 recordData.setPoint_url(data.getPoint_url());
                 recordData.setPoint(data.getPoint());
                 recordData.setPointCurrent(data.getPointCurrent());
-//                recordData.setCoupon(data.getCoupon());
-//                recordData.setTitle_url(data.getTitle_url());
-//                recordData.setMoney(data.getMoney());
                 recordData.setCouponData(counponStr);
                 recordData.setBackAmt(data.getBackAmt());
                 recordData.setUploadFlag(false);
@@ -776,17 +693,15 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         tvFBackAmount.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getBackAmt())) ? "" : StringUtils.formatIntMoney(recordData.getBackAmt()));
                         tvCBackAmount.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getBackAmt())) ? "" : StringUtils.formatIntMoney(recordData.getBackAmt()));
                         tvBBackAmount.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getBackAmt())) ? "" : StringUtils.formatIntMoney(recordData.getBackAmt()));
                         btnTransUpload.setVisibility(View.GONE);
                         btnTransUpload.invalidate();
-
                     }
                 });
 
-                    setResult(Activity.RESULT_OK, myintent);
+                setResult(Activity.RESULT_OK, myintent);
 
             }
 
@@ -803,20 +718,39 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onLogin() {
-                dialog.dismiss();
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity1.class, false);
-                }
+
             }
         });
     }
 
+    private void payBat(int type) {
+
+        switch (type) {
+            case Constants.PAY_WAY_ALY:
+                if (!recordData.isRefund()){
+                    CommonFunc.pay(this, 12, "680000", recordData.getAmount(), "");
+                }else{
+                    setTransCancel(Constants.PAY_WAY_REFUND_ALY, refund_order_no);
+                }
+
+                break;
+            case Constants.PAY_WAY_WX:
+                if (!recordData.isRefund()){
+                    CommonFunc.pay(this, 11, "680000", recordData.getAmount(), "");
+                }else{
+                    setTransCancel(Constants.PAY_WAY_REFUND_WX, refund_order_no);
+                }
+
+                break;
+            case Constants.PAY_WAY_UNIPAY:
+//                    startResultAction(ZfPayActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE_UNIPAY);
+                break;
+        }
+
+
+    }
+
     private void refundTrans() {
-
-
         if (recordData.getPayType() == Constants.PAY_WAY_UNDO ||
                 recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL ||
                 recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) {
@@ -828,44 +762,54 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
             setTransPacketCancel(recordData.getPayType());
             return;
         }
+        payBat(recordData.getPayType());
+    }
 
 
-        String sm_type = recordData.getScanPayType();
-//        int amount = (int) (Double.parseDouble(recordData.getAmount()) * 100);
-        BigDecimal big = new BigDecimal(recordData.getAmount());
-        int amount = big.multiply(new BigDecimal(100)).intValue();
-        if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_FY)) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-            FyBat fybat = new FyBat(this, new FyBat.FYPayResultEvent() {
+        if (requestCode == 1 && data != null) {
 
-                @Override
-                public void onSuccess(FyMicropayResponse data) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
 
-                }
+                    LogUtils.e("msg_tp:" + data.getStringExtra("msg_tp") + "\n" +
+                            "pay_tp:" + data.getStringExtra("pay_tp") + "\n" +
+                            "proc_tp:" + data.getStringExtra("proc_tp") + "\n" +
+                            "proc_cd:" + data.getStringExtra("proc_cd") + "\n" +
+                            "amt:" + data.getStringExtra("amt") + "\n" +
+                            "systraceno:" + data.getStringExtra("systraceno") + "\n" +
+                            "sysoldtraceno:" + data.getStringExtra("sysoldtraceno") + "\n" +
+                            "order_no:" + data.getStringExtra("order_no") + "\n" +
+                            "appid:" + data.getStringExtra("appid") + "\n" +
+                            "time_stamp:" + data.getStringExtra("time_stamp") + "\n" +
+                            "print_info:" + data.getStringExtra("print_info") + "\n" +
+                            "batchbillno:" + data.getStringExtra("batchbillno") + "\n" +
+                            "merid:" + data.getStringExtra("merid") + "\n" +
+                            "termid:" + data.getStringExtra("termid") + "\n");
 
-                @Override
-                public void onSuccess(FyQueryResponse data) {
+//                    LogUtils.e("txndetail:" + data.getExtras().getString("txndetail"));
 
-                }
+                    ALog.json("txndetail", data.getExtras().getString("txndetail"));
 
-                @Override
-                public void onSuccess(FyRefundResponse data) {
+                    String payType = data.getStringExtra("pay_tp");
+                    String detail = data.getExtras().getString("txndetail");
+
+                    Gson gson = new Gson();
+                    SmResponse smResponse = gson.fromJson(detail, SmResponse.class);
+
                     // 更新到数据库
                     ContentValues values = new ContentValues();
                     values.put("isRefund", true);
-                    values.put("refund_order_no", data.getRefund_order_no());
+                    values.put("refund_order_no", smResponse.getOrderid_scan());
                     DataSupport.update(SbsPrinterData.class, values, recordData.getId());
 
                     //记录当前成功的订单号，用于如果退款流水上送失败，再次流水上送用。
-                    refund_order_no = data.getRefund_order_no();
-
+                    refund_order_no = smResponse.getOrderid_scan();
                     recordData.setRefund(true);
-
                     myintent.putExtra("refund_order_no", refund_order_no);
-//                    myintent.putExtra("isRefund", true);
-//                    setResult(Activity.RESULT_OK, myintent);
-
-
                     if (recordData.getPayType() == Constants.PAY_WAY_ALY) {
                         setTransCancel(Constants.PAY_WAY_REFUND_ALY, refund_order_no);
                     } else if (recordData.getPayType() == Constants.PAY_WAY_WX) {
@@ -873,72 +817,30 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                     } else if (recordData.getPayType() == Constants.PAY_WAY_UNIPAY) {
                         setTransCancel(Constants.PAY_WAY_REFUND_UNIPAY, refund_order_no);
                     }
-
-                }
-
-                @Override
-                public void onFailure(FyMicropayRequest data) {
-
-                }
-
-                @Override
-                public void onFailure(FyQueryRequest data) {
-
-                }
-
-                @Override
-                public void onFailure(int statusCode, String error_msg, String type, String order_no) {
-
-                }
-
-                @Override
-                public void onLogin() {
-                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "登录失效，请重新登录。。。");
-                    AppManager.getAppManager().finishAllActivity();
-                    if (Config.OPERATOR_UI_BEFORE) {
-                        CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity.class, false);
-                    } else {
-                        CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity1.class, false);
-                    }
-                }
-            });
-            if (recordData.getPayType() == Constants.PAY_WAY_ALY) {
-                if (!recordData.isRefund()) {
-                    fybat.refund(Constants.PAY_FY_ALY, recordData.getMerchantNo(), recordData.getAuthCode(), amount);
-                } else {
-                    setTransCancel(Constants.PAY_WAY_REFUND_ALY, refund_order_no);
-                }
-            } else if (recordData.getPayType() == Constants.PAY_WAY_WX) {
-                if (!recordData.isRefund()) {
-                    fybat.refund(Constants.PAY_FY_WX, recordData.getMerchantNo(), recordData.getAuthCode(), amount);
-                } else {
-                    setTransCancel(Constants.PAY_WAY_REFUND_WX, refund_order_no);
-                }
-            } else if (recordData.getPayType() == Constants.PAY_WAY_UNIPAY) {
-                if (!recordData.isRefund()) {
-                    fybat.refund(Constants.PAY_FY_UNION, recordData.getMerchantNo(), recordData.getAuthCode(), amount);
-                } else {
-                    setTransCancel(Constants.PAY_WAY_REFUND_UNIPAY, refund_order_no);
-                }
+                    break;
+                case Activity.RESULT_CANCELED:
+                    ToastUtils.CustomShow(mContext, data.getStringExtra("reason"));
+                    break;
+                case -2:
+                    ToastUtils.CustomShow(mContext, data.getStringExtra("reason"));
+                    break;
+                default:
+                    break;
             }
         }
     }
 
 
+
+
+
     private void setTransCancel(int payType, final String authCode) {
-
-
-
         Gson gson = new Gson();
         TransUploadRequest data = gson.fromJson(recordData.getTransUploadData(), TransUploadRequest.class);
         String oldOrderNo = data.getOld_trade_order_num();//data.getClientOrderNo();
-        long t = StringUtils.getdate2TimeStamp(StringUtils.getCurTime());//data.getT();
-        final String phone = data.getPhone();
-        final int point = recordData.getPoint();
+        long t = StringUtils.getdate2TimeStamp(StringUtils.getCurTime());
         final TransUploadRequest request = new TransUploadRequest();
-
         String orderId = CommonFunc.getNewClientSn(mContext);
-
         request.setAction("2");
         request.setOld_trade_order_num(oldOrderNo);
         request.setNew_trade_order_num(orderId);
@@ -994,60 +896,24 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onLogin() {
-                ToastUtils.CustomShow(RecordItemInfoActivity.this, "登录失效，请重新登录。。。");
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity1.class, false);
-                }
+
             }
         });
     }
 
 
-    private String phone;
-    private int point = 0;
     private void setTransPacketCancel(int payType) {
-
-
         final TransUploadRequest request = new TransUploadRequest();
-
-//        if (recordData.getPayType() == Constants.PAY_WAY_STK ){
-            Gson gson = new Gson();
-            StkPayRequest data = gson.fromJson(recordData.getStkRequestData(), StkPayRequest.class);
-            long t = StringUtils.getdate2TimeStamp(StringUtils.getCurTime());
-
-
-            String orderId = CommonFunc.getNewClientSn(mContext);
-
-            request.setAction("2");
-            request.setOld_trade_order_num(data.getOrderNo());
-            request.setNew_trade_order_num(orderId);
-            request.setPayType(payType);
-            request.setSid(data.getSid());
-            request.setT(t);
-
-//        }else {
-//            Gson gson = new Gson();
-//            TransUploadRequest data = gson.fromJson(recordData.getTransUploadData(), TransUploadRequest.class);
-//            LogUtils.e("setTransPacketCancel", data.toString());
-//            String oldOrderNo = data.getClientOrderNo();
-//            int sid = data.getSid();
-//            phone = data.getPhone();
-//            point = recordData.getPoint();
-//            long t = StringUtils.getdate2TimeStamp(StringUtils.getCurTime());
-//
-//
-//            String orderId = CommonFunc.getNewClientSn();
-//
-//            request.setAction("2");
-//            request.setOld_trade_order_num(oldOrderNo);
-//            request.setNew_trade_order_num(orderId);
-//            request.setPayType(payType);
-//            request.setSid(sid);
-//            request.setT(t);
-//        }
+        Gson gson = new Gson();
+        StkPayRequest data = gson.fromJson(recordData.getStkRequestData(), StkPayRequest.class);
+        long t = StringUtils.getdate2TimeStamp(StringUtils.getCurTime());
+        String orderId = CommonFunc.getNewClientSn(mContext);
+        request.setAction("2");
+        request.setOld_trade_order_num(data.getOrderNo());
+        request.setNew_trade_order_num(orderId);
+        request.setPayType(payType);
+        request.setSid(data.getSid());
+        request.setT(t);
 
         this.sbsAction.transPacketCancelRefund(this, request, new ActionCallbackListener<String>() {
             @Override
@@ -1063,9 +929,8 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
                 myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? false : true);
                 myintent.putExtra("isRefundUpload", true);
-//                setResult(Activity.RESULT_OK, myintent);
 
-                    setResult(Activity.RESULT_OK, myintent);
+                setResult(Activity.RESULT_OK, myintent);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -1088,13 +953,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onLogin() {
-                ToastUtils.CustomShow(RecordItemInfoActivity.this, "登录失效，请重新登录。。。");
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity1.class, false);
-                }
+
             }
         });
     }

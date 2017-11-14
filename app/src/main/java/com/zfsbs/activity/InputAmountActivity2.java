@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tool.utils.activityManager.AppManager;
@@ -38,6 +39,8 @@ public class InputAmountActivity2 extends BaseActivity implements OnClickListene
     private TextView tKeyblack;
     private TextView tKeyCaculate;
     private TextView tAmount;
+
+
 
     private int amount = 0;
 
@@ -86,6 +89,7 @@ public class InputAmountActivity2 extends BaseActivity implements OnClickListene
         tKeyblack = (TextView) findViewById(R.id.id_key_back);
         tKeyCaculate = (TextView) findViewById(R.id.id_key_caculate);
         tAmount = (TextView) findViewById(R.id.id_tv_amount);
+        linearLayout(R.id.id_show_phone).setVisibility(View.INVISIBLE);
     }
 
     private void addLinstener() {

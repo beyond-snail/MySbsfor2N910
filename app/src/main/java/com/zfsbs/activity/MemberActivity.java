@@ -171,7 +171,7 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
             if (pointChangeRate != 0 && s.toString().length() > 0 && StringUtils.isNumeric(s.toString())) {
                 showPoint = (Double.parseDouble(s.toString()));
                 LogUtils.e("showPoint:" + showPoint);
-                if (showPoint > pointMin) {
+                if (showPoint >= pointMin) {
                     ToastUtils.CustomShow(MemberActivity.this, "最大使用积分:" + pointMin + "积分");
                     etUsedPoint.setText(pointMin + "");
                     etUsedPoint.setSelection(etUsedPoint.getText().toString().length());
@@ -189,11 +189,17 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
                     return;
                 } else {
 
+//                    if (showPoint == 0){
+//                        return;
+//                    }
+
                     double temp = Arith.mul(showPoint, 100);
                     double temp1 = Arith.divide(temp, pointChangeRate);
 
                     tPointAmount.setText("可抵用" + StringUtils.formatIntMoney((int) temp1) + "元");
-                    tIsUsedPoint.setSelected(true);
+                    if (showPoint != 0) {
+                        tIsUsedPoint.setSelected(true);
+                    }
                     point = (int) (Double.parseDouble(etUsedPoint.getText().toString()));
                 }
             } else {
@@ -348,6 +354,12 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
 
                     tShowUsedCoupons.setText("");
                     etUsedPoint.setEnabled(true);
+                    if (couponResponse.getCouponNum() == 0){
+                        getMaxUsePoint(amount);
+                        etUsedPoint.setEnabled(false);
+                        etUsedPoint.setText("");
+                        tIsUsedPoint.setSelected(false);
+                    }
                     for (int i = 0; i < couponResponse.getCouponNum(); i++) {
                         if (couponResponse.getCoupons().get(i).isChecked()) {
                             if (couponResponse.getCoupons().get(i).getCouponType() == 1) {
@@ -371,8 +383,6 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
                             }
                         }
                     }
-//                }
-
                     break;
                 default:
                     break;
@@ -474,62 +484,6 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
         return (sn.toString().length() > 0 ? sn.substring(0, sn.toString().length() - 1) : "");
     }
 
-//    private boolean IsInputPass() {
-//        if (couponResponse.isFreePassword()) {
-//            return true;
-//        }
-//        if (point <= 0 && StringUtils.isEmpty(getSn())) {
-//            return true;
-//        }
-////        final PassWordDialog dialog = new PassWordDialog(MemberActivity.this, R.layout.activity_psw, new PassWordDialog.OnResultInterface() {
-////
-////            @Override
-////            public void onResult(String data) {
-////                LogUtils.e(data);
-////                pass = Base64Utils.getBase64(data);
-////                memberTransAmountAction();
-////            }
-////        });
-////        dialog.setCancelable(true);
-////        dialog.show();
-//        return true;
-//    }
-//
-//    private boolean IsMember() {
-//        // 根据姓名来判断是否输入会员
-//        if (StringUtils.isEmpty(couponResponse.getMemberName())) {
-//            MemberDialog dialog = new MemberDialog(MemberActivity.this, R.layout.activity_member_name,
-//                    new MemberDialog.onClickLeftListener() {
-//
-//                        @Override
-//                        public void onClickLeft(MemberDialog dialog, String result) {
-//                            dialog.dismiss();
-//                            couponResponse.setMemberName(result);
-//                            memberTransAmountAction();
-//                        }
-//
-//                    }, new MemberDialog.onClickRightListener() {
-//                @Override
-//                public void onClickRight(MemberDialog dialog) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            dialog.show();
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    private void testData() {
-//        List<Coupons> data = new ArrayList<>();
-//        for (int i = 0; i < 15; i++) {
-//            Coupons coupons = new Coupons();
-//            coupons.setMoney(12);
-//            coupons.setName("优惠券名称" + i);
-//            data.add(coupons);
-//        }
-//        ConponsDialog dialog = new ConponsDialog(this, R.layout.activity_coupons_list, data);
-//        dialog.show();
-//    }
+
 
 }

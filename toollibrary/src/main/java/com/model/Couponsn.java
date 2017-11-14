@@ -1,4 +1,4 @@
-package com.zfsbs.adapter;
+package com.model;
 
 ////////////////////////////////////////////////////////////////////
 //                          _ooOoo_                               //
@@ -33,56 +33,43 @@ package com.zfsbs.adapter;
 //                  不见满街漂亮妹，哪个归得程序员？                   //
 ////////////////////////////////////////////////////////////////////
 
-import android.content.Context;
+import org.litepal.crud.DataSupport;
 
-import com.model.SbsPrinterData;
-import com.zfsbs.R;
-import com.zfsbs.config.Constants;
-
-import java.util.List;
+import java.io.Serializable;
 
 /**********************************************************
- * *
- * Created by wucongpeng on 2016/11/9.        *
+ *                                                        *
+ *                  Created by wucongpeng on 2017/6/29.        *
  **********************************************************/
 
 
-public class MyRecordsAdapter extends CommonAdapter<SbsPrinterData> {
+public class Couponsn extends DataSupport implements Serializable {
 
-    private static final String TAG = "MyCouponsAdapter";
-    private List<SbsPrinterData> datas;
+    private String coupon_name;
+    private int coupon_money;
+    private int coupon_type;
 
-    public MyRecordsAdapter(Context context, List<SbsPrinterData> datas, int layoutId){
-        super(context, datas, layoutId);
-        this.datas = datas;
+    public int getCoupon_type() {
+        return coupon_type;
     }
 
-    @Override
-    public void convert(Context context, ViewHolder holder, SbsPrinterData sbsPrinterData) {
-        holder.setText(R.id.amount_id, sbsPrinterData.getAmount())
-                .setText(R.id.dateTime_id, sbsPrinterData.getDateTime())
-                .setText(R.id.id_trace_flag, getUploadStr(sbsPrinterData))
-                .setText(R.id.id_refund_flag, sbsPrinterData.isRefund() ? "已退款":"")
-                .setText(R.id.pay_method_id, Constants.getPayWayDesc(sbsPrinterData.getPayType()));
+    public void setCoupon_type(int coupon_type) {
+        this.coupon_type = coupon_type;
     }
 
-    private String getUploadStr(SbsPrinterData sbsPrinterData){
-//        if (sbsPrinterData.isStatus()){
-//            return "交易未知";
-//        }
-        if (sbsPrinterData.getPayType() == Constants.PAY_WAY_UNDO ||
-                sbsPrinterData.getPayType() == Constants.PAY_WAY_AUTHCANCEL ||
-                sbsPrinterData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE
-                ){
-            if (!sbsPrinterData.isRefundUpload()){
-                return "流水上送失败";
-            }
-        }else {
-            if (sbsPrinterData.isUploadFlag()){
-                return "流水上送失败";
-            }
-        }
+    public String getCoupon_name() {
+        return coupon_name;
+    }
 
-        return "";
+    public void setCoupon_name(String coupon_name) {
+        this.coupon_name = coupon_name;
+    }
+
+    public int getCoupon_money() {
+        return coupon_money;
+    }
+
+    public void setCoupon_money(int coupon_money) {
+        this.coupon_money = coupon_money;
     }
 }

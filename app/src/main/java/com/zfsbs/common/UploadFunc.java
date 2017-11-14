@@ -39,10 +39,10 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.google.gson.Gson;
+import com.model.SbsPrinterData;
 import com.tool.utils.utils.LogUtils;
 import com.zfsbs.core.action.SbsAction;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
-import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
 
