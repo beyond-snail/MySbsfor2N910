@@ -56,7 +56,8 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
     private String phone;
     private int points = 0;
     private boolean isMember;
-    private String oldOrderId = "";
+//    private String oldOrderId = "";
+    private String orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
     private void SaleUndoAction() {
         String traceNo = StringUtils.removeBlank(etTraceNo.getText().toString(), ' ');
         LogUtils.e(traceNo + "");
-        CommonFunc.undo(this, 0, "200000", "", "", traceNo);
+        CommonFunc.undo(this, 0, "200000", "", orderId, traceNo);
     }
 
 
@@ -143,23 +144,22 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
                             "merid:" + data.getStringExtra("merid") + "\n" +
                             "termid:" + data.getStringExtra("termid") + "\n");
 
-//                    LogUtils.e("txndetail:" + data.getExtras().getString("txndetail"));
 
                     ALog.json("txndetail", data.getExtras().getString("txndetail"));
 
                     String payType = data.getStringExtra("pay_tp");
                     String detail = data.getExtras().getString("txndetail");
-                    if ("0".equals(payType)){ //银行卡
+
+                    if ("0".equals(payType)) { //银行卡
                         setUndo(detail);
                         setTransCancel();
                     }
+
                     break;
                 case Activity.RESULT_CANCELED:
-//                    mTvResult.setText("reason:" + data.getStringExtra("reason"));
                     ToastUtils.CustomShow(mContext, data.getStringExtra("reason"));
                     break;
                 case -2:
-//                    mTvResult.setText("reason" + data.getStringExtra("reason"));
                     ToastUtils.CustomShow(mContext, data.getStringExtra("reason"));
                     break;
                 default:
@@ -212,7 +212,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
      */
     private void setTransCancel() {
         final TransUploadRequest request = new TransUploadRequest();
-        String orderId = CommonFunc.getNewClientSn(mContext);
+
         printerData.setClientOrderNo(orderId);
         printerData.setOldOrderId(orderNo);
         request.setSid(MyApplication.getInstance().getLoginData().getSid());
@@ -221,7 +221,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
         request.setNew_trade_order_num(orderId);
         request.setPayType(Constants.PAY_WAY_UNDO);
         request.setAuthCode(printerData.getVoucherNo());
-//        request.setClientOrderNo(orderNo);
+        request.setClientOrderNo(orderId);
         request.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
 
         this.sbsAction.transCancelRefund(this, request, new ActionCallbackListener<String>() {
@@ -343,25 +343,29 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
     }
 
     private void showTransInfo(SbsPrinterData sbsPrinterData) {
-        llTraceNo.setVisibility(View.GONE);
-        llText.setVisibility(View.VISIBLE);
-        String str = "卡号：\r\n" + sbsPrinterData.getCardNo() + "\r\n" + "金额：" + sbsPrinterData.getAmount() + "\r\n"
-                + "交易时间：\r\n" + sbsPrinterData.getDateTime();
-        tv.setText(str);
+//        llTraceNo.setVisibility(View.GONE);
+//        llText.setVisibility(View.VISIBLE);
+//        String str = "卡号：\r\n" + sbsPrinterData.getCardNo() + "\r\n" + "金额：" + sbsPrinterData.getAmount() + "\r\n"
+//                + "交易时间：\r\n" + sbsPrinterData.getDateTime();
+//        tv.setText(str);
 
         //获取交易的订单号
         Gson gson = new Gson();
         TransUploadRequest data = gson.fromJson(sbsPrinterData.getTransUploadData(), TransUploadRequest.class);
 
         if (data != null) {
-            orderNo = data.getClientOrderNo();
+//            orderNo = data.getClientOrderNo();
+            orderNo = data.getOld_trade_order_num();
         }
 
-        oldOrderId = sbsPrinterData.getClientOrderNo();
+//        oldOrderId = sbsPrinterData.getClientOrderNo();
+        orderId = CommonFunc.getNewClientSn(mContext);
         app_type=sbsPrinterData.getApp_type();
         phone=sbsPrinterData.getPhoneNo();
         points = sbsPrinterData.getPoint();
         isMember = sbsPrinterData.isMember();
+
+        SaleUndoAction();
     }
 
     private void isCheckPassword() {

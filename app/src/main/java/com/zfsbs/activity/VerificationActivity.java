@@ -10,9 +10,9 @@ import android.widget.TextView;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.utils.ToolNewLand;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
+import com.zfsbs.config.Constants;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.TicektResponse;
 import com.zfsbs.myapplication.MyApplication;
@@ -73,7 +73,34 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
                 commitTicket();
                 break;
             case R.id.id_scan:
-                CommonFunc.startResultAction(VerificationActivity.this, CaptureActivity.class, null, 1);
+//                CommonFunc.startResultAction(VerificationActivity.this, CaptureActivity.class, null, 1);
+                ToolNewLand.getToolNewLand().scan(new ToolNewLand.DeviceListener() {
+                    @Override
+                    public void success(final String data) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!StringUtils.isBlank(data)) {
+                                    tNo.setText(data);
+                                    tNo.setSelection(tNo.getText().length());
+                                    checkTicket();
+                                }
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void fail(final String data) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.CustomShow(mContext, data);
+                            }
+                        });
+                    }
+                });
                 break;
         }
     }
@@ -87,9 +114,9 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
         }
         switch (requestCode) {
             case 1:
-                String result = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
-                tNo.setText(result);
-                checkTicket();
+//                String result = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+//                tNo.setText(result);
+//                checkTicket();
                 break;
             default:
                 break;

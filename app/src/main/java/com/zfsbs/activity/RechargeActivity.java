@@ -18,10 +18,10 @@ import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.utils.ToolNewLand;
 import com.tool.utils.view.MyGridView;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
 import com.zfsbs.adapter.AdapterOilCardMeal;
 import com.zfsbs.common.CommonFunc;
+import com.zfsbs.config.Constants;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.CardId;
 import com.zfsbs.model.RechargeAmount;
@@ -234,7 +234,33 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
                 loadRechargeSureData();
                 break;
             case R.id.id_scan:
-                CommonFunc.startResultAction(RechargeActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE);
+//                CommonFunc.startResultAction(RechargeActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE);
+
+                ToolNewLand.getToolNewLand().scan(new ToolNewLand.DeviceListener() {
+                    @Override
+                    public void success(final String data) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!StringUtils.isBlank(data)) {
+                                    etCardNo.setText(data);
+                                }
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void fail(final String data) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.CustomShow(mContext, data);
+                            }
+                        });
+                    }
+                });
                 break;
             default:
                 break;
@@ -251,8 +277,8 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
         switch (requestCode) {
             case REQUEST_CAPTURE:
                 // 处理扫描结果（在界面上显示）
-                String phoneNo = data.getStringExtra(CaptureActivity.SCAN_RESULT);
-                etCardNo.setText(phoneNo);
+//                String phoneNo = data.getStringExtra(CaptureActivity.SCAN_RESULT);
+//                etCardNo.setText(phoneNo);
                 break;
 
             default:

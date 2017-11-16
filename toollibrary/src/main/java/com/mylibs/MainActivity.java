@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.toollibrary.R;
-import com.zxing.activity.MyCaptureActivity;
+import com.wosai.upay.zbar.activity.CaptureActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         mBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MyCaptureActivity.class);
+                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
                 startActivityForResult(intent, REQUEST_CAPTURE_CODE);
             }
         });
@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (requestCode){
             case REQUEST_CAPTURE_CODE:
-                String result = data.getExtras().getString(MyCaptureActivity.SCAN_RESULT);
-                mTv.setText(result);
+//                String result = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+//                mTv.setText(result);
                 break;
             default:
                 break;

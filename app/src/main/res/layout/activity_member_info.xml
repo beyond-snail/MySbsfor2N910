@@ -249,7 +249,7 @@
                         android:gravity="center"
                         android:padding="3dp"
                         android:text="抵扣"
-                        android:textColor="@color/black"
+                        android:textColor="@drawable/font_select"
                         android:textSize="15sp" />
                 </LinearLayout>
 

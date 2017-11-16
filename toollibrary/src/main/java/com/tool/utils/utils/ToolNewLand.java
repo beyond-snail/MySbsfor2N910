@@ -18,9 +18,12 @@ import com.nld.cloudpos.aidl.printer.AidlPrinter;
 import com.nld.cloudpos.aidl.printer.AidlPrinterListener;
 import com.nld.cloudpos.aidl.printer.PrintItemObj;
 import com.nld.cloudpos.aidl.printer.PrintItemObj.ALIGN;
+import com.nld.cloudpos.aidl.scan.AidlScanner;
+import com.nld.cloudpos.aidl.scan.AidlScannerListener;
 import com.nld.cloudpos.aidl.system.AidlSystem;
 import com.nld.cloudpos.data.AidlErrorCode;
 import com.nld.cloudpos.data.PrinterConstant;
+import com.nld.cloudpos.data.ScanConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,11 +61,15 @@ public class ToolNewLand {
      */
     private static AidlSystem aidlSystem = null;
 
+    /**
+     * 扫码相关
+     */
+    private static AidlScanner aidlScanner=null;
+
     public final static int magcard = 0;
     public final static int print = 1;
     public final static int serialNo = 2;
 
-    private int currentType = -1;
 //    private DeviceListener mListener;
 
     public interface DeviceListener{
@@ -73,13 +80,13 @@ public class ToolNewLand {
 
 
     private ToolNewLand(Context context, AidlDeviceService aidlDeviceService){
-//        this.aidlDeviceService = aidlDeviceService;
         mContext = context;
         try {
             aidlSystem = AidlSystem.Stub.asInterface(aidlDeviceService.getSystemService());
             aidlMagCard = AidlMagCard.Stub.asInterface(aidlDeviceService.getMagCardReader());
             aidlPrinter = AidlPrinter.Stub.asInterface(aidlDeviceService.getPrinter());
-
+            aidlScanner= AidlScanner
+                    .Stub.asInterface(aidlDeviceService.getScanner());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -245,12 +252,13 @@ public class ToolNewLand {
                 int printerState = aidlPrinter.getPrinterState();
                 Log.e(TAG, ""+printerState);
                 if (printerState == PrinterConstant.PrinterState.PRINTER_STATE_NOPAPER){
-                    ((Activity)mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtils.CustomShow(mContext, "打印机缺纸质...");
-                        }
-                    });
+//                    ((Activity)mContext).runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            ToastUtils.CustomShow(mContext, "打印机缺纸质...");
+//                        }
+//                    });
+                    ToastUtils.CustomShowLong(mContext, "打印机缺纸质...");
                     return;
                 }
             }else {
@@ -262,40 +270,12 @@ public class ToolNewLand {
             //--------------------------打印文本-----------------------------
             final List<PrintItemObj> data = new ArrayList<PrintItemObj>();
 
-//            if (printerData.getPayType() == ConstantsConfig.PAY_WAY_RECHARGE_FLOT ||
-//                    printerData.getPayType() == ConstantsConfig.PAY_WAY_RECHARGE_ALY ||
-//                    printerData.getPayType() == ConstantsConfig.PAY_WAY_RECHARGE_WX ||
-//                    printerData.getPayType() == ConstantsConfig.PAY_WAY_RECHARGE_CASH ||
-//                    printerData.getPayType() == ConstantsConfig.PAY_WAY_PAY_FLOT){
-//                if (!StringUtils.isBlank(printerData.getRealize_card_num())){
-//                    data.add(new PrintItemObj("会员卡号："+ StringUtils.formatSTCardNo(printerData.getRealize_card_num())));
-//                }
-//                if (!StringUtils.isBlank(printerData.getMember_name())) {
-//                    data.add(new PrintItemObj("会员姓名：" + printerData.getMember_name()));
-//                }
-//                if (!StringUtils.isBlank(printerData.getAmount())) {
-//                    data.add(new PrintItemObj("充值金额：" + printerData.getAmount() + "元"));
-//                }
-//                int largessAmount = printerData.getOrderAmount() - StringUtils.stringToInt(printerData.getAmount());
-//                if (largessAmount != 0) {
-//                    data.add(new PrintItemObj("充值赠送：" + StringUtils.formatIntMoney(largessAmount) + "元"));
-//                }
-//                if (printerData.getOrderAmount() != 0) {
-//                    data.add(new PrintItemObj("到账金额：" + StringUtils.formatIntMoney(printerData.getOrderAmount()) + "元"));
-//                }
-//                if (printerData.getPacektRemian() != 0) {
-//                    data.add(new PrintItemObj("账号余额：" + StringUtils.formatIntMoney(printerData.getPacektRemian()) + "元"));
-//                }
-//            }
-
             switch (printerData.getPayType()){
                 case ConstantsConfig.PAY_WAY_RECHARGE_FLOT:
                 case ConstantsConfig.PAY_WAY_RECHARGE_ALY:
-                case ConstantsConfig.PAY_WAY_RECHARGE_WX:
-                case ConstantsConfig.PAY_WAY_RECHARGE_CASH:
-                case ConstantsConfig.PAY_WAY_PAY_FLOT:
-                    if (!StringUtils.isBlank(printerData.getRealize_card_num())){
-                        data.add(new PrintItemObj("会员卡号："+ StringUtils.formatSTCardNo(printerData.getRealize_card_num())));
+                case ConstantsConfig.PAY_WAY_RECHARGE_WX: {
+                    if (!StringUtils.isBlank(printerData.getRealize_card_num())) {
+                        data.add(new PrintItemObj("会员卡号：" + StringUtils.formatSTCardNo(printerData.getRealize_card_num())));
                     }
                     if (!StringUtils.isBlank(printerData.getMember_name())) {
                         data.add(new PrintItemObj("会员姓名：" + printerData.getMember_name()));
@@ -313,38 +293,115 @@ public class ToolNewLand {
                     if (printerData.getPacektRemian() != 0) {
                         data.add(new PrintItemObj("账号余额：" + StringUtils.formatIntMoney(printerData.getPacektRemian()) + "元"));
                     }
+                }
+                    break;
+                case ConstantsConfig.PAY_WAY_QB:
+                case ConstantsConfig.PAY_WAY_STK:
+                    data.add(new PrintItemObj("收款凭证", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, ALIGN.CENTER, false, 6));
+                    data.add(new PrintItemObj("--------------------------------"));
+                    data.add(new PrintItemObj("商户名称：" + printerData.getMerchantName()));
+                    data.add(new PrintItemObj("终端编号：" + printerData.getTerminalId()));
+                    data.add(new PrintItemObj("操作员号：" + printerData.getOperatorNo()));
+                    data.add(new PrintItemObj("交易类型：" + "钱包"));
+                    data.add(new PrintItemObj("订 单 号：" + printerData.getClientOrderNo()));
+                    data.add(new PrintItemObj("日期时间：" + printerData.getDateTime()));
+                    data.add(new PrintItemObj("金 额：RMB " + printerData.getAmount()));
+                    data.add(new PrintItemObj("--------------------------------"));
+                    data.add(new PrintItemObj("\r"));
+                    data.add(new PrintItemObj("\r"));
+
+                    if (printerData.getPacektRemian() != 0){
+                        data.add(new PrintItemObj("会员账号余额：" + StringUtils.formatIntMoney(printerData.getPacektRemian()) + "元"));
+                    }
+                    if (printerData.getPointCoverMoney() != 0) {
+                        data.add(new PrintItemObj("积分抵扣金额：" + StringUtils.formatIntMoney(printerData.getPointCoverMoney()) + "元"));
+                    }
+                    if (printerData.getCouponCoverMoney() != 0) {
+                        data.add(new PrintItemObj("优惠券抵扣金额：" + StringUtils.formatIntMoney(printerData.getCouponCoverMoney()) + "元"));
+                    }
+                    if (printerData.getBackAmt() != 0) {
+                        data.add(new PrintItemObj("返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元"));
+                    }
+                    data.add(new PrintItemObj("\r"));
+                    data.add(new PrintItemObj("\r"));
+                    break;
+                case ConstantsConfig.PAY_WAY_CASH:
+
+                    data.add(new PrintItemObj("收款凭证", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, ALIGN.CENTER, false, 6));
+                    data.add(new PrintItemObj("--------------------------------"));
+                    data.add(new PrintItemObj("商户名称：" + printerData.getMerchantName()));
+                    data.add(new PrintItemObj("终端编号：" + printerData.getTerminalId()));
+                    data.add(new PrintItemObj("操作员号：" + printerData.getOperatorNo()));
+                    data.add(new PrintItemObj("交易类型：" + "现金/CASH"));
+                    data.add(new PrintItemObj("订 单 号：" + printerData.getClientOrderNo()));
+                    data.add(new PrintItemObj("日期时间：" + printerData.getDateTime()));
+                    data.add(new PrintItemObj("金 额：RMB " + printerData.getReceiveAmount()));
+                    data.add(new PrintItemObj("--------------------------------"));
+                    data.add(new PrintItemObj("\r"));
+                    data.add(new PrintItemObj("\r"));
+                    if (printerData.getPointCoverMoney() != 0) {
+                        data.add(new PrintItemObj("积分抵扣金额：" + StringUtils.formatIntMoney(printerData.getPointCoverMoney()) + "元"));
+                    }
+                    if (printerData.getCouponCoverMoney() != 0) {
+                        data.add(new PrintItemObj("优惠券抵扣金额：" + StringUtils.formatIntMoney(printerData.getCouponCoverMoney()) + "元"));
+                    }
+                    if (printerData.getBackAmt() != 0) {
+                        data.add(new PrintItemObj("返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元"));
+                    }
+                    data.add(new PrintItemObj("\r"));
+                    data.add(new PrintItemObj("\r"));
+                    break;
+                case ConstantsConfig.PAY_WAY_PAY_FLOT:
+                case ConstantsConfig.PAY_WAY_RECHARGE_CASH: {
+                    data.add(new PrintItemObj("收款凭证", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, ALIGN.CENTER, false, 6));
+                    data.add(new PrintItemObj("--------------------------------"));
+                    data.add(new PrintItemObj("商户名称：" + printerData.getMerchantName()));
+                    data.add(new PrintItemObj("终端编号：" + printerData.getTerminalId()));
+                    data.add(new PrintItemObj("操作员号：" + printerData.getOperatorNo()));
+                    data.add(new PrintItemObj("交易类型：" + "现金/CASH"));
+                    data.add(new PrintItemObj("订 单 号：" + printerData.getClientOrderNo()));
+                    data.add(new PrintItemObj("日期时间：" + printerData.getDateTime()));
+                    data.add(new PrintItemObj("金 额：RMB " + printerData.getReceiveAmount()));
+                    data.add(new PrintItemObj("--------------------------------"));
+                    data.add(new PrintItemObj("\r"));
+                    data.add(new PrintItemObj("\r"));
+                    if (!StringUtils.isBlank(printerData.getRealize_card_num())) {
+                        data.add(new PrintItemObj("会员卡号：" + StringUtils.formatSTCardNo(printerData.getRealize_card_num())));
+                    }
+                    if (!StringUtils.isBlank(printerData.getMember_name())) {
+                        data.add(new PrintItemObj("会员姓名：" + printerData.getMember_name()));
+                    }
+                    if (!StringUtils.isBlank(printerData.getAmount())) {
+                        data.add(new PrintItemObj("充值金额：" + printerData.getAmount() + "元"));
+                    }
+                    int largessAmount = StringUtils.stringToInt(printerData.getReceiveAmount()) - StringUtils.stringToInt(printerData.getAmount());
+                    if (largessAmount != 0) {
+                        data.add(new PrintItemObj("充值赠送：" + StringUtils.formatIntMoney(largessAmount) + "元"));
+                    }
+                    if (printerData.getOrderAmount() != 0) {
+                        data.add(new PrintItemObj("到账金额：" + StringUtils.formatIntMoney(printerData.getOrderAmount()) + "元"));
+                    }
+                    if (printerData.getPacektRemian() != 0) {
+                        data.add(new PrintItemObj("账号余额：" + StringUtils.formatIntMoney(printerData.getPacektRemian()) + "元"));
+                    }
+                }
                     break;
                 default:
-                    data.add(new PrintItemObj("积分抵扣金额：" + StringUtils.formatIntMoney(printerData.getPointCoverMoney()) + "元"));
-                    data.add(new PrintItemObj("优惠券抵扣金额：" + StringUtils.formatIntMoney(printerData.getCouponCoverMoney()) + "元"));
-                    data.add(new PrintItemObj("返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元"));
+                    if (printerData.getPointCoverMoney() != 0) {
+                        data.add(new PrintItemObj("积分抵扣金额：" + StringUtils.formatIntMoney(printerData.getPointCoverMoney()) + "元"));
+                    }
+                    if (printerData.getCouponCoverMoney() != 0) {
+                        data.add(new PrintItemObj("优惠券抵扣金额：" + StringUtils.formatIntMoney(printerData.getCouponCoverMoney()) + "元"));
+                    }
+                    if (printerData.getBackAmt() != 0) {
+                        data.add(new PrintItemObj("返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元"));
+                    }
                     data.add(new PrintItemObj("\r"));
                     data.add(new PrintItemObj("\r"));
                     break;
 
             }
 
-
-
-
-//            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体1", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
-//            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体2", PrinterConstant.FontScale.FONTSCALE_DW_DH, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
-//            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体3", PrinterConstant.FontScale.FONTSCALE_W_DH, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
-//            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体4", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
-//
-//            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体5", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_S,ALIGN.CENTER, false, 6));
-//            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体6", PrinterConstant.FontScale.FONTSCALE_DW_DH, PrinterConstant.FontType.FONTTYPE_S,ALIGN.CENTER, false, 6));
-//            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体7", PrinterConstant.FontScale.FONTSCALE_W_DH, PrinterConstant.FontType.FONTTYPE_S,ALIGN.CENTER, false, 6));
-//            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体8", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S,ALIGN.CENTER, false, 6));
-//
-//            data.add(new PrintItemObj("文本打印测试Test 字号5  非粗体9", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S,ALIGN.CENTER, true, 6));
-//
-//
-//            data.add(new PrintItemObj("商户名称(MERCHANT NAME)"));
-//            data.add(new PrintItemObj("商户编号(MERCHANTNO)  123123"));
-//            data.add(new PrintItemObj("\r"));
-//            data.add(new PrintItemObj("\r"));
-//            data.add(new PrintItemObj("\r"));
 
             new Thread(new Runnable() {
                 @Override
@@ -428,6 +485,47 @@ public class ToolNewLand {
                     }
                 }
             }).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public void scan(final DeviceListener listener){
+        try {
+            Log.i(TAG, "-------------scan-----------");
+//            aidlScanner= AidlScanner
+//                    .Stub.asInterface(aidlDeviceService.getScanner());
+            aidlScanner.startScan(ScanConstant.ScanType.BACK, 20, new AidlScannerListener.Stub() {
+
+                @Override
+                public void onScanResult(String[] arg0) throws RemoteException {
+                    Log.e(TAG,"onScanResult-----"+arg0[0]);
+                    listener.success(arg0[0]);
+
+                }
+
+                @Override
+                public void onFinish() throws RemoteException {
+
+                }
+
+                @Override
+                public void onError(int arg0, String arg1) throws RemoteException {
+                    listener.fail(arg0+"------"+arg1);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void stopscan(){
+        try {
+            Log.i(TAG, "------------stopscan-----------");
+            aidlScanner.stopScan();
         } catch (Exception e) {
             e.printStackTrace();
         }

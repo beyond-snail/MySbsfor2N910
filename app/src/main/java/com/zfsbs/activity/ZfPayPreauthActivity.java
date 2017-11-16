@@ -590,7 +590,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
                                 .load(data.getPoint_url())
                                 .asBitmap()
                                 .centerCrop()
-                                .into(200, 200).get();
+                                .into(Constants.er_width, Constants.er_height).get();
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -606,7 +606,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
                                 .load(data.getCoupon_url())
                                 .asBitmap()
                                 .centerCrop()
-                                .into(200, 200).get();
+                                .into(Constants.er_width, Constants.er_height).get();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {

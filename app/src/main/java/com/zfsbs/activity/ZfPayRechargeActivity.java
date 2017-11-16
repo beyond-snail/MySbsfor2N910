@@ -16,7 +16,6 @@ import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.utils.ToolNewLand;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Constants;
@@ -115,6 +114,8 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         linearLayout(R.id.id_pay_flot).setOnClickListener(this);
         linearLayout(R.id.id_ll_unionpay).setOnClickListener(this);
 
+        linearLayout(R.id.id_ll_unionpay).setVisibility(View.INVISIBLE);
+
         button(R.id.id_print).setOnClickListener(this);
         button(R.id.id_finish).setOnClickListener(this);
         button(R.id.id_query).setOnClickListener(this);
@@ -188,15 +189,15 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.id_ll_unionpay:
-                CommonFunc.startResultAction(ZfPayRechargeActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE_UNIPAY);
+//                CommonFunc.startResultAction(ZfPayRechargeActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE_UNIPAY);
                 break;
             case R.id.pay_wx:
 //                CommonFunc.startResultAction(ZfPayRechargeActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE_WX);
-                CommonFunc.pay(this, 11, "660000", oldAmount, orderNo);
+                CommonFunc.pay(this, 11, "660000", StringUtils.formatStrMoney(oldAmount), orderNo);
                 break;
             case R.id.pay_aly:
 //                CommonFunc.startResultAction(ZfPayRechargeActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE_ALY);
-                CommonFunc.pay(this, 12, "660000", oldAmount, orderNo);
+                CommonFunc.pay(this, 12, "660000", StringUtils.formatStrMoney(oldAmount), orderNo);
                 break;
             case R.id.pay_cash: {
                 Bundle bundle = new Bundle();
@@ -230,7 +231,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
      * 刷卡
      */
     private void payflot1() {
-        CommonFunc.pay(this, 0, "000000", oldAmount, orderNo);
+        CommonFunc.pay(this, 0, "000000", StringUtils.formatStrMoney(oldAmount), orderNo);
     }
 
 
@@ -268,9 +269,9 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
                     if ("0".equals(payType)){ //银行卡
                         setFlot(detail);
                     } else if ("1".equals(payType)){ //微信
-                        setSmPay(detail, Constants.PAY_WAY_WX);
+                        setSmPay(detail, Constants.PAY_WAY_RECHARGE_WX,  Constants.PAY_WAY_WX);
                     } else if ("2".equals(payType)){ //支付宝
-                        setSmPay(detail, Constants.PAY_WAY_ALY);
+                        setSmPay(detail, Constants.PAY_WAY_RECHARGE_ALY, Constants.PAY_WAY_ALY);
                     }
                     break;
                 case Activity.RESULT_CANCELED:
@@ -327,11 +328,9 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
                 StringUtils.formatTime(smResponse.getTranslocaldate()+smResponse.getTranslocaltime()));
         printerData.setAuthNo(smResponse.getAuthcode());
         printerData.setReferNo(smResponse.getRefernumber());
-        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
-        printerData.setOrderAmount(CommonFunc.recoveryMemberInfo(this).getTradeMoney());
+        printerData.setOrderAmount(Integer.parseInt(actualAmount));
         printerData.setAmount(smResponse.getTransamount());
-        printerData.setPayType(Constants.PAY_WAY_FLOT);
+        printerData.setPayType(Constants.PAY_WAY_RECHARGE_FLOT);
 
 
         printerData.setClientOrderNo(orderNo);
@@ -361,7 +360,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    private void setSmPay(String data, int type){
+    private void setSmPay(String data, int payType, int UploadType){
 
         Gson gson = new Gson();
         SmResponse smResponse = gson.fromJson(data, SmResponse.class);
@@ -375,13 +374,11 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         printerData.setTransNo(smResponse.getSystraceno());
         printerData.setAuthCode(smResponse.getOrderid_scan());
         printerData.setDateTime(StringUtils.formatTime(smResponse.getTranslocaldate()+smResponse.getTranslocaltime()));
-        printerData.setOrderAmount(CommonFunc.recoveryMemberInfo(this).getTradeMoney());
+        printerData.setOrderAmount(Integer.parseInt(actualAmount));
         printerData.setAmount(smResponse.getTransamount());
-        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
         printerData.setScanPayType(MyApplication.getInstance().getLoginData().getScanPayType());
 
-        printerData.setPayType(type);
+        printerData.setPayType(payType);
 
         printerData.setClientOrderNo(orderNo);
 
@@ -400,7 +397,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
 
         //这个地方支付与充值传的是一样
 
-        rechargeUpLoad.setPayType(type);
+        rechargeUpLoad.setPayType(UploadType);
 
         rechargeUpLoad.setPromotion_num(tgy);
         rechargeUpLoad.setTransNo(printerData.getTransNo());
@@ -448,7 +445,6 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
                 showLayout();
 
                 // 打印
-//                Printer.getInstance(mContext).print(printerData, mContext);
                 ToolNewLand.getToolNewLand().printText(printerData);
             }
 
@@ -462,7 +458,6 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
                 // 保存打印的数据，不保存图片数据
                 PrinterDataSave();
                 // 打印
-//                Printer.print(printerData, ZfPayRechargeActivity.this);
                 ToolNewLand.getToolNewLand().printText(printerData);
             }
 

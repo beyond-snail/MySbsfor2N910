@@ -39,6 +39,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -528,9 +529,39 @@ public class CommonFunc {
             bundle.putString("print_info", "");
             bundle.putString("batchbillno", "");
             bundle.putString("systraceno", "");
-
             bundle.putString("merid","");
             bundle.putString("termid","");
+            showBundleData(bundle);
+            intent.putExtras(bundle);
+            context.startActivityForResult(intent, 1);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "请安装收单应用", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void settle(Activity context){
+        try {
+            ComponentName component = new ComponentName("com.newland.caishen", "com.newland.caishen.ui.activity.MainActivity");
+            final Intent intent = new Intent();
+            intent.setComponent(component);
+            Bundle bundle = new Bundle();
+            bundle.putString("msg_tp", "0200");
+            bundle.putString("pay_tp", "");
+            bundle.putString("proc_tp", "00");
+            bundle.putString("proc_cd", "900000");
+            bundle.putString("amt", "");
+            bundle.putString("order_no", "");
+            bundle.putString("appid", "com.zfsbs");
+            bundle.putString("time_stamp", "");
+            bundle.putString("print_info", "");
+            bundle.putString("batchbillno", "");
+            bundle.putString("systraceno", "");
+            bundle.putString("merid","");
+            bundle.putString("termid","");
+            showBundleData(bundle);
             intent.putExtras(bundle);
             context.startActivityForResult(intent, 1);
         } catch (ActivityNotFoundException e) {
@@ -558,9 +589,33 @@ public class CommonFunc {
             bundle.putString("print_info", "");
             bundle.putString("batchbillno", "");
             bundle.putString("systraceno", traceNo);
-
             bundle.putString("merid","");
             bundle.putString("termid","");
+
+            showBundleData(bundle);
+            intent.putExtras(bundle);
+            context.startActivityForResult(intent, 1);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "请安装收单应用", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void query(Activity context, int payTp, String orderNo, String batchbillno){
+        try {
+            ComponentName component = new ComponentName("com.newland.caishen", "com.newland.caishen.ui.activity.MainActivity");
+            final Intent intent = new Intent();
+            intent.setComponent(component);
+            Bundle bundle = new Bundle();
+            bundle.putString("msg_tp", "0300");
+            bundle.putString("pay_tp", payTp+"");
+            bundle.putString("order_no", orderNo);
+            bundle.putString("appid", "com.zfsbs");
+            bundle.putString("batchbillno", batchbillno);
+
+            showBundleData(bundle);
             intent.putExtras(bundle);
             context.startActivityForResult(intent, 1);
         } catch (ActivityNotFoundException e) {
@@ -573,6 +628,20 @@ public class CommonFunc {
 
 
 
+
+
+    public static void showBundleData(Bundle bundle) {
+        if (bundle == null) {
+            return;
+        }
+        String string = "Bundle{";
+        for (String key : bundle.keySet()) {
+            string += " " + key + " => " + bundle.get(key) + ";";
+        }
+        string += " }Bundle";
+
+        Log.e("Bundle", string);
+    }
 
 
 

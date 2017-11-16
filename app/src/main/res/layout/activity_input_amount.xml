@@ -396,7 +396,7 @@
                     android:id="@+id/id_key_caculate"
                     android:layout_width="fill_parent"
                     android:layout_height="180dp"
-                    android:background="@drawable/sqb_caculator_done_selector"
+                    android:background="@drawable/btn_purple_selector"
                     android:gravity="center"
                     android:textColor="@color/sqb_caculator_done"
                     android:text="@string/key_caculate"

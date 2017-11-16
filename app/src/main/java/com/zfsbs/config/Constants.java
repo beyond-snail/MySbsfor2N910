@@ -164,8 +164,8 @@ public class Constants {
 
 	public static final String SHIFT_ROOM_TIME = "shift_time"; //班接时间
 	public static final String DEFAULT_SHIFT_ROOM_TIME = "19700101000000";
-	public static final int er_width = 200;
-	public static final int er_height = 200;
+	public static final int er_width = 300;
+	public static final int er_height = 300;
 
 
 	public static  final int PRINTER_SHIFT_ROOM = 1;

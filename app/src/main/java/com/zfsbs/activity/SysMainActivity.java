@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -23,8 +24,11 @@ import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.utils.ToolNewLand;
 import com.tool.utils.view.MyGridView;
+import com.tool.utils.view.MyListView;
 import com.zfsbs.R;
 import com.zfsbs.adapter.MyMenuAdapter;
+import com.zfsbs.adapter.MyMenuListAdapter;
+import com.zfsbs.adapter.MyRecordsAdapter;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
@@ -59,8 +63,10 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 	private String TAG = "SysMainActivity";
 
 	private List<Menu> list = new ArrayList<Menu>();
-	private MyGridView gridView;
-	private MyMenuAdapter adapter;
+//	private MyGridView gridView;
+//	private MyMenuAdapter adapter;
+	private ListView listView;
+	private MyMenuListAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +90,10 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 
 
 
-		gridView = (MyGridView) findViewById(R.id.id_gridview);
-		adapter = new MyMenuAdapter(mContext, list);
-		gridView.setAdapter(adapter);
-		gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+		listView = (ListView) findViewById(R.id.id_gridview);
+		adapter = new MyMenuListAdapter(this, list, R.layout.my_list_item);
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Log.e(TAG, "onItemClick " + position);
@@ -101,6 +106,9 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 					case 2:
 						CommonFunc.startAction(SysMainActivity.this, LoginInfoActivity.class, false);
 						break;
+					case 8:
+						CommonFunc. startAction(SysMainActivity.this, SaleUndoActivity.class, false);
+						break;
 					case 7:
 						CommonFunc.startAction(SysMainActivity.this, ShiftRoomActivity.class, false);
 						break;
@@ -112,17 +120,52 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 						break;
 					case 6:
 						CommonFunc.startAction(SysMainActivity.this, CardChangeActivity.class, false);
-//						CommonFunc.startAction(SysMainActivity.this, HsSaleManagerActivity.class, false);
 						break;
 					case 3:
-						SPUtils.put(SysMainActivity.this, Config.APP_TYPE, Config.APP_SBS);
-
 						CommonFunc.startAction(SysMainActivity.this, InputAmountActivity2.class, false);
-
+						break;
+					case 9:
+						CommonFunc.settle(SysMainActivity.this);
 						break;
 				}
 			}
 		});
+//		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//				Log.e(TAG, "onItemClick " + position);
+//				// 下拉刷新占据一个位置
+//				int index = EnumConstsSbs.SystemMenuType.getCodeByName(list.get(position).getName());
+//				switch (index){
+//					case 1:
+//						CommonFunc.startAction(SysMainActivity.this, GetLoginInfoActivity1.class, true);
+//						break;
+//					case 2:
+//						CommonFunc.startAction(SysMainActivity.this, LoginInfoActivity.class, false);
+//						break;
+//					case 7:
+//						CommonFunc.startAction(SysMainActivity.this, ShiftRoomActivity.class, false);
+//						break;
+//					case 4:
+//						endQuery1();
+//						break;
+//					case 5:
+//						CommonFunc.startAction(SysMainActivity.this, MasterChangePass.class, false);
+//						break;
+//					case 6:
+//						CommonFunc.startAction(SysMainActivity.this, CardChangeActivity.class, false);
+////						CommonFunc.startAction(SysMainActivity.this, HsSaleManagerActivity.class, false);
+//						break;
+//					case 3:
+//						SPUtils.put(SysMainActivity.this, Config.APP_TYPE, Config.APP_SBS);
+//
+//						CommonFunc.startAction(SysMainActivity.this, InputAmountActivity2.class, false);
+//
+//						break;
+//				}
+//			}
+//		});
 	}
 
 
@@ -689,7 +732,7 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 								.load(data.getPoint_url())
 								.asBitmap()
 								.centerCrop()
-								.into(200, 200).get();
+								.into(Constants.er_width, Constants.er_height).get();
 
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -705,7 +748,7 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 								.load(data.getCoupon_url())
 								.asBitmap()
 								.centerCrop()
-								.into(200, 200).get();
+								.into(Constants.er_width, Constants.er_height).get();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					} catch (ExecutionException e) {

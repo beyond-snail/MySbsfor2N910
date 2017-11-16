@@ -17,7 +17,6 @@ import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.utils.ToolNewLand;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
@@ -209,10 +208,32 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                 Caculate();
                 break;
             case R.id.id_edit:
-                CommonFunc.startResultAction(InputAmountActivity.this, YyVerificationActivity.class, null, 1);
+                CommonFunc.startResultAction(InputAmountActivity.this, YyVerificationActivity.class, null, REQUEST_YY);
                 break;
             case R.id.btn_scan_no:
-                CommonFunc.startResultAction(InputAmountActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE);
+//                CommonFunc.startResultAction(InputAmountActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE);
+                ToolNewLand.getToolNewLand().scan(new ToolNewLand.DeviceListener() {
+                    @Override
+                    public void success(final String data) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 处理扫描结果（在界面上显示）
+                                tvScanNo.setText(data);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void fail(final String data) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.CustomShow(mContext, data);
+                            }
+                        });
+                    }
+                });
                 break;
             default:
                 break;
@@ -299,8 +320,8 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
         switch (requestCode) {
             case REQUEST_CAPTURE:
                 // 处理扫描结果（在界面上显示）
-                String phoneNo = data.getStringExtra(CaptureActivity.SCAN_RESULT);
-                MemberNoDialog.setMemberNo(phoneNo);
+//                String phoneNo = data.getStringExtra(CaptureActivity.SCAN_RESULT);
+//                MemberNoDialog.setMemberNo(phoneNo);
                 break;
             case REQUEST_YY:
                 String name = data.getStringExtra("name");

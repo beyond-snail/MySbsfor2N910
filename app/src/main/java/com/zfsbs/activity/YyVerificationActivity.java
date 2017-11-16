@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
+import com.tool.utils.utils.ToolNewLand;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.EnumConstsSbs;
@@ -81,7 +81,33 @@ public class YyVerificationActivity extends BaseActivity implements View.OnClick
 
                 break;
             case R.id.id_scan:
-                CommonFunc.startResultAction(YyVerificationActivity.this, CaptureActivity.class, null, 1);
+//                CommonFunc.startResultAction(YyVerificationActivity.this, CaptureActivity.class, null, 1);
+                ToolNewLand.getToolNewLand().scan(new ToolNewLand.DeviceListener() {
+                    @Override
+                    public void success(final String data) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!StringUtils.isBlank(data)) {
+                                    tNo.setText(data);
+                                    checkTicket();
+                                }
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void fail(final String data) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtils.CustomShow(mContext, data);
+                            }
+                        });
+                    }
+                });
                 break;
         }
     }
@@ -95,44 +121,16 @@ public class YyVerificationActivity extends BaseActivity implements View.OnClick
         }
         switch (requestCode) {
             case 1:
-                String result = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
-                tNo.setText(result);
-                checkTicket();
+//                String result = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+//                tNo.setText(result);
+//                checkTicket();
                 break;
             default:
                 break;
         }
     }
 
-//    private void commitTicket() {
-//        int sid = MyApplication.getInstance().getLoginData().getSid();
-//        String sn = StringUtils.getSerial();
-//        String ticketNo = tNo.getText().toString().trim();
-//        String orderNo = CommonFunc.getNewClientSn();
-//
-//        sbsAction.ticketPay(this, sid, ticketNo, sn, orderNo, new ActionCallbackListener<String>() {
-//            @Override
-//            public void onSuccess(String data) {
-//                ToastUtils.CustomShow(YyVerificationActivity.this, data);
-//                onBackPressed();
-//            }
-//
-//            @Override
-//            public void onFailure(String errorEvent, String message) {
-//                ToastUtils.CustomShow(YyVerificationActivity.this, message);
-//            }
-//
-//            @Override
-//            public void onFailurTimeOut(String s, String error_msg) {
-//
-//            }
-//
-//            @Override
-//            public void onLogin() {
-//
-//            }
-//        });
-//    }
+
 
     private Long yyId;
     private void checkTicket() {

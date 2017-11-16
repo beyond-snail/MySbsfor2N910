@@ -3,15 +3,23 @@ package com.tool.utils.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
+import com.tool.utils.utils.KeyBoardUtils;
 import com.tool.utils.view.PasswordInputView;
 import com.toollibrary.R;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class PassWordDialog extends Dialog {
@@ -86,7 +94,7 @@ public class PassWordDialog extends Dialog {
 	}
 
 
-	
+
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		
@@ -100,5 +108,7 @@ public class PassWordDialog extends Dialog {
 		}
 		return super.dispatchKeyEvent(event);
 	}
+
+
 
 }

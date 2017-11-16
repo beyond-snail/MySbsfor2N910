@@ -67,6 +67,7 @@ public class CheckOperatorLoginActivity extends BaseActivity implements OnClickL
                 String psw = (String) SPUtils.get(mContext, Constants.USER_PSW, "");
                 if (StringUtils.isEquals(edPassWord.getText().toString().trim(), psw)){
                     CommonFunc.startAction(CheckOperatorLoginActivity.this, RechargeActivity.class, false);
+                    finish();
                 }else{
                     ToastUtils.CustomShow(mContext, "密码错误");
                 }

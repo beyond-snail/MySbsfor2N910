@@ -40,26 +40,17 @@ package com.zfsbs.model;
 
 
 public class ChargeBlance {
-    private String sh_name;
-    private String recharge_order_num;
     private String member_name;
     private String realize_card_num;
     private int pacektRemian;
+    private int actualAmount;
 
-    public String getSh_name() {
-        return sh_name;
+    public int getActualAmount() {
+        return actualAmount;
     }
 
-    public void setSh_name(String sh_name) {
-        this.sh_name = sh_name;
-    }
-
-    public String getRecharge_order_num() {
-        return recharge_order_num;
-    }
-
-    public void setRecharge_order_num(String recharge_order_num) {
-        this.recharge_order_num = recharge_order_num;
+    public void setActualAmount(int actualAmount) {
+        this.actualAmount = actualAmount;
     }
 
     public String getMember_name() {

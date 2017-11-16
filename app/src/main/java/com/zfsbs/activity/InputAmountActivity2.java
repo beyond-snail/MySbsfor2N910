@@ -1,18 +1,14 @@
 package com.zfsbs.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tool.utils.activityManager.AppManager;
-import com.tool.utils.dialog.MemberNoDialog;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
@@ -21,8 +17,6 @@ import com.zfsbs.model.MemberTransAmountResponse;
 
 
 public class InputAmountActivity2 extends BaseActivity implements OnClickListener {
-
-    public static final int REQUEST_CAPTURE = 0;
 
     private TextView tKey1;
     private TextView tKey2;
@@ -172,7 +166,6 @@ public class InputAmountActivity2 extends BaseActivity implements OnClickListene
         }
 
         if (amount > 0 && amount <= 999999999) {
-//            isInputMemberNo();
             Bundle bundle = new Bundle();
             bundle.putInt("amount", amount);
 
@@ -214,96 +207,5 @@ public class InputAmountActivity2 extends BaseActivity implements OnClickListene
             }
         }
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        switch (requestCode) {
-            case REQUEST_CAPTURE:
-                // 处理扫描结果（在界面上显示）
-                String phoneNo = data.getStringExtra(CaptureActivity.SCAN_RESULT);
-                MemberNoDialog.setMemberNo(phoneNo);
-                break;
-
-            default:
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-//    private void isInputMemberNo() {
-//        MemberNoDialog dialog = new MemberNoDialog(this, R.layout.activity_member_no, new MemberNoDialog.OnClickInterface() {
-//
-//            @Override
-//            public void onResultScanContent() {
-//                startResultAction(InputAmountActivity2.this, CaptureActivity.class, null, REQUEST_CAPTURE);
-//            }
-//
-//            @Override
-//            public void onClickRight() {
-//
-//                    MemberNoDialog.setMemberNo("");
-//
-//                    MemberTransAmountResponse member = new MemberTransAmountResponse();
-//                    member.setRealMoney(amount);
-//                    member.setTradeMoney(amount);
-//                    CommonFunc.setBackMemberInfo(InputAmountActivity2.this, member);
-//                    startAction(InputAmountActivity2.this, ZfPayActivity.class, true);
-//            }
-//
-//            @Override
-//            public void onClickLeft(String result) {
-//                    memberInfoAction(result);
-//            }
-//        });
-//        dialog.setCancelable(true);
-//        dialog.show();
-//
-//    }
-
-
-
-
-
-//    /**
-//     * 商博士-会员信息
-//     * @param phone
-//     */
-//    private void memberInfoAction(String phone) {
-//        int sid = MyApplication.getInstance().getLoginData().getSid();
-//
-//        this.sbsAction.getMemberInfo(this, sid, phone, amount, new ActionCallbackListener<CouponsResponse>() {
-//            @Override
-//            public void onSuccess(CouponsResponse data) {
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("member", data);
-//                bundle.putString("amount", tAmount.getText().toString());
-//                startAction(InputAmountActivity2.this, MemberActivity.class, bundle, true);
-//            }
-//
-//            @Override
-//            public void onFailure(String errorEvent, String message) {
-//                ToastUtils.CustomShow(InputAmountActivity2.this, message);
-//            }
-//
-//            @Override
-//            public void onFailurTimeOut(String s, String error_msg) {
-//
-//            }
-//
-//            @Override
-//            public void onLogin() {
-//                AppManager.getAppManager().finishAllActivity();
-//                if (Config.OPERATOR_UI_BEFORE) {
-//                    CommonFunc.startAction(InputAmountActivity2.this, OperatorLoginActivity.class, false);
-//                } else {
-//                    CommonFunc.startAction(InputAmountActivity2.this, OperatorLoginActivity1.class, false);
-//                }
-//            }
-//        });
-//    }
 
 }
