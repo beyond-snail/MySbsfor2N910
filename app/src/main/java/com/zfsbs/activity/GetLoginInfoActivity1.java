@@ -60,7 +60,8 @@ public class GetLoginInfoActivity1 extends BaseActivity implements OnClickListen
             @Override
             public void UiAction(Activity context, Class<?> cls, boolean flag) {
                 LogUtils.e("UiAction02");
-                CommonFunc.startAction(context, cls, flag);
+                finish();
+//                CommonFunc.startAction(context, cls, flag);
             }
         });
 

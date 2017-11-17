@@ -40,6 +40,10 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\drawable\\abc_tab_indicator_material.xml"
     },
     {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\font_select.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\drawable\\font_select.xml"
+    },
+    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_track_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\drawable\\abc_seekbar_track_material.xml"
     },
@@ -58,6 +62,10 @@
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\relay_bg_press.xml",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\relay_bg_press.xml"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sqb_caculator_numeric_normal.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\sqb_caculator_numeric_normal.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\num_bg1.xml",
@@ -224,8 +232,16 @@
         "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\drawable\\selector_capture_back.xml"
     },
     {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sqb_caculator_done_normal.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\sqb_caculator_done_normal.xml"
+    },
+    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_colored_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\drawable\\abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sqb_caculator_numeric_selector.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\sqb_caculator_numeric_selector.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_light.xml",
@@ -262,6 +278,10 @@
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\list_notice_devider.png",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\drawable\\list_notice_devider.png"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sqb_caculator_del_selector.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\sqb_caculator_del_selector.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\pay_bg_press.xml",
@@ -304,8 +324,16 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\drawable\\abc_cab_background_internal_bg.xml"
     },
     {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sqb_caculator_done_selected.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\sqb_caculator_done_selected.xml"
+    },
+    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_bg_press.xml",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\btn_bg_press.xml"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sqb_caculator_numeric_selected.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\sqb_caculator_numeric_selected.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\caculator_numeric_del_selector.xml",
@@ -318,6 +346,10 @@
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\white_edit_bg.xml",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\drawable\\white_edit_bg.xml"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sqb_caculator_del_selected.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\sqb_caculator_del_selected.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\common_radius_rect_w.xml",
@@ -394,6 +426,10 @@
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\wheel_bg.xml",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\drawable\\wheel_bg.xml"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sqb_caculator_del_normal.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\sqb_caculator_del_normal.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\selector_main_button.xml",
@@ -486,6 +522,10 @@
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\relay_bg.xml",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\relay_bg.xml"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sqb_caculator_done_selector.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\sqb_caculator_done_selector.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\common_rect_gray.xml",

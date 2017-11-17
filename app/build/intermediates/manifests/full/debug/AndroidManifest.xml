@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zfsbs2"
+    package="com.zfsbs"
     android:versionCode="3"
     android:versionName="1.0.3" >
 
@@ -29,6 +29,9 @@
     <uses-permission android:name="android.permission.CLOUDPOS_SAFE_MODULE" />
     <uses-permission android:name="android.permission.CLOUDPOS_SETTIME" />
     <uses-permission android:name="com.wizarpos.keyposclient.permission.LOCAL_TMK_SERVICE" />
+    <uses-permission android:name="android.permission.MANAGE_NEWLAND" />
+    <uses-permission android:name="android.permission.MANAGE_NEWLANDUART3" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- 允许程序读取或写入系统设置 -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" /> <!-- GPS定位权限 -->
@@ -76,11 +79,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.zfsbs.activity.GetLoginInfoActivity1"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.zfsbs.activity.HsSaleManagerActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateHidden" />
@@ -173,7 +171,6 @@
         <activity android:name="com.zfsbs.activity.ShiftRoomShowActivity" />
         <activity android:name="com.zfsbs.activity.ShiftRoomRecordActivity" />
         <activity android:name="com.zfsbs.activity.ShiftRoomShowitemActivity" />
-        <activity android:name="com.zfsbs.activity.LDMainActivity" />
         <activity android:name="com.zfsbs.activity.test.TestPopActivity" />
 
         <service
@@ -192,7 +189,6 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="com.zfsbs.activity.hd.HdRegisterActivity" />
 
         <receiver
             android:name="com.zfsbs.service.LoginReceiver"

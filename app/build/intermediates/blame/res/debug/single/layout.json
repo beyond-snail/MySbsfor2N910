@@ -576,6 +576,10 @@
         "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\layout\\my_keyboard_view.xml"
     },
     {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\my_list_item.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\layout\\my_list_item.xml"
+    },
+    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_item_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\layout\\select_dialog_item_material.xml"
     },

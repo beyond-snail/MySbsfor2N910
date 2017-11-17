@@ -24,6 +24,10 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\e60586fe8aad4a97ebca6ca672ba10bf28573623\\output\\res\\drawable-hdpi-v4\\ui_loading_04.png"
     },
     {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\go_right.png",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\drawable-hdpi-v4\\go_right.png"
+    },
+    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_list_divider_mtrl_alpha.9.png",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\drawable-hdpi-v4\\abc_list_divider_mtrl_alpha.9.png"
     },

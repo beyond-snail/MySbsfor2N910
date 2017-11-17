@@ -16,12 +16,24 @@
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\mipmap-xhdpi\\capture.9.png"
     },
     {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi\\ic_back01.png",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\mipmap-xhdpi\\ic_back01.png"
+    },
+    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi\\icon_return02.png",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\mipmap-xhdpi\\icon_return02.png"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi\\kakalib_scan_ray.png",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\mipmap-xhdpi\\kakalib_scan_ray.png"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi\\ic_back.png",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\mipmap-xhdpi\\ic_back.png"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi\\ic_scan_no.png",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\mipmap-xhdpi\\ic_scan_no.png"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi\\icon_back02.png",

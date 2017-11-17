@@ -252,12 +252,6 @@ public class ToolNewLand {
                 int printerState = aidlPrinter.getPrinterState();
                 Log.e(TAG, ""+printerState);
                 if (printerState == PrinterConstant.PrinterState.PRINTER_STATE_NOPAPER){
-//                    ((Activity)mContext).runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            ToastUtils.CustomShow(mContext, "打印机缺纸质...");
-//                        }
-//                    });
                     ToastUtils.CustomShowLong(mContext, "打印机缺纸质...");
                     return;
                 }
@@ -437,30 +431,37 @@ public class ToolNewLand {
                             if (printerData.getCoupon_bitmap() != null) {
                                 LogUtils.e("width: " + printerData.getCoupon_bitmap().getWidth() + " height: "
                                         + printerData.getCoupon_bitmap().getHeight());
-                                aidlPrinter.printImage(PrinterConstant.Align.ALIGN_CENTER,  printerData.getPoint_bitmap());
+                                aidlPrinter.printImage(PrinterConstant.Align.ALIGN_CENTER,  printerData.getCoupon_bitmap());
                             }
 
                             if (!StringUtils.isBlank(printerData.getCouponData())) {
+                                try {
                                 data.clear();
                                 data.add(new PrintItemObj("\r"));
                                 data.add(new PrintItemObj("本次消费获得："));
-                                Gson gson = new Gson();
-                                List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
-                                }.getType());
-                                if (couponsns != null) {
-                                    for (int i = 0; i < couponsns.size(); i++) {
-                                        if (couponsns.get(i).getCoupon_type() == 2) {
-                                            data.add(new PrintItemObj("折扣券名称：" + couponsns.get(i).getCoupon_name()));
-                                            data.add(new PrintItemObj("折扣券折扣：" + couponsns.get(i).getCoupon_money() / 100 + "折"));
-                                            aidlPrinter.printText(data);
-                                        } else {
-                                            data.add(new PrintItemObj("优惠券名称：" + couponsns.get(i).getCoupon_name()));
-                                            data.add(new PrintItemObj("优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money())));
-                                            aidlPrinter.printText(data);
+
+                                    Gson gson = new Gson();
+                                    List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
+                                    }.getType());
+                                    if (couponsns != null) {
+                                        for (int i = 0; i < couponsns.size(); i++) {
+                                            if (couponsns.get(i).getCoupon_type() == 2) {
+                                                data.add(new PrintItemObj("折扣券名称：" + couponsns.get(i).getCoupon_name()));
+                                                data.add(new PrintItemObj("折扣券折扣：" + couponsns.get(i).getCoupon_money() / 100 + "折"));
+                                                aidlPrinter.printText(data);
+                                            } else {
+                                                data.add(new PrintItemObj("优惠券名称：" + couponsns.get(i).getCoupon_name()));
+                                                data.add(new PrintItemObj("优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money())));
+                                                aidlPrinter.printText(data);
+                                            }
                                         }
                                     }
+                                    data.clear();
+                                }catch (Exception e) {
+                                    e.printStackTrace();
+                                    Log.e(TAG, "优惠券信息解析异常。。。");
                                 }
-                                data.clear();
+
                             }
 
 
@@ -474,7 +475,7 @@ public class ToolNewLand {
 
                                 @Override
                                 public void onError(int errorCode) throws RemoteException {
-                                    Log.e(TAG, "打印异常");
+                                    Log.e(TAG, "打印异常"+errorCode);
                                 }
                             });
                         } catch (RemoteException e) {
