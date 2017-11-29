@@ -97,14 +97,14 @@ public class LoginInfoActivity extends BaseActivity{
 			tAuthCode.setText(loginData.getOther());
 		}
 		tDomain.setText("");
-		if (!StringUtils.isEmpty(sm_type)&&StringUtils.isEquals(sm_type,Constants.SM_TYPE_SQB)) {
-			lvSmMerchantName.setVisibility(View.GONE);
-			lvSmMerChantNo.setVisibility(View.GONE);
-			lvSmTerminal.setVisibility(View.GONE);
-			lvActivateCode.setVisibility(View.VISIBLE);
-
-			tActivateCode.setText(loginData.getActiveCode());//((String) SPUtils.get(this, filename, SbsConfig.LOGIN_ACTIVATE_CODE_KEY, ""));
-		}else if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_FY)){
+//		if (!StringUtils.isEmpty(sm_type)&&StringUtils.isEquals(sm_type,Constants.SM_TYPE_SQB)) {
+//			lvSmMerchantName.setVisibility(View.GONE);
+//			lvSmMerChantNo.setVisibility(View.GONE);
+//			lvSmTerminal.setVisibility(View.GONE);
+//			lvActivateCode.setVisibility(View.VISIBLE);
+//
+//			tActivateCode.setText(loginData.getActiveCode());//((String) SPUtils.get(this, filename, SbsConfig.LOGIN_ACTIVATE_CODE_KEY, ""));
+//		}else if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_FY)){
 
 			lvSmMerchantName.setVisibility(View.VISIBLE);
 			lvSmMerChantNo.setVisibility(View.VISIBLE);
@@ -114,6 +114,6 @@ public class LoginInfoActivity extends BaseActivity{
 			tSmMerchantName.setText(loginData.getFyMerchantName());
 			tSmMerchantNo.setText(loginData.getFyMerchantNo());
 			tsmTerminal.setText(loginData.getActiveCode());
-		}
+//		}
 	}
 }

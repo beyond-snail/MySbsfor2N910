@@ -195,7 +195,8 @@ public class LoginAction {
                 } else {
                     // 如果终端号 不变，授权码变了，华势后台授权码可以重置，那么需要更新本地的授权码，同时状态也要更新
                     if (!StringUtils.isEmpty(data.getOther())) {
-                        if (!StringUtils.isEquals(list.get(i).getOther(), StringUtils.replaceBlank(data.getOther()))) {
+                        String old = StringUtils.isBlank(list.get(i).getOther()) ? "" : list.get(i).getOther();
+                        if (!StringUtils.isEquals(old, StringUtils.replaceBlank(data.getOther()))) {
                             // 设置当前的下载密钥状态
                             list.get(i).setDownMasterKey(Constants.isDownMaster);
                             list.get(i).setOther(StringUtils.replaceBlank(data.getOther()));
@@ -333,6 +334,8 @@ public class LoginAction {
 
         if (!StringUtils.isBlank(data.getPrintContent())) {
             SPUtils.put(mContext, "printContent", data.getPrintContent());
+        }else{
+            SPUtils.remove(mContext, "printContent");
         }
 
         //下载图片
@@ -342,6 +345,7 @@ public class LoginAction {
 //        }
 
         if (StringUtils.isBlank(MyApplication.getInstance().getLoginData().getPrintPic())){
+            SPUtils.deleDrawable(mContext);
             return;
         }
 

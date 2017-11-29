@@ -49,7 +49,8 @@ public class Config {
 //    public final static String SBS_URL = "http://121.40.136.189:9091/EBosService/service/api/pos";
 //    public final static String SBS_URL = "http://192.168.1.3:2020/EBosService/service/api/pos"; //测试
 //    public final static String SBS_URL = "http://sbs-test.eboss007.com/EBosService/service/api/pos"; //测试
-    public final static String SBS_URL = "http://sbs-pre.eboss007.com/EBosService/service/api/pos"; //预发
+//    public final static String SBS_URL = "http://sbs-pre.eboss007.com/EBosService/service/api/pos"; //预发
+    public final static String SBS_URL = "http://sbs.eboss007.com/EBosService/service/api/pos"; //正式
     public final static String SBS_URL_QB = SBS_URL;
 
 
