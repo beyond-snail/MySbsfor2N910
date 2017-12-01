@@ -111,7 +111,7 @@ public class ToolNewLand {
        String serialNo;
         try {
             serialNo = aidlSystem.getSerialNo();
-            Log.e(TAG, serialNo);
+            Log.e(TAG, serialNo+"");
             return serialNo;
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -391,7 +391,7 @@ public class ToolNewLand {
                         data.add(new PrintItemObj("返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元"));
                     }
                     data.add(new PrintItemObj("\r"));
-                    data.add(new PrintItemObj("\r"));
+//                    data.add(new PrintItemObj("\r"));
                     break;
 
             }
@@ -408,10 +408,28 @@ public class ToolNewLand {
                             aidlPrinter.printText(data);
 
 
+
+                            String printContent = (String) SPUtils.get(mContext, "printContent", "");
+                            if (!StringUtils.isBlank(printContent)) {
+                                data.clear();
+                                data.add(new PrintItemObj("\r"));
+                                data.add(new PrintItemObj(printContent, PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
+                                aidlPrinter.printText(data);
+                            }
+
+                            if (SPUtils.loadDrawable(mContext) != null){
+                                aidlPrinter.printImage(PrinterConstant.Align.ALIGN_CENTER,  SPUtils.loadDrawable(mContext));
+                                data.clear();
+                                data.add(new PrintItemObj("\r"));
+                                aidlPrinter.printText(data);
+                            }
+
+
                             if (printerData.getPoint_bitmap() != null) {
                                 LogUtils.e("width: " + printerData.getPoint_bitmap().getWidth() + " height: "
                                         + printerData.getPoint_bitmap().getHeight());
                                 data.clear();
+                                data.add(new PrintItemObj("--------------------------------"));
                                 data.add(new PrintItemObj("使用微信扫一扫 获取更多优惠信息", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
                                 aidlPrinter.printText(data);
                                 aidlPrinter.printImage(PrinterConstant.Align.ALIGN_CENTER,  printerData.getPoint_bitmap());
@@ -428,11 +446,7 @@ public class ToolNewLand {
                                 aidlPrinter.printText(data);
                             }
 
-                            if (printerData.getCoupon_bitmap() != null) {
-                                LogUtils.e("width: " + printerData.getCoupon_bitmap().getWidth() + " height: "
-                                        + printerData.getCoupon_bitmap().getHeight());
-                                aidlPrinter.printImage(PrinterConstant.Align.ALIGN_CENTER,  printerData.getCoupon_bitmap());
-                            }
+
 
                             if (!StringUtils.isBlank(printerData.getCouponData())) {
                                 try {
@@ -462,6 +476,15 @@ public class ToolNewLand {
                                     Log.e(TAG, "优惠券信息解析异常。。。");
                                 }
 
+                            }
+
+                            if (printerData.getCoupon_bitmap() != null) {
+                                LogUtils.e("width: " + printerData.getCoupon_bitmap().getWidth() + " height: "
+                                        + printerData.getCoupon_bitmap().getHeight());
+                                data.add(new PrintItemObj("--------------------------------"));
+                                data.add(new PrintItemObj("扫一扫领取红包", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
+                                aidlPrinter.printText(data);
+                                aidlPrinter.printImage(PrinterConstant.Align.ALIGN_CENTER,  printerData.getCoupon_bitmap());
                             }
 
 

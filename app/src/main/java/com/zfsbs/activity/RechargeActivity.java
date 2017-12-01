@@ -239,7 +239,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
                     loadRechargeSureData(amount);
                 } else {
                     if (vo != null) {
-                        loadRechargeSureData(vo.getReal_get_money());
+                        loadRechargeSureData(vo.getReal_pay_money());
                     }else{
                         ToastUtils.CustomShow(mContext, "数据错误");
                     }
