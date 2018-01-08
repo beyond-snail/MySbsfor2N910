@@ -36,8 +36,8 @@ package com.zfsbs.adapter;
 import android.content.Context;
 import android.view.View;
 
+import com.model.ShiftRoomShow;
 import com.zfsbs.R;
-import com.zfsbs.model.ShiftRoomShow;
 
 import java.util.List;
 

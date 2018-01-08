@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.model.Couponsn;
 import com.model.SbsPrinterData;
+import com.model.ShiftRoom;
 import com.nld.cloudpos.aidl.AidlDeviceService;
 import com.nld.cloudpos.aidl.magcard.AidlMagCard;
 import com.nld.cloudpos.aidl.magcard.MagCardListener;
@@ -486,6 +487,134 @@ public class ToolNewLand {
                                 aidlPrinter.printText(data);
                                 aidlPrinter.printImage(PrinterConstant.Align.ALIGN_CENTER,  printerData.getCoupon_bitmap());
                             }
+
+
+                            aidlPrinter.start(new AidlPrinterListener.Stub() {
+
+                                @Override
+                                public void onPrintFinish() throws RemoteException {
+                                    Log.e(TAG, "打印结束");
+                                    aidlPrinter.paperSkip(2);
+                                }
+
+                                @Override
+                                public void onError(int errorCode) throws RemoteException {
+                                    Log.e(TAG, "打印异常"+errorCode);
+                                }
+                            });
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Log.e(TAG, "未检测到打印机模块访问权限");
+                    }
+                }
+            }).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 打印文本
+     */
+    public void printShiftRoom(final ShiftRoom printerData,final long start_time, final long end_time, final int type) {
+        try {
+
+            //判断打印机状态
+            if (aidlPrinter != null) {
+                int printerState = aidlPrinter.getPrinterState();
+                Log.e(TAG, ""+printerState);
+                if (printerState == PrinterConstant.PrinterState.PRINTER_STATE_NOPAPER){
+                    ToastUtils.CustomShowLong(mContext, "打印机缺纸质...");
+                    return;
+                }
+            }else {
+                Log.e(TAG, "未检测到打印机模块访问权限");
+                return;
+            }
+
+
+            //--------------------------打印文本-----------------------------
+            final List<PrintItemObj> data = new ArrayList<PrintItemObj>();
+
+
+            if (type == 1) {
+                data.add(new PrintItemObj("班接统计", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, ALIGN.CENTER, false, 6));
+            }else{
+                data.add(new PrintItemObj("当日统计", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, ALIGN.CENTER, false, 6));
+            }
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("起始时间："+ StringUtils.timeStamp2Date1(start_time + "")+":00"));
+            data.add(new PrintItemObj("结束时间："+ StringUtils.timeStamp2Date1(end_time + "")+":00"));
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("刷卡："));
+            data.add(new PrintItemObj("交易笔数："+ ((printerData.getPay_swipe() != null) ? printerData.getPay_swipe().getTrade_num() : "0")+"笔"));
+            data.add(new PrintItemObj("实收金额："+ ((printerData.getPay_swipe() != null) ? StringUtils.formatIntMoney(printerData.getPay_swipe().getReal_pay_money()) : "0")+"元"));
+            data.add(new PrintItemObj("优惠券抵扣金额："+ ((printerData.getPay_swipe() != null) ? StringUtils.formatIntMoney(printerData.getPay_swipe().getCoupon_deduct()) : "0")+"元"));
+            data.add(new PrintItemObj("积分抵扣金额："+ ((printerData.getPay_swipe() != null) ? StringUtils.formatIntMoney(printerData.getPay_swipe().getIntergral_deduct()) : "0")+"元"));
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("现金："));
+            data.add(new PrintItemObj("交易笔数："+ ((printerData.getPay_cash() != null) ? printerData.getPay_cash().getTrade_num() : "0")+"笔"));
+            data.add(new PrintItemObj("实收金额："+ ((printerData.getPay_cash() != null) ? StringUtils.formatIntMoney(printerData.getPay_cash().getReal_pay_money()) : "0") +"元"));
+            data.add(new PrintItemObj("优惠券抵扣金额："+ ((printerData.getPay_cash() != null) ? StringUtils.formatIntMoney(printerData.getPay_cash().getCoupon_deduct()) : "0")+"元"));
+            data.add(new PrintItemObj("积分抵扣金额："+ ((printerData.getPay_cash() != null) ? StringUtils.formatIntMoney(printerData.getPay_cash().getIntergral_deduct())  : "0")+"元"));
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("微信："));
+            data.add(new PrintItemObj("交易笔数："+ ((printerData.getPay_wx() != null) ? printerData.getPay_wx().getTrade_num() : "0")+"笔"));
+            data.add(new PrintItemObj("实收金额："+ ((printerData.getPay_wx() != null) ? StringUtils.formatIntMoney(printerData.getPay_wx().getReal_pay_money()) : "0") +"元"));
+            data.add(new PrintItemObj("优惠券抵扣金额："+ ((printerData.getPay_wx() != null) ? StringUtils.formatIntMoney(printerData.getPay_wx().getCoupon_deduct()) : "0")+"元"));
+            data.add(new PrintItemObj("积分抵扣金额："+ ((printerData.getPay_wx() != null) ? StringUtils.formatIntMoney(printerData.getPay_wx().getIntergral_deduct())  : "0")+"元"));
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("支付宝："));
+            data.add(new PrintItemObj("交易笔数："+ ((printerData.getPay_aly() != null) ? printerData.getPay_aly().getTrade_num() : "0")+"笔"));
+            data.add(new PrintItemObj("实收金额："+ ((printerData.getPay_aly() != null) ? StringUtils.formatIntMoney(printerData.getPay_aly().getReal_pay_money()) : "0") +"元"));
+            data.add(new PrintItemObj("优惠券抵扣金额："+ ((printerData.getPay_aly() != null) ? StringUtils.formatIntMoney(printerData.getPay_aly().getCoupon_deduct()) : "0")+"元"));
+            data.add(new PrintItemObj("积分抵扣金额："+ ((printerData.getPay_aly() != null) ? StringUtils.formatIntMoney(printerData.getPay_aly().getIntergral_deduct())  : "0")+"元"));
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("钱包："));
+            data.add(new PrintItemObj("交易笔数："+ ((printerData.getPay_qb() != null) ? printerData.getPay_qb().getTrade_num() : "0")+"笔"));
+            data.add(new PrintItemObj("实收金额："+ ((printerData.getPay_qb() != null) ? StringUtils.formatIntMoney(printerData.getPay_qb().getReal_pay_money()) : "0") +"元"));
+            data.add(new PrintItemObj("优惠券抵扣金额："+ ((printerData.getPay_qb() != null) ? StringUtils.formatIntMoney(printerData.getPay_qb().getCoupon_deduct()) : "0")+"元"));
+            data.add(new PrintItemObj("积分抵扣金额："+ ((printerData.getPay_qb() != null) ? StringUtils.formatIntMoney(printerData.getPay_qb().getIntergral_deduct())  : "0")+"元"));
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("刷卡撤销："));
+            data.add(new PrintItemObj("交易笔数："+ ((printerData.getPay_unswipe() != null) ? printerData.getPay_unswipe().getTrade_num() : "0")+"笔"));
+            data.add(new PrintItemObj("撤销金额："+ ((printerData.getPay_unswipe() != null) ? StringUtils.formatIntMoney(printerData.getPay_unswipe().getReal_undo_money()) : "0") +"元"));
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("微信撤销："));
+            data.add(new PrintItemObj("交易笔数："+ ((printerData.getPay_unwx() != null) ? printerData.getPay_unwx().getTrade_num() : "0")+"笔"));
+            data.add(new PrintItemObj("撤销金额："+ ((printerData.getPay_unwx() != null) ? StringUtils.formatIntMoney(printerData.getPay_unwx().getReal_undo_money()) : "0") +"元"));
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("支付宝撤销："));
+            data.add(new PrintItemObj("交易笔数："+ ((printerData.getPay_unaly() != null) ? printerData.getPay_unaly().getTrade_num() : "0")+"笔"));
+            data.add(new PrintItemObj("撤销金额："+ ((printerData.getPay_unaly() != null) ? StringUtils.formatIntMoney(printerData.getPay_unaly().getReal_undo_money()) : "0") +"元"));
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("钱包撤销："));
+            data.add(new PrintItemObj("交易笔数："+ ((printerData.getPay_unqb() != null) ? printerData.getPay_unqb().getTrade_num() : "0")+"笔"));
+            data.add(new PrintItemObj("撤销金额："+ ((printerData.getPay_unqb() != null) ? StringUtils.formatIntMoney(printerData.getPay_unqb().getReal_undo_money()) : "0") +"元"));
+            data.add(new PrintItemObj("--------------------------------"));
+            data.add(new PrintItemObj("交易统计："));
+            data.add(new PrintItemObj("交易总笔数："+ ((printerData.getTotal() != null) ? printerData.getTotal().getTrade_num() : "0")+"笔"));
+            data.add(new PrintItemObj("实收总金额："+ ((printerData.getTotal() != null) ? StringUtils.formatIntMoney(printerData.getTotal().getReal_pay_money()) : "0")+"元"));
+            data.add(new PrintItemObj("交易撤销总金额："+ ((printerData.getTotal() != null) ? StringUtils.formatIntMoney(printerData.getTotal().getReal_undo_money()) : "0")+"元"));
+            data.add(new PrintItemObj("优惠券抵扣总金额："+ ((printerData.getTotal() != null) ? StringUtils.formatIntMoney(printerData.getTotal().getCoupon_deduct()) : "0")+"元"));
+            data.add(new PrintItemObj("积分抵扣总金额："+ ((printerData.getTotal() != null) ? StringUtils.formatIntMoney(printerData.getTotal().getIntergral_deduct()) : "0") +"元"));
+            data.add(new PrintItemObj("\r"));
+            data.add(new PrintItemObj("\r"));
+
+            data.add(new PrintItemObj("\r"));
+            data.add(new PrintItemObj("\r"));
+
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (aidlPrinter != null) {
+                        try {
+                            aidlPrinter.open();
+                            aidlPrinter.printText(data);
 
 
                             aidlPrinter.start(new AidlPrinterListener.Stub() {

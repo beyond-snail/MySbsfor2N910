@@ -1,4 +1,4 @@
-package com.zfsbs.model;
+package com.model;
 
 ////////////////////////////////////////////////////////////////////
 //                          _ooOoo_                               //
@@ -33,51 +33,70 @@ package com.zfsbs.model;
 //                  不见满街漂亮妹，哪个归得程序员？                   //
 ////////////////////////////////////////////////////////////////////
 
-import org.litepal.crud.DataSupport;
-
 import java.io.Serializable;
 
 /**********************************************************
  * *
- * Created by wucongpeng on 2017/2/27.        *
+ * Created by wucongpeng on 2017/2/23.        *
  **********************************************************/
 
 
-public class ShiftRoomSave extends DataSupport implements Serializable {
-    private long start_time;
-    private long end_time;
-    private String shiftRoom;
+public class ShiftCount implements Serializable {
 
-    public long getStart_time() {
-        return start_time;
+    private int trade_num; //交易笔数
+    private int real_pay_money; //实付金额
+    private int real_undo_money; //交易撤销总金额
+    private int coupon_deduct; //优惠券抵扣金额
+    private int intergral_deduct; //积分抵扣金额
+
+    public int getTrade_num() {
+        return trade_num;
     }
 
-    public void setStart_time(long start_time) {
-        this.start_time = start_time;
+    public void setTrade_num(int trade_num) {
+        this.trade_num = trade_num;
     }
 
-    public long getEnd_time() {
-        return end_time;
+    public int getReal_pay_money() {
+        return real_pay_money;
     }
 
-    public void setEnd_time(long end_time) {
-        this.end_time = end_time;
+    public void setReal_pay_money(int real_pay_money) {
+        this.real_pay_money = real_pay_money;
     }
 
-    public String getShiftRoom() {
-        return shiftRoom;
+    public int getReal_undo_money() {
+        return real_undo_money;
     }
 
-    public void setShiftRoom(String shiftRoom) {
-        this.shiftRoom = shiftRoom;
+    public void setReal_undo_money(int real_undo_money) {
+        this.real_undo_money = real_undo_money;
+    }
+
+    public int getCoupon_deduct() {
+        return coupon_deduct;
+    }
+
+    public void setCoupon_deduct(int coupon_deduct) {
+        this.coupon_deduct = coupon_deduct;
+    }
+
+    public int getIntergral_deduct() {
+        return intergral_deduct;
+    }
+
+    public void setIntergral_deduct(int intergral_deduct) {
+        this.intergral_deduct = intergral_deduct;
     }
 
     @Override
     public String toString() {
-        return "ShiftRoomSave{" +
-                "start_time=" + start_time +
-                ", end_time=" + end_time +
-                ", shiftRoom='" + shiftRoom + '\'' +
+        return "ShiftCount{" +
+                "trade_num=" + trade_num +
+                ", real_pay_money='" + real_pay_money + '\'' +
+                ", real_undo_money='" + real_undo_money + '\'' +
+                ", coupon_deduct='" + coupon_deduct + '\'' +
+                ", intergral_deduct='" + intergral_deduct + '\'' +
                 '}';
     }
 }

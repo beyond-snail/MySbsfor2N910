@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.model.ShiftRoom;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
@@ -14,7 +15,6 @@ import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
-import com.zfsbs.model.ShiftRoom;
 import com.zfsbs.myapplication.MyApplication;
 
 import static com.zfsbs.common.CommonFunc.startAction;

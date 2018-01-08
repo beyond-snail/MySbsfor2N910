@@ -35,9 +35,9 @@ package com.zfsbs.adapter;
 
 import android.content.Context;
 
+import com.model.ShiftRoomSave;
 import com.tool.utils.utils.StringUtils;
 import com.zfsbs.R;
-import com.zfsbs.model.ShiftRoomSave;
 
 import java.util.List;
 
