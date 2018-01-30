@@ -451,27 +451,30 @@ public class ToolNewLand {
 
                             if (!StringUtils.isBlank(printerData.getCouponData())) {
                                 try {
-                                data.clear();
-                                data.add(new PrintItemObj("\r"));
-                                data.add(new PrintItemObj("本次消费获得："));
-
+                                    data.clear();
+                                    data.add(new PrintItemObj("\r"));
+                                    data.add(new PrintItemObj("本次消费获得："));
+                                    aidlPrinter.printText(data);
+                                    data.clear();
                                     Gson gson = new Gson();
                                     List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
                                     }.getType());
                                     if (couponsns != null) {
                                         for (int i = 0; i < couponsns.size(); i++) {
                                             if (couponsns.get(i).getCoupon_type() == 2) {
+                                                data.clear();
                                                 data.add(new PrintItemObj("折扣券名称：" + couponsns.get(i).getCoupon_name()));
                                                 data.add(new PrintItemObj("折扣券折扣：" + couponsns.get(i).getCoupon_money() / 100 + "折"));
                                                 aidlPrinter.printText(data);
                                             } else {
+                                                data.clear();
                                                 data.add(new PrintItemObj("优惠券名称：" + couponsns.get(i).getCoupon_name()));
                                                 data.add(new PrintItemObj("优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money())));
                                                 aidlPrinter.printText(data);
                                             }
                                         }
                                     }
-                                    data.clear();
+
                                 }catch (Exception e) {
                                     e.printStackTrace();
                                     Log.e(TAG, "优惠券信息解析异常。。。");
@@ -482,6 +485,7 @@ public class ToolNewLand {
                             if (printerData.getCoupon_bitmap() != null) {
                                 LogUtils.e("width: " + printerData.getCoupon_bitmap().getWidth() + " height: "
                                         + printerData.getCoupon_bitmap().getHeight());
+                                data.clear();
                                 data.add(new PrintItemObj("--------------------------------"));
                                 data.add(new PrintItemObj("扫一扫领取红包", PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N,ALIGN.CENTER, false, 6));
                                 aidlPrinter.printText(data);
