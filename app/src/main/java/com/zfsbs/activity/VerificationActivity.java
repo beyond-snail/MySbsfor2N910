@@ -186,7 +186,8 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSuccess(String data) {
                 ToastUtils.CustomShow(VerificationActivity.this, data);
-                onBackPressed();
+//                onBackPressed();
+                reset();
             }
 
             @Override
