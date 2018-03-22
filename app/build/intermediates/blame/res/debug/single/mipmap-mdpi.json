@@ -12,11 +12,11 @@
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\mipmap-mdpi\\shadow.png"
     },
     {
-        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi\\icon_96.png",
-        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\mipmap-mdpi\\icon_96.png"
-    },
-    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi\\qr_code_bg.9.png",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\mipmap-mdpi\\qr_code_bg.9.png"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi\\icon_96.png",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\mipmap-mdpi\\icon_96.png"
     }
 ]

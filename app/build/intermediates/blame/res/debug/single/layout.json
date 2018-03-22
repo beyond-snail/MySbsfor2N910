@@ -1,23 +1,27 @@
 [
     {
-        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\pop_main.xml",
-        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\pop_main.xml"
-    },
-    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\pop_layout_close.xml",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\layout\\pop_layout_close.xml"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\pop_main.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\pop_main.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_layout.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\layout\\abc_list_menu_item_layout.xml"
     },
     {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_material.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\layout\\abc_alert_dialog_material.xml"
+    },
+    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\richer_main_second_layout.xml",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\richer_main_second_layout.xml"
     },
     {
-        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_material.xml",
-        "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\layout\\abc_alert_dialog_material.xml"
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\ly_line_horizontal.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\ly_line_horizontal.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_sale_login.xml",
@@ -40,12 +44,12 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\layout\\abc_dialog_title_material.xml"
     },
     {
-        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_pay_type.xml",
-        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\activity_pay_type.xml"
-    },
-    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_oilcard_meal.xml",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\item_oilcard_meal.xml"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_pay_type.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\activity_pay_type.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_card_change.xml",
@@ -392,6 +396,10 @@
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\richer_main_first_layout.xml"
     },
     {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\ly_line_vertical.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\ly_line_vertical.xml"
+    },
+    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_shift_room_record.xml",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\activity_shift_room_record.xml"
     },
@@ -585,7 +593,7 @@
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\dialog_common.xml",
-        "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\layout\\dialog_common.xml"
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\layout\\dialog_common.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_button_bar_material.xml",

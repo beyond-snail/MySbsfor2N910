@@ -74,6 +74,7 @@ public class YyVerificationActivity extends BaseActivity implements View.OnClick
                 mIntent.putExtra("name", tName.getText().toString());
                 mIntent.putExtra("amount", StringUtils.changeY2F(tPayPrice.getText().toString()));
                 mIntent.putExtra("yyId", yyId);
+                mIntent.putExtra("limitAmount", limitAmount);
                 mIntent.putExtra("couponCode",StringUtils.removeBlank(tNo.getText().toString().trim(), ' '));
                 // 设置结果，并进行传送
                 this.setResult(RESULT_OK, mIntent);
@@ -133,6 +134,7 @@ public class YyVerificationActivity extends BaseActivity implements View.OnClick
 
 
     private Long yyId;
+    private Integer limitAmount;
     private void checkTicket() {
 
         Long sid = MyApplication.getInstance().getLoginData().getSid();
@@ -164,7 +166,7 @@ public class YyVerificationActivity extends BaseActivity implements View.OnClick
                 tPayPrice.setText(StringUtils.formatIntMoney(data.getValue().intValue()));
                 tStatus.setText(EnumConstsSbs.CouponUseStatus.fromType(data.getStatus()).getName()+"");
                 yyId = data.getId();
-
+                limitAmount = data.getLimitAmount();
 
             }
 

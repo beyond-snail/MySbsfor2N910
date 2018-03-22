@@ -8,12 +8,12 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\e60586fe8aad4a97ebca6ca672ba10bf28573623\\output\\res\\drawable\\dialog_border_bg.xml"
     },
     {
-        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ui_frame_loading.xml",
-        "source": "C:\\Users\\Administrator\\.android\\build-cache\\e60586fe8aad4a97ebca6ca672ba10bf28573623\\output\\res\\drawable\\ui_frame_loading.xml"
-    },
-    {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_tick_mark_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\de024f9ced61bd602f8aaf5562c259dc88acfeab\\output\\res\\drawable\\abc_seekbar_tick_mark_material.xml"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ui_frame_loading.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\e60586fe8aad4a97ebca6ca672ba10bf28573623\\output\\res\\drawable\\ui_frame_loading.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_capture_album_pressed_effect.xml",
@@ -102,6 +102,10 @@
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\num_bg2.xml",
         "source": "G:\\work_space\\android\\MySbsfor2N910\\toollibrary\\build\\intermediates\\bundles\\default\\res\\drawable\\num_bg2.xml"
+    },
+    {
+        "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\dialog_bg_common.xml",
+        "source": "G:\\work_space\\android\\MySbsfor2N910\\app\\src\\main\\res\\drawable\\dialog_bg_common.xml"
     },
     {
         "merged": "G:\\work_space\\android\\MySbsfor2N910\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_arrow_drop_right_black_24dp.xml",

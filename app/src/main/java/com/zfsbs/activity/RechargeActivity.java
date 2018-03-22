@@ -312,7 +312,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
             @Override
             public void onSuccess(RechargeMeal data) {
 
-                //固定金额送
+//                //固定金额送
                 if (data.getRechargeType() == 1 && data.getCombineInfo() != null){
                     if (data.getCombineInfo().size() <= 0) {
                         ToastUtils.CustomShow(mContext, "获取充值金额失败");
@@ -343,8 +343,11 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
                     ll_amount.setVisibility(View.VISIBLE);
                     gridview.setVisibility(View.GONE);
                 }
-
-
+//
+//                list.clear();
+//                ll_tv.setVisibility(View.VISIBLE);
+//                ll_amount.setVisibility(View.VISIBLE);
+//                gridview.setVisibility(View.GONE);
 //                ToolNewLand.getToolNewLand().searchCard(listenser);
             }
 

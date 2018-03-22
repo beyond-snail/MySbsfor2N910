@@ -70,7 +70,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
     private String g_phone; //输入的手机号
 
     private boolean yy_flag = false; //是否使用异业优惠券
-
+    private int limitAmount;
 
 
     @Override
@@ -235,6 +235,11 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                     }
                 });
                 break;
+            case R.id.tv_del:
+                linearLayout(R.id.ll_show_yy).setVisibility(View.INVISIBLE);
+                textView(R.id.id_show_yy).setText("");
+                yy_flag = false;
+                break;
             default:
                 break;
         }
@@ -258,6 +263,10 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
         //是否使用异业优惠券
         if (yy_flag){
+            if (limitAmount > amount){
+                ToastUtils.showShort(mContext, "该券满"+StringUtils.formatIntMoney(limitAmount)+"元使用");
+                return;
+            }
             memberTransAmountAction();
             return;
         }
@@ -328,7 +337,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                 yyAmount = Integer.valueOf(data.getStringExtra("amount")).intValue();
                 yyId = data.getLongExtra("yyId", 0);
                 couponCode = data.getStringExtra("couponCode");
-//                linearLayout(R.id.ll_show_yy).setVisibility(View.VISIBLE);
+                linearLayout(R.id.ll_show_yy).setVisibility(View.VISIBLE);
                 textView(R.id.id_show_yy).setVisibility(View.VISIBLE);
                 textView(R.id.id_show_yy).setText(name+":"+StringUtils.formatIntMoney(yyAmount)+"元");
 
