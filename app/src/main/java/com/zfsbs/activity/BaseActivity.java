@@ -142,6 +142,10 @@ public abstract class BaseActivity extends Activity {
         }
     }
 
+    protected void setTvEnable(int vid, boolean boo){
+        View view = findViewById(vid);
+        if(view!=null){view.setEnabled(boo);}
+    }
     /**
      * 文本button
      */
