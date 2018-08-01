@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.model.SbsPrinterData;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.dialog.LoadingDialog;
@@ -27,20 +25,7 @@ import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.config.EnumConstsSbs;
-import com.zfsbs.core.action.FyBat;
-import com.zfsbs.core.myinterface.ActionCallbackListener;
-import com.zfsbs.model.Couponsn;
-import com.zfsbs.model.FyMicropayRequest;
-import com.zfsbs.model.FyMicropayResponse;
-import com.zfsbs.model.FyQueryRequest;
-import com.zfsbs.model.FyQueryResponse;
-import com.zfsbs.model.FyRefundResponse;
 import com.zfsbs.model.Menu;
-import com.zfsbs.model.TransUploadRequest;
-import com.zfsbs.model.TransUploadResponse;
-import com.zfsbs.myapplication.MyApplication;
-
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
