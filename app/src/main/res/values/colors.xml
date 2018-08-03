@@ -177,5 +177,19 @@
     <color name="sqb_white">#FFFFFF</color>
 
     <color name="text_normal">#5a5a5a</color>
+
+    <!--divider 背景色-->
+    <color name="leave_add_line">#dedede</color>
+
+    <color name="divider_list">#cccccc</color>
+
+    <!--标题黑色字体-->
+    <color name="color_232323">#232323</color>
+
+    <color name="leave_add_btn_submit_normal">#feaa25</color>
+    <color name="leave_add_btn_submit_pressed">#feaa58</color>
+
+    <!--个人详情字体颜色-->
+    <color name="common_personInfo_text_bg">#919191</color>
 </resources>
 
