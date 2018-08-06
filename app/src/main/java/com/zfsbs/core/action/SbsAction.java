@@ -173,7 +173,7 @@ public class SbsAction {
      * @param listener
      */
     public void getMemberInfo(final Context context, Long sid, String mobile, int tradeMoney, String icCardNo, String clientNo,
-                              final ActionCallbackListener<MemberTransAmountResponse> listener) {
+                              final ActionCallbackListener<CouponsResponse> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("正在获取会员信息...");
 
@@ -187,9 +187,9 @@ public class SbsAction {
         paramsMap.put("clientOrderNo",clientNo);
 
 
-        String data = CommonFunc.getJsonStr("getRealPay", paramsMap, "verify", Config.md5_key);
+        String data = CommonFunc.getJsonStr("benefits", paramsMap, "verify", Config.md5_key);
 
-        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<MemberTransAmountResponse>>() {
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<CouponsResponse>>() {
             @Override
             public void onFailure(int statusCode, String error_msg) {
                 dialog.dismiss();
@@ -197,7 +197,7 @@ public class SbsAction {
             }
 
             @Override
-            public void onSuccess(int statusCode, ApiResponse<MemberTransAmountResponse> response) {
+            public void onSuccess(int statusCode, ApiResponse<CouponsResponse> response) {
                 dialog.dismiss();
                 if (response != null) {
                     if (response.getCode().equals("A00006")) {

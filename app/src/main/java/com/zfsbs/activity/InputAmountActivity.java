@@ -24,8 +24,11 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.tool.utils.activityManager.AppManager;
+import com.tool.utils.dialog.CustomDialog;
 import com.tool.utils.dialog.MemberNoDialog;
 //import com.tool.utils.msrcard.MsrCard;
+import com.tool.utils.utils.Arith;
+import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
@@ -36,15 +39,19 @@ import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
+import com.zfsbs.model.Coupons;
 import com.zfsbs.model.CouponsResponse;
+import com.zfsbs.model.MemberTransAmountRequest;
 import com.zfsbs.model.MemberTransAmountResponse;
 import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SetClientOrder;
 import com.zfsbs.myapplication.MyApplication;
 import com.zfsbs.tool.CustomDialog_2;
+import com.zfsbs.view.MyDialog;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -256,14 +263,8 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                 del_event();
                 break;
             case R.id.id_key_point:
-//                key_event(".");
-                mData.clear();
-                for (int i = 0; i < mlistText.length; i++) {
-                    Map<String, Object> item = new HashMap<String, Object>();
-                    item.put("text", mlistText[i]);
-                    mData.add(item);
-                }
-                CreateDialog();// 点击创建Dialog
+                key_event(".");
+//                setQyInfo();
                 break;
             case R.id.id_key_caculate:
                 Caculate();
@@ -473,23 +474,23 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
     private void memberInfoAction(String phone) {
         Long sid = MyApplication.getInstance().getLoginData().getSid();
         final String clientNo =  getNewClientSn(mContext);
-        this.sbsAction.getMemberInfo(this, sid, phone, amount, "",clientNo,new ActionCallbackListener<MemberTransAmountResponse>() {
+        this.sbsAction.getMemberInfo(this, sid, phone, amount, "",clientNo,new ActionCallbackListener<CouponsResponse>() {
             @Override
-            public void onSuccess(MemberTransAmountResponse data) {
+            public void onSuccess(CouponsResponse data) {
 //                Bundle bundle = new Bundle();
 //                bundle.putSerializable("member", data);
 //                bundle.putString("amount", tAmount.getText().toString());
 //                startAction(InputAmountActivity.this, MemberActivity.class, bundle, true);
-
-                //备份订单号
-                SetClientOrder order = new SetClientOrder();
-                order.setStatus(true);
-                order.setClientNo(clientNo);
-                CommonFunc.setMemberClientOrderNo(InputAmountActivity.this, order);
-
-                CommonFunc.setBackMemberInfo(InputAmountActivity.this, data);
-
-                startAction(InputAmountActivity.this, ZfPayActivity.class, true);
+                  setQyInfo(data);
+//                //备份订单号
+//                SetClientOrder order = new SetClientOrder();
+//                order.setStatus(true);
+//                order.setClientNo(clientNo);
+//                CommonFunc.setMemberClientOrderNo(InputAmountActivity.this, order);
+//
+//                CommonFunc.setBackMemberInfo(InputAmountActivity.this, data);
+//
+//                startAction(InputAmountActivity.this, ZfPayActivity.class, true);
             }
 
             @Override
@@ -507,6 +508,71 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
             }
         });
+    }
+
+
+    private int amountToPoint(int amt, int pointChangeRate){
+        double amountBig = Arith.mul(amt, pointChangeRate);
+        double amountToPoint = Arith.divide(amountBig, 100);
+        return (int) amountToPoint;
+    }
+
+    private void setQyInfo(CouponsResponse data){
+
+
+        //计算优惠券最大值 和 积分最大使用
+        //1、计算优惠券最大金额
+        int couponNum = data.getCouponNum();
+        int couponMoneyMax = 0;
+        String couponSn = "";
+        List<Coupons> coupons = (List<Coupons>) data.getCoupons();
+        List<Integer> inputMax = new ArrayList<>();
+        if(couponNum > 0){
+            for (int i = 0; i < couponNum; i++){
+                inputMax.add((Integer) coupons.get(i).getMoney());
+            }
+            if (inputMax.size() > 0){
+                couponMoneyMax = Collections.max(inputMax);
+            }
+
+            for (int j = 0; j <couponNum; j++){
+                if (couponMoneyMax == ((Integer)coupons.get(j).getMoney())){
+                    couponSn = (String) coupons.get(j).getSn();
+                }
+            }
+
+        }
+
+        LogUtils.e("couponMoneyMax:" + couponMoneyMax);
+        LogUtils.e("couponSn:" + couponSn);
+
+        //2、计算最大使用积分数
+        int pointMin = 0;
+        int pointChangeRate = (int) data.getPointChangeRate();
+        int AmtPoint = amountToPoint(amount, pointChangeRate);
+        LogUtils.e("amountToPoint:" + AmtPoint);
+        List<Integer> inputMin = new ArrayList<>();
+        inputMin.add((int) AmtPoint);
+        inputMin.add((Integer) data.getPoint());
+        inputMin.add((Integer)data.getPointUseMax());
+        pointMin = Collections.min(inputMin);
+        LogUtils.e("pointMin:" + pointMin);
+
+
+        mData.clear();
+
+        setShowData("全选");
+        setShowData("积分: "+pointMin);
+        setShowData("优惠券: "+ StringUtils.formatIntMoney(couponMoneyMax));
+
+
+        CreateDialog(data, pointMin, couponMoneyMax, couponSn);// 点击创建Dialog
+    }
+
+    private void setShowData(String data){
+        Map<String, Object> item = new HashMap<String, Object>();
+        item.put("text", data);
+        mData.add(item);
     }
 
 
@@ -550,6 +616,62 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
             @Override
             public void onLogin() {
 
+            }
+        });
+    }
+
+
+
+    private void memberTransAmountAction2(final CouponsResponse couponsResponse, final int pointMin, String couponSn) {
+        final MemberTransAmountRequest request = new MemberTransAmountRequest();
+        request.setSid(MyApplication.getInstance().getLoginData().getSid());
+        request.setMemberCardNo(couponsResponse.getMemberCardNo());
+        request.setPassword("");
+        request.setTradeMoney(amount);
+        request.setPoint(pointMin);
+        request.setCouponSn(couponSn);
+        request.setMemberName(couponsResponse.getMemberName());
+        request.setClientOrderNo(getNewClientSn(mContext));
+
+        this.sbsAction.memberTransAmount(InputAmountActivity.this, request, new ActionCallbackListener<MemberTransAmountResponse>() {
+            @Override
+            public void onSuccess(MemberTransAmountResponse data) {
+
+
+                //备份订单号
+                SetClientOrder order = new SetClientOrder();
+                order.setStatus(true);
+                order.setClientNo(request.getClientOrderNo());
+                CommonFunc.setMemberClientOrderNo(InputAmountActivity.this, order);
+
+
+                data.setPoint(pointMin);
+                data.setPass("");
+                data.setStkCardNo(couponsResponse.getIcCardNo());
+                CommonFunc.setBackMemberInfo(InputAmountActivity.this, data);
+
+                startAction(InputAmountActivity.this, ZfPayActivity.class, true);
+            }
+
+            @Override
+            public void onFailure(String errorEvent, String message) {
+                ToastUtils.CustomShow(InputAmountActivity.this, message);
+            }
+
+            @Override
+            public void onFailurTimeOut(String s, String error_msg) {
+
+            }
+
+            @Override
+            public void onLogin() {
+                AppManager.getAppManager().finishAllActivity();
+
+                if (Config.OPERATOR_UI_BEFORE) {
+                    CommonFunc.startAction(InputAmountActivity.this, OperatorLoginActivity.class, false);
+                } else {
+                    CommonFunc.startAction(InputAmountActivity.this, OperatorLoginActivity1.class, false);
+                }
             }
         });
     }
@@ -614,12 +736,10 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
 
     View getlistview;
-    String[] mlistText = { "全选", "选择1", "选择2" };
+//    String[] mlistText = { "全选", "积分", "优惠券" };
     ArrayList<Map<String, Object>> mData = new ArrayList<Map<String, Object>>();
-    AlertDialog.Builder builder;
-    AlertDialog builder2;
     SimpleAdapter adapter;
-    Boolean[] bl = { false, false, false, false, false, false, false, false };
+    Boolean[] bl = { false, false, false };
 
 
 
@@ -678,7 +798,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
     }
 
-    public void CreateDialog() {
+    public void CreateDialog(final CouponsResponse data, final int pointMin, final int couponMoneyMax, final String couponSn) {
 
 
 
@@ -696,13 +816,50 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
         listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listview.setOnItemClickListener(new ItemOnClick());
 
-        builder = new AlertDialog.Builder(this);
+
+        MyDialog.Builder builder = new MyDialog.Builder(mContext);
         builder.setTitle("请选择权益");
-        //设置加载的listview
-        builder.setView(getlistview);
-        builder.setPositiveButton("确定", new DialogOnClick());
-        builder.setNegativeButton("取消", new DialogOnClick());
+        builder.setContentView(getlistview);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                int point = 0;
+                String coupon = "";
+
+                if (bl[0] == true && bl[1] == true && bl[2] == true){
+                    //优先使用优惠券
+                    if (amount <= couponMoneyMax){
+                        point = 0;
+
+                    }else{
+                        //使用积分和优惠券混合
+                        int balanceAmt = amount - couponMoneyMax;
+                        int balancePoint = amountToPoint(balanceAmt, data.getPointChangeRate());
+                        if (balancePoint < pointMin){
+                            point = balancePoint;
+                        }else{
+                            point = pointMin;
+                        }
+                    }
+                    coupon = couponSn;
+                }else if (bl[1] == true && bl[2] == false){
+                    point = pointMin;
+                }else if (bl[1] == false && bl[2] == true){
+                    point = 0;
+                    coupon = couponSn;
+                }
+
+
+
+
+                memberTransAmountAction2(data, point, coupon);
+            }
+        });
+//        builder.setNegativeButton("取消", new DialogOnClick());
         builder.create().show();
+
     }
 
     class DialogOnClick implements DialogInterface.OnClickListener {
@@ -712,9 +869,11 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
             switch (which) {
                 case Dialog.BUTTON_POSITIVE:
                     //确定按钮的事件
+                    dialog.dismiss();
                     break;
                 case Dialog.BUTTON_NEGATIVE:
                     //取消按钮的事件
+                    dialog.dismiss();
                     break;
                 default:
                     break;

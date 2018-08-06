@@ -9,6 +9,10 @@
         android:id="@+id/X_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:divider="#f5f5f5"
+        android:dividerHeight="1dp"
+        android:listSelector="#000000"
         >
     </ListView>
 

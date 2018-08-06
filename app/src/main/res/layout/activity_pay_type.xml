@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -97,7 +97,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:padding="10dp"
             android:gravity="center"
@@ -183,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:gravity="center_vertical"
                 android:text="@string/pay_type"
                 android:textColor="@color/black"
@@ -194,7 +194,7 @@
                 android:id="@+id/id_gridview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
+                android:layout_marginTop="10dp"
                 android:cacheColorHint="@android:color/transparent"
                 android:divider="@null"
                 android:dividerHeight="0dp"
@@ -202,7 +202,7 @@
                 android:listSelector="#00000000"
                 android:numColumns="3"
                 android:padding="10dp"
-                android:verticalSpacing="10dp">
+                android:verticalSpacing="20dp">
 
             </com.tool.utils.view.MyGridView>
 
