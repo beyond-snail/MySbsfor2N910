@@ -445,7 +445,12 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         final StkPayRequest request = new StkPayRequest();
         request.setSid(MyApplication.getInstance().getLoginData().getSid());
         if (CommonFunc.recoveryMemberInfo(this) != null && !StringUtils.isBlank(CommonFunc.recoveryMemberInfo(this).getMemberCardNo())){
-            request.setCardNo(CommonFunc.recoveryMemberInfo(this).getMemberCardNo());
+            if (temp[1].equals(CommonFunc.recoveryMemberInfo(this).getMemberCardNo())) {
+                request.setCardNo(CommonFunc.recoveryMemberInfo(this).getMemberCardNo());
+            }else{
+                ToastUtils.showShort(mContext, "付款码不是会员付款码");
+                return;
+            }
         }else{
             request.setCardNo(temp[1]);
         }
