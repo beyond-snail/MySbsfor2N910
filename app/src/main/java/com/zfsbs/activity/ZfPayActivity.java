@@ -1006,6 +1006,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         printerData.setPoint(data.getPoint());
         printerData.setPointCurrent(data.getPointCurrent());
         printerData.setCoupon(data.getCoupon_url());
+//        printerData.setUploadFlag(true);
         setCounponData(data.getCoupon());
         printerData.setBackAmt(data.getBackAmt());
         printerData.setApp_type(app_type);
