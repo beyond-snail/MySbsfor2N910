@@ -39,7 +39,7 @@ package com.zfsbs.config;
  **********************************************************/
 
 
-public class Config {
+public class  Config {
 
     /**
      * 商博士配置
